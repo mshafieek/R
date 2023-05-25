@@ -116,16 +116,6 @@ a <- 100
 
 ```
 
-When reading that code say: “a gets value 100” in your head.
-
-**Good coding practice**:
-
-* `<-` is a pain to type, but don't use `=` instead, it will work, but it will cause confusion later.
-
-* Use `RStudio`’s keyboard shortcut: Alt (or Option) + - (the minus sign).
-
-* Notice that RStudio automatically surrounds `<-` with spaces (good code formatting practice).
-
 ## Calling objects
 - Calling things in R is also very straightforward: 
 

@@ -1,6 +1,6 @@
 ---
 title: "Practical A"
-author: "Gerko Vink"
+author: "Gerko Vink, Laurence Frank"
 date: "Statistical Programming with R"
 output: 
    html_document:
@@ -43,11 +43,11 @@ pre { /* Code block - determines code spacing between lines */
 
 ---
 
-In this exercise we will get acquainted with `R`. A convenient way to work with `R` is with `RStudio`, as `RStudio` adds many features and convenient accessibility options to the plain `R` you have obtained from http://r-project.org. Most of these features go beyond the scope of this course, but as you will develop your `R` skillset, you might run into the need for `RStudio` at a later moment. Best to get to know `RStudio` now. 
+In this exercise we will get acquainted with `R`. A convenient way to work with `R` is with `RStudio`, as `RStudio` adds many features and convenient accessibility options to the plain `R` you have obtained from http://r-project.org. Most of these features go beyond the scope of this course, but as you will develop your `R` skill set, you might run into the need for `RStudio` at a later moment. Best to get to know `RStudio` now. 
  
 If you have no experience with `R`, you will learn the most from following this document. If you have some experience with `R` already,  I suggest you try solving the questions without looking at the answers/walkthrough. You can then refer to the solutions at any time, if needed. 
 
-If you have any questions or if you feel that some code should be elaborated, feel free to ask the workgroup instructor.
+If you have any questions, feel free to ask the instructor(s).
 
 ---
 
@@ -65,7 +65,7 @@ We start with the very basics and will move towards more advanced operations in 
 The following window will appear. 
 ![alt text](figuresPractical/fig1.png)
 
-RStudio is divided in 3 panes, namely the console, the environment/history pane and the pane where we can access our files, plots, the help files, make packages and view our data objects. You can change the order of the panes to your liking through `RStudio`'s preferences. I did, that is why your pane layout might differ from the layout in the above screenshot.
+RStudio is divided in 3 panes, namely the console, the environment/history pane and the pane where we can access our files, plots, the help files, make packages and view our data objects. You can change the order of the panes to your liking through `RStudio`'s preferences. The above screenshot shows a different layout than the default RStudio layout.
 
 If we open an `R`-script (i.e. a file that contains `R` code), a fourth pane opens. 
 
@@ -75,11 +75,11 @@ If we open an `R`-script (i.e. a file that contains `R` code), a fourth pane ope
 
 In the top left you will find ![alt text](figuresPractical/fig2.png). Click it and select `R`-script. 
 
-A new pane opens, and we can start typing our code. It is preferable to work from an `R`-script instead of directly working in the console for at least the following reasons (there are many more). 
+A new pane opens, and we can start typing our code. It is preferable to work from an `R`-script instead of directly working in the console for at least the following reasons (there are many more): 
 
 a. You will not lose code, since `RStudio` caches files even if they are not saved. 
 b. You log your own work. Code does not disappear over time, as you save the code in a separate file. 
-c. With access to your `R`-script and data, others are able to exactly reproduce your work. Reproducibility is becoming increasingly more important, and this is where `RStudio` excells. 
+c. With access to your `R`-script and data, others are able to exactly reproduce your work. Reproducibility is becoming increasingly more important, and this is where `RStudio` excels. 
 d. You become more organized in coding, as you focus on creating readable code. In the long run, this will result in you becoming a more efficient programmer. Remember: efficient code runs faster. 
 
 ---
@@ -93,7 +93,9 @@ a <- 100
 
 The `#` tells `R` that everything that follows in that specific line is not to be considered as code. In other words, you can use `#` to comment in your own `R`-scripts. I used `#` here to elaborate that the following line is the code from exercise 3. 
 
-The line `a <- 100` assigns the value `100` to object `a`. When you run your code, it will be saved. The value 100 and the letter `a` are chosen to illustrate assigning in `R`. You might as well assign `123` to `banana` if you like. Really, anything goes. 
+The line `a <- 100` assigns the value `100` to object `a`. When reading that code say: “a gets value 100” in your head. When you run your code, it will be saved. 
+
+Even if `<-` is a pain to type, don't use `=` instead, it will work, but it will cause confusion later. Use `RStudio`’s keyboard shortcut: Alt/Option + - (the minus sign). Notice that `RStudio` automatically surrounds `<-` with spaces (good code formatting practice).
 
 ---
 
@@ -128,7 +130,13 @@ You will notice in the files pane that a file `Practicals.RProj` has been create
 
 ![](figuresPractical/fig6.png)
 
-The possibility to categorize your work in projects is one of the benefits of using `RStudio`. Within a project, everything is relative to the `.Rproj` file. This means that if you share the folder with someone else, this someone only has to open the `.Rproj` file to be able to access and run all code and documents involved with this project. Again, when considering reproducability of research, working in projects is a huge advantage. 
+The possibility to categorize your work in projects is one of the benefits of using `RStudio`. `RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”:
+
+* all code and outputs are stored in one set location (in our case the folder `Practicals`);
+* relative file paths are created: each file in the folder `Practicals` has path `/Practicals/filename`;
+* a clean R environment is created every time you open it.
+
+Within a project, everything is relative to the `.Rproj` file. This means that if you share the folder with someone else, this someone only has to open the `.Rproj` file to be able to access and run all code and documents involved with this project. Again, when considering reproducibility of research, working in projects is a huge advantage. 
 
 ---
 
@@ -136,9 +144,11 @@ The possibility to categorize your work in projects is one of the benefits of us
 
 You can find [`notebook.R` here](notebook.R).
 
+To keep your work structure, I suggest you keep all files that relate to this practical in the same folder of the Rstudio Project you just created.
+
 ---
 
-8. **Have a look at the code in the script and make sure that you understand what is going on. If you do not understand what you are looking at, please ask me (Gerko) during the lecture or [via e-mail](mailto:G.Vink@uu.nl), or ask the workgroup instructor.** 
+8. **Have a look at the code in the script and make sure that you understand what is going on. If you do not understand what you are looking at, please ask the instructor.** 
 
 ---
  
@@ -173,7 +183,9 @@ See also [this `rmarkdown` cheat sheet](https://rstudio.com/wp-content/uploads/2
 
 You can find a zip containing the [`markdown.Rmd` here](markdown.Rmd.zip).
 
-Have a look at the code in the `markdown.Rmd` file and make sure that you understand what is going on. If you do not understand what you are looking at, please ask me (Gerko) during the lecture or [via e-mail](mailto:G.Vink@uu.nl), or ask the workgroup instructor. 
+Again, to keep your work structured, add this file to the folder of the RStudio Project you just created.
+
+Have a look at the code in the `markdown.Rmd` file and make sure that you understand what is going on. If you do not understand what you are looking at, please ask the instructor. 
 
 ---
 
