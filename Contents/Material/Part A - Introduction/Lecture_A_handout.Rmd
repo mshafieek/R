@@ -52,12 +52,30 @@ You can access the course materials quickly from
 </center>
 
 # Goal of this course
-## Learn to keep your *cool*
+
+## 1. Learn to programme in R
 <center>
   <img src="figures/state_programming.png" alt="HTML5 Icon" width = 100%>
 </center>
 
-and build the foundation for a succesfull scripting career
+and build the foundation for a successful scripting career.
+
+## 2. Learn statistical programming
+
+What is statistical programming?
+
+Broadly speaking, computer programming differs from statistical programming in the following way:
+
+* **Computer programming** is more focused on software development.
+
+* **Statistical programming** is more focused on data analysis and the communication of the results.
+
+
+<center>
+<img src="figures/fig0_stat_programming.png" alt="HTML5 Icon" width = 80%>
+</center>
+
+[Source figure: R for Data Science](https://r4ds.had.co.nz/introduction.html)
 
 # What is R?
 
@@ -77,12 +95,12 @@ and build the foundation for a succesfull scripting career
 
 - Based on the object-oriented language S (1975)
 
-# What is RStudio?
-
 ## Integrated Development Environment
 <center>
-<img src="figures/fig2.png" alt="HTML5 Icon" width = 85%>
+<img src="figures/fig2.rstudio-editor.png" alt="HTML5 Icon" width = 75%>
 </center>
+
+[Source figure: R for Data Science](https://r4ds.had.co.nz/introduction.html)
 
 ## RStudio
 - Aggregates all convenient information and procedures into one single place
@@ -120,6 +138,16 @@ and build the foundation for a succesfull scripting career
 a <- 100
 ```
 
+When reading that code say: “a gets value 100” in your head.
+
+**Good coding practice**:
+
+* `<-` is a pain to type, but don't use `=` instead, it will work, but it will cause confusion later.
+
+* Use `RStudio`’s keyboard shortcut: Alt (or Option) + - (the minus sign).
+
+* Notice that RStudio automatically surrounds `<-` with spaces (good code formatting practice).
+
 ## Calling objects
 - Calling things in R is also very straightforward: 
 
@@ -137,6 +165,30 @@ a
 </center>
 
 This is why we use R-Studio.
+
+# Organise your work in `RStudio`
+
+## Use `RStudio Projects`
+
+Every time you start a new data analysis project, create a new `RStudio Project`. 
+
+**Because you want your project to work:**
+
+* not only now, but also in a few years;
+* when the folder and file paths have changed;
+* when collaborators want to run the code on their computer.
+
+`RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”:
+
+* all code and outputs are stored in one set location;
+* relative file paths are created;
+* a clean R environment is created every time you open it.
+
+## Example structure for data analysis project
+
+<center>
+<img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 75%>
+</center>
 
 # Practical A
 

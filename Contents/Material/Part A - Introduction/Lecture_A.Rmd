@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-author: "Gerko Vink"
+author: "Laurence Frank, Gerko Vink"
 date: "Statistical Programming with R"
 output:
   ioslides_presentation:
@@ -21,20 +21,38 @@ Some guidelines
 1. If you have a question, you may always interrupt me 
 2. We will introduce frequent question breaks
 
-
 # Overview of this course
+
 ## Program
 <center>
 <img src="figures/schedule.png" alt="HTML5 Icon" width = 70%>
 </center>
 
 # Goal of this course
-## Learn to keep your *cool*
+
+## 1. Learn to programme in R
 <center>
   <img src="figures/state_programming.png" alt="HTML5 Icon" width = 100%>
 </center>
 
-and build the foundation for a succesfull scripting career
+and build the foundation for a successful scripting career.
+
+## 2. Learn statistical programming
+
+What is statistical programming?
+
+Broadly speaking, computer programming differs from statistical programming in the following way:
+
+* **Computer programming** is more focused on software development.
+
+* **Statistical programming** is more focused on data analysis and the communication of the results.
+
+
+<center>
+<img src="figures/fig0_stat_programming.png" alt="HTML5 Icon" width = 80%>
+</center>
+
+[Source figure: R for Data Science](https://r4ds.had.co.nz/introduction.html)
 
 # What is R?
 
@@ -54,21 +72,23 @@ and build the foundation for a succesfull scripting career
 
 - Based on the object-oriented language S (1975)
 
-# What is RStudio?
+# What is `RStudio`?
 
 ## Integrated Development Environment
 <center>
-<img src="figures/fig2.png" alt="HTML5 Icon" width = 85%>
+<img src="figures/fig2.rstudio-editor.png" alt="HTML5 Icon" width = 75%>
 </center>
 
-## RStudio
+[Source figure: R for Data Science](https://r4ds.had.co.nz/introduction.html)
+
+## `RStudio`
 - Aggregates all convenient information and procedures into one single place
 - Allows you to work in projects
 - Manages your code with highlighting
 - Gives extra functionality (Shiny, knitr, markdown, LaTeX)
 - Allows for integration with version control routines, such as Git.
 
-# How does R work
+# How does R work?
 
 ## Objects and elements
 - R works with objects that consist of elements. The smallest elements are numbers and characters.
@@ -87,20 +107,29 @@ and build the foundation for a succesfull scripting career
     - If you google `R` related issues; use 'R:' as a prefix in your search term
     
 ## Assigning elements to objects
-- Assigning things in R is very straightforward: 
+Assigning things in R is very straightforward: you just use `<-`
 
-    - you just use `<-`
-
-- For example, if you assign the value `100` (an element) to object `a`, you would type
+For example, if you assign the value `100` (an element) to object `a`, you would type:
 
 ```{r}
 a <- 100
+
 ```
+
+When reading that code say: “a gets value 100” in your head.
+
+**Good coding practice**:
+
+* `<-` is a pain to type, but don't use `=` instead, it will work, but it will cause confusion later.
+
+* Use `RStudio`’s keyboard shortcut: Alt (or Option) + - (the minus sign).
+
+* Notice that RStudio automatically surrounds `<-` with spaces (good code formatting practice).
 
 ## Calling objects
 - Calling things in R is also very straightforward: 
 
-    - you just use type the name you have given to the object
+    - you just type the name you have given to the object
 
 - For example, we assigned the value `100` to object `a`. To call object `a`, we would type
 
@@ -108,20 +137,43 @@ a <- 100
 a
 ```
 
+
+
 ## Writing code
 <center>
 <img src="figures/codelight.png" alt="HTML5 Icon" width = 99%>
 </center>
 
-This is why we use R-Studio.
+This is why we use `RStudio`.
+
+# Organise your work in `RStudio`
+
+## Use `RStudio Projects`
+
+Every time you start a new data analysis project, create a new `RStudio Project`. 
+
+**Because you want your project to work:**
+
+* not only now, but also in a few years;
+* when the folder and file paths have changed;
+* when collaborators want to run the code on their computer.
+
+`RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”:
+
+* all code and outputs are stored in one set location;
+* relative file paths are created;
+* a clean R environment is created every time you open it.
+
+## Example structure for data analysis project
+
+<center>
+<img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 75%>
+</center>
+
 
 ## Practical A
 
-In a few moments, 
-
-1. you will be automatically added to a practical session 
-2. There will be a practical instructor present
-3. At the end of the practical, you will be automatically returned to the main meeting
+Time for your first practical in R!
 
 
 
