@@ -1,278 +1,295 @@
 ---
 title: "Generalized linear models"
-author: "Gerko Vink"
+author: "Maarten Cruyff"
 date: "Statistical Programming with R"
 output:
   ioslides_presentation:
+    logo: logo.png
     smaller: yes
     widescreen: no
-    logo: logo.png
 ---
 
-## Packages and functions used
-```{r message=FALSE}
-library(magrittr) # pipes
-library(DAAG) # data sets and functions
-```
 
-- `glm()` Generalized linear models
-- `predict()` Obtain predictions based on a model
-- `confint()` Obtain confidence intervals for model parameters
-- `coef()` Obtain a model's coefficients
-- `DAAG::CVbinary()` Cross-validation for regression with a binary response
-
-
-# Generalized linear models
-## GLM's
-We knew 
-\[y=\alpha+\beta x+\epsilon\]
-
-Now we consider 
-\[\mathbb{E}[y] = \alpha + \beta x\]
-
-They're the same. Different notation, different framework.
-
-The upside is that we can now use a function for the expectation $\mathbb{E}$ to allow for transformations. This would enable us to change $\mathbb{E}[y]$ such that $f(\mathbb{E}[y])$ has a linear relation with $x$.
-
-The function $f()$ we call the `link function`. This function tranforms the scale of the response/outcome to the scale of the linear predictor.
-
-Examples: $f(x) = x, \\ f(x) = 1/x, \\ f(x) = \log(x), \\ f(x) = \log(x/(1-x)).$
-
-## Link functions
-![Overview of link functions, bluntly borrowed from Wikipedia](links.png)
-
-## GLM's continued
-
-Remember that
-\[y=\alpha+\beta x+\epsilon,\]
-
-and that 
-\[\mathbb{E}[y] = \alpha + \beta x.\]
-
-As a result
-\[y = \mathbb{E}[y] + \epsilon.\]
-
-and residuals do not need to be normal (heck, $y$ probably isn't, so why should $\epsilon$ be?)
-
-## Binary dependent variables
-
-Success vs Failure, e.g.
-
-- pass or fail the exam
-
-- smoker or non-smoker
-
-- illness or not
-
-$~$
-
-Estimate probability of a "success" given set of predictors.
-
-## Logistic regression model
-
-Let $p=P(Y=success)$
-
-$$p=\frac{e^{\alpha+\beta x}}{1+e^{\alpha+\beta x}}$$
-
-or
-
-$$\mbox{logit}(p)=\alpha+\beta x$$
-
-
-
-## Logit
-
-The logit is the log of the odds of a success
-
-\[\text{logit}(p) = \log\left(\frac{p}{1-p}\right)\]
-
-```{r include=FALSE,  dev.args = list(bg = 'transparent')}
-p <- (1:999)/1000 
-gitp <- log(p/(1 - p)) 
-par(pty="s")
-plot(gitp, p, xlab = "logit(p)", ylab = "p", type = "l", pch = 1)
-```
-
-But why so complicated?
-
-## Logistic vs linear regression
-
-To avoid negative probabiliy estimates!
-
-```{r echo=F, out.width="100%", fig.align='center'}
-knitr::include_graphics("Lin_vs_LogReg.png")
+```{r include = FALSE, message = FALSE}
+knitr::opts_chunk$set(comment = "", message = FALSE)
+library(dplyr)
+library(ggplot2)
 ```
 
 
-## Goodness-of-fit
+## Content
 
-`Deviance` is the logistic counterpart of the `Sum of Squares`. 
+1. Generalized linear model (GLM)
 
-- Deviance is the (mis)fit of the observed values to the expected values. 
- 
-- The lower the deviance, the better the fit (Dev = 0 is perfect fit)
+    - variables with non-normal error distribution
+    
+    - families and link functions
+    
+2. Dichotomous variables
 
+    - binomial family
+    
+    - logit link function
+    
+    - logistic regression
 
-$~$
+3. Fit measures
 
-`AIC` is for model selection of nested models
-
-- `AIC` value has no absolute interpretation 
-
-- model with lowest `AIC` is the best
-
-# Example
- 
-## Model
-
-Predict probability not moving after anesthetic from concentration
-
-```{r, message = FALSE}
-anesthetic %>% dplyr::select(-move, -logconc) %>% head(n = 10)
-```
-
-## Interpretation in terms of the logit
+    - Deviance vs $R^2$
 
 
-With each unit increase in concentration: 
+## $Y$ is continuous
 
-- the logit of `nomove` increases with 5.567
+The linear model applies to a **continuous** dependent variable $Y$.
 
-- the odds  of `nomove` increase with a factor `log(5.567) = 1.72`
+<br>
 
-```{r,  dev.args = list(bg = 'transparent')}
-anesthetic %$% glm(nomove ~ conc, family = binomial(link="logit")) 
-```
+$$\mu=\beta_0+\beta{x}+\varepsilon, \ \ \ \ \ \varepsilon\sim{N}(0,\sigma^2)$$
 
+<br>
 
-## Predicted probabilities
+- $\mu$ is the mean of $Y$ given the score on $X$.
 
-For `conc = 1`, the probability of `nomove` is 
+- Residuals are normally distributed and homoscedastic.
 
-$$p = \frac{e^{-6.469 + 5.567}}{1+e^{-6.469 + 5.567}}=0.29$$
+<br>
 
-```{r}
-data.frame(conc = anesthetic$conc, pred = glm(nomove ~ conc, 
-                                              family = binomial(link="logit"), 
-                                              anesthetic)$fitted)[1:10, ] %>% 
-  round(2)
+<center>
 
-```
+![](pics/errors.png)
+
+</center>
 
 
-## Significance of parameter estimates
+## $Y$ is dichotomous
 
-```{r,  dev.args = list(bg = 'transparent')}
-anesthetic %$% 
-  glm(nomove ~ conc, family = binomial(link="logit")) %>% 
-  summary() %>% 
-  coef() %>% 
-  round(3)
-```
+Dichotomous variables
 
-# Logistic multiple regression
+    - pass/fail the exam (pass = 1, fail = 0)
+    
+    - smoker/non-smoker (smoker = 1, non-smoker = 0)
 
-## Explore your data
+<br>
 
+Predict the probability $\mu=P(Y=1)$ with linear model
 
-```{r}
-head(frogs)
-```
+<br>
 
+$$\mu=\beta_0+\beta{x}+\varepsilon, \ \ \ \ \ \varepsilon\sim{Bin}(n,p)$$
 
-Make the relation as linear as possible and avoid skew
+<br>
 
-- after all you are assessing a (generalized) linear model
- 
-Use transformations to "make" things more linear / less skewed
+Problem:
+
+- binomial error distribution (non-normal and heteroscedastic)
+
+- estimates outside the inetrval $(0,1)$
 
 
+## Example passing the an exam
 
+Distribution of variable `pass` for 100 students
 
-## Checking the data
-```{r,  dev.args = list(bg = 'transparent'), echo=FALSE}
-with(frogs, pairs(cbind(distance, NoOfPools, NoOfSites, avrain, altitude, 
-                        meanmax+meanmin, meanmax-meanmin), 
-                  col = "gray", panel = panel.smooth, 
-                  labels = c("Distance", "NoOfPools", 
-                             "NoOfSites", "AvRainfall", "Altitude", 
-                             "meanmax + meanmin", "meanmax - meanmin"))) 
-```
+- 80 students passed the exam $(pass = 1)$
 
-## Resolving issues
-```{r,  dev.args = list(bg = 'transparent'), echo=FALSE}
-with(frogs, pairs(cbind(log(distance), log(NoOfPools), NoOfSites, avrain, altitude, 
-                        meanmax+meanmin, meanmax-meanmin), 
-                  col = "gray", panel = panel.smooth, 
-                  labels = c("log(Distance)", "log(NoOfPools)", 
-                             "NoOfSites", "AvRainfall", "Altitude", 
-                             "meanmax + meanmin", "meanmax - meanmin"))) 
-```
+- 20 students failed the exam $(pass = 0)$
 
-## All predictors
-```{r echo=FALSE,  dev.args = list(bg = 'transparent')}
-summary(frogs.glm0 <- glm(formula = pres.abs ~ log(distance) + log(NoOfPools) 
-                          + NoOfSites + avrain +  I(meanmax + meanmin) 
-                          + I(meanmax - meanmin), family = binomial, data = frogs)) 
-```
-
-## Subset of predictors
-```{r echo=FALSE,  dev.args = list(bg = 'transparent')}
-frogs.glm <- frogs %$% glm(pres.abs ~ log(distance) + log(NoOfPools) 
-                           + I(meanmax + meanmin) + I(meanmax - meanmin),  
-                           family = binomial)
-frogs.glm %>% summary()
-```
-
-## Fitted values
-```{r,  dev.args = list(bg = 'transparent')}
-frogs.glm <- frogs %$% glm(pres.abs ~ log(distance) + log(NoOfPools) 
-                           + I(meanmax + meanmin) + I(meanmax - meanmin),  
-                           family = binomial)
-frogs.glm %>% fitted() %>% head()
-frogs.glm %>% predict(type = "response") %>% head()
-frogs.glm %>% predict(type = "link") %>% head() # Scale of linear predictor 
-```
-
-## Fitted values with approximate SE's
-```{r,  dev.args = list(bg = 'transparent')}
-pred <- frogs.glm %>% 
-  predict(type = "link", se.fit = TRUE)
-data.frame(fit = pred$fit, se = pred$se.fit) %>% head()
-```
-
-## Confidence intervals for the $\beta$
-```{r}
-frogs.glm %>% confint()
-frogs.glm %>% coef()
-```
-
-## Cross validating predictive power
-```{r,  dev.args = list(bg = 'transparent')}
-set.seed(123)
-frogs.glm <- glm(pres.abs ~ log(distance) + log(NoOfPools), 
-                 family = binomial, data = frogs)
-cv <- CVbinary(frogs.glm)
-```
-
-The cross-validation measure is the proportion of predictions over the folds that are correct. 
-
-## Cross validating predictive power
-```{r,  dev.args = list(bg = 'transparent')}
-frogs.glm2 <- glm(pres.abs ~ log(distance) + log(NoOfPools) 
-                 + I(meanmax + meanmin) + I(meanmax - meanmin),
-                 family = binomial, data = frogs)
-cv <- CVbinary(frogs.glm2)
-```
-
-## Cross validating predictive power
-```{r,  dev.args = list(bg = 'transparent')}
-frogs.glm2 <- glm(pres.abs ~ log(distance) + log(NoOfPools) 
-                 + I(meanmax + meanmin) + I(meanmax - meanmin),
-                 family = binomial, data = frogs)
-cv <- CVbinary(frogs.glm2, nfolds = 5)
+```{r include = TRUE, echo = FALSE, fig.align = "center", fig.width = 4, fig.height = 4}
+set.seed(2)
+pass  <- rep(0:1, c(20, 80))
+study <- rnorm(100, pass + 2, 0.3)
+barplot(table(pass))
 ```
 
 
+## Predictions from the linear model
 
+Predict passing the exam for study time.
+
+```{r include = TRUE, echo = FALSE, fig.width = 4, fig.height = 3, fig.align = "center"}
+ggplot(data.frame(pass, study), aes(study, pass)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_minimal()
+```
+
+
+## Residual plots
+
+```{r include = TRUE, echo = FALSE, fig.width = 5, fig.height = 5, fig.align = "center"}
+p <- lm(pass ~ study)
+
+par(mfrow = c(2, 2))
+plot(p)
+```
+
+
+## Generalized Linear Model
+
+The GLM does not predict $\mu$ but a function of $\mu$.
+
+- The function $g(\mu)$ is called the link function.
+
+<br>
+
+$$g(\mu)=\beta_0+\beta{x}+\varepsilon$$
+
+<br>
+
+The link function ensures that predictions are within the permitted range.
+
+- between 0 and 1 for dichotomous variables
+
+<br>
+
+The GLM does not assume normality or homoscedasticity.
+
+
+## Families of distributions
+
+The GLM distinguishes various families of distributions, e.g.:
+
+- gaussian family for continuous variables
+
+- binomial family for dichotomous variables
+
+<br>
+
+family | DV  | link  | $g(\mu)=\beta_0+\beta{x}$ | $\mu=g^{-1}(\beta_0+\beta{x})$
+---------|--------|-----------|------------|-------------
+gaussian | continuous |identity  | $g(\mu)=\mu$       | $\mu=\beta_0+\beta{x}$
+binomial | dichotomous | logit     | $g(\mu)=\log\frac{\mu}{1-\mu}$  | $\mu=\frac{\exp(\beta_0+\beta{x})}{1+\exp(\beta_0+\beta{x})}$
+
+
+## Fitting a GLM
+
+As `lm()`, but with additional family argument:
+
+```{r eval = FALSE}
+glm(formula, family = c("gaussian", "binomial"), data)
+```
+
+<br>
+
+Predictions
+
+```{r eval = FALSE}
+predict(object, type = c("link", "response")
+```
+
+<br>
+
+- `object` is a fitted GLM model
+
+- `type = "link"` for prediction of the linear predictor $g(\mu)=\beta_0+\beta{x}$ 
+
+- `type = "response"` for prediction of the mean $\mu=g^{-1}(\beta_0+\beta{x})$ 
+
+
+
+
+## Probability of passing the exams 
+
+Logistic regression model
+
+```{r echo = FALSE}
+pass.glm <- glm(pass ~ study, family = binomial)
+summary(pass.glm)
+```
+
+## Interpretation parameter estimates
+
+Parameter estimates are on the logit scale
+
+$$logit(pass)=\log\frac{\mu}{1-\mu}=\beta_0+\beta{x}$$
+
+<br>
+
+Probability estimates are obtained via the inverse link):
+
+$$P(pass)=\frac{\exp(\beta_0+\beta{x})}{1+\exp(\beta_0+\beta{x})}$$
+
+<br>
+
+Notice that $P(pass)$ is always between 0 and 1!
+
+## Example
+
+Logit for student who studied 2 hrs
+
+$$logit(pass)=\beta_0+2.5\beta_{study}=-25.6 + 2.5\times10.8\approx  0$$
+<br>
+
+Probility to pass:
+
+$$P(pass)=\frac{\exp(\beta_0+2.5\beta_{study})}{1+\exp(\beta_0+2.5\beta_{study})}=\frac{\exp(0)}{1+\exp(0)}=\frac{1}{2}$$
+## Regression line
+
+```{r echo = FALSE, fig.width = 4, fig.height = 3, fig.align = "center"}
+d <- data.frame(pass, study, pred = predict(pass.glm, type = "response"))
+
+ggplot(d) +
+  geom_line(aes(study, pred), col="blue", size = 1) +
+  geom_point(aes(study, pass)) + labs(y = "P(pass)") +
+  theme_minimal()
+```
+
+
+## Fit measures `lm()`
+
+The linear model uses the $F$ and $R^2$ statistics
+
+```{r echo = FALSE}
+summary(lm(am ~ disp, mtcars))
+```
+
+## Fit measures `glm()`
+
+The linear model uses the $F$ and $R^2$ statistics
+
+```{r echo = FALSE}
+summary(glm(am ~ disp, binomial, mtcars))
+```
+
+## Deviance and AIC
+
+Deviance is measure for difference between observed and fitted values
+
+
+- `Null deviance`: deviance of intercept-only model
+
+
+- `Residual Deviance`: deviance of fitted model
+
+<br>
+
+The larger the difference, the better the model
+
+<br>
+
+- `AIC`: model with the lowest AIC is the most parsimonious
+
+## Example
+
+Intercept-only model
+
+```{r echo = FALSE}
+glm(pass ~ 1, binomial)
+```
+Model with predictor `study`
+```{r echo = FALSE}
+glm(pass ~ study, binomial)
+```
+
+## Summary
+
+Generalized Linear Model
+
+- variables with non-normal error distribution
+
+- family and link function
+
+- inverse link function (`type = "response") is on the original scale of the DV
+
+- fit is measured by the deviance and AIC
   
