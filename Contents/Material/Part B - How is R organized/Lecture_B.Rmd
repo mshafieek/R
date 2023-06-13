@@ -1,6 +1,6 @@
 ---
 title: "Working with R"
-author: "Gerko Vink"
+author: "Gerko Vink, Laurence Frank"
 date: "Statistical Programming with R"
 output:
   ioslides_presentation:
@@ -20,18 +20,44 @@ This morning we have learned the basics of programming in `R`:
 - How to assign elements to objects (`<-`)
 - How to run code
 - How to save `R`-scripts
-- How to manage projects in `RStudio`
+- How to organize your work with projects in `RStudio`
 - How to create notebooks or markdown HTML files
 
 ```{r echo=FALSE}
 set.seed(123)
 ```
 
+# Organise your work in `RStudio`
 
-# Objects that contain more than one element
+## Use `RStudio Projects`
 
-## More than one element
-- We can assign more than one element to a vector (in this case a 1-dimensional congatenation of numbers 1 through 5)
+Every time you start a new data analysis project, create a new `RStudio Project`. 
+
+**Because you want your project to work:**
+
+* not only now, but also in a few years;
+* when the folder and file paths have changed;
+* when collaborators want to run your code on their computer.
+
+`RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”:
+
+* all code and outputs are stored in one set location;
+* relative file paths are created;
+* a clean R environment is created every time you open it.
+
+## Example data analysis project with `RStudio project`
+
+Every time you want to work on this project: open the project by clicking the `.Rproj` file.
+
+<center>
+<img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 70%>
+</center>
+
+
+# Working with objects in R
+
+## Objects with more than one element
+- We can assign more than one element to a vector (in this case a 1-dimensional concatenation of numbers 1 through 5)
 ```{r}
 a <- c(1, 2, 3, 4, 5)
 a
@@ -70,18 +96,18 @@ c
 ```
 
 ## Calling elements in matrices #1
-- The first row is called by
+The first row is called by
 ```{r}
 c[1, ]
 ```
 
-- The second column is called by
+The second column is called by
 ```{r}
 c[, 2]
 ```
 
 ## Calling elements in matrices #2
-- The intersection of the first row and second column is called by
+The intersection of the first row and second column is called by
 ```{r}
 c[1, 2]
 ```
@@ -110,7 +136,7 @@ d <- data.frame("V1" = rnorm(5),
 d
 ```
 
-We 'filled' a dataframe with two randomly generated sets from the normal distribution - where $V1$ is standard normal and $V2 \sim N(5,2)$ - and a character set. 
+We 'filled' a data frame with two randomly generated sets from the normal distribution - where $V1$ is standard normal and $V2 \sim N(5,2)$ - and a character set. 
 
 ## Data frames (continued)
 Data frames can contain both numerical and character elements at the same time, although never in the same column. 
@@ -137,7 +163,7 @@ The intersection between row 2 and column 3 can be obtained by
 d[2, 3]
 ```
 
-## Calling columns elements in data frames
+## Selecting columns in data frames
 Both
 ```{r}
 d[, "V2"] # and
@@ -156,7 +182,7 @@ e
 ```
 
 ## Indexing an array
-The square bracket identification works similarly to the identification of matrices and dataframes, but with the added dimension(s). For example, 
+The square bracket identification works similarly to the identification of matrices and data frames, but with the added dimension(s). For example, 
 ```{r}
 e[1, 3, 2]
 ```
@@ -207,24 +233,27 @@ f[["vector"]]
 f$vector
 ```
 
-## Lists in lists
-Take the following example
-```{r}
-g <- list(f, f)
-```
-To call the vector from the second list within the list g, use the following code
-```{r}
-g[[2]][[1]]
-g[[2]]$vector
-```
-
 ## Logical operators
-- Logical operators are signs that evaluate a statement, such as `==`, `<`, `>`, `<=`, `>=`, and `|` (OR) as well as `&` (AND). Typing `!` before a logical operator takes the complement of that action. There are more operations, but these are the most useful. 
+- Logical operators are signs that evaluate a statement, such as `==`, `<`, `>`, `<=`, `>=`, and `|` (OR) as well as `&` (AND). Typing `!` before a logical operator takes the complement of that action. 
 
 - For example, if we would like elements out of matrix `c` that are larger than 3, we would type:
 ```{r}
 c[c > 3]
 ```
+
+## List of logical operators
+
+Symbol | Meaning
+------ | ------
+! | logical *not*
+$\&$ | logical *and*
+$|$ | logical *or* 
+$<$ | less than
+$<=$ | less than or equal to 
+$>$ | greater than
+$>=$ | greater than or equal to
+$==$ | logical equals
+$!=$ | not equal
 
 ## Why does a logical statement on a matrix return a vector?
 ```{r}
@@ -272,19 +301,48 @@ mean(c(1, 2, NA, 4, 5), na.rm = TRUE)
 mean(na.omit(c(1, 2, NA, 4, 5)))
 ```
 
-## Floating point example
+## Integers and floating points
+In R there are two types of numbers: integers and [floating point numbers](https://floating-point-gui.de/formats/fp/).
+
+Since computer memory is limited, you cannot store numbers with infinite precision. Numbers are therefore represented with floating point numbers.
+
+Floating points cannot represent decimal fractions exactly in most cases, which means you will frequently find that exact matches fail. 
 ```{r}
 (3 - 2.9)
+
 (3 - 2.9) <= 0.1
-(3 - 2.9) - 0.1
+```
+## Floating point representation
+Let's have a look at how the decimal fractions are actually represented as floating points. You can see this by asking a representation with 54 decimals.
+
+```{r}
+sprintf("%.54f",3 - 2.9)
+
+sprintf("%.54f",0.1)
+
 ```
 
-## Floating point example, continued
+## How to work with floating points
+The difference of 8.326673e-17 is smaller than the representable difference between two numbers whose value is close to 0.1. 
+
+The smallest positive floating point number in R is: 2.220446e-16
+
 ```{r}
 (3 - 2.9) - 0.1
-((3 - 2.9) - 0.1) < 0.00000000000001
+
+ .Machine$double.eps
+```
+
+## How to work with floating points
+You can verify whether the difference between two floating points is smaller than the smallest positive floating point number (2.220446e-16). 
+
+Or use the `all.equal()` function which checks that the difference is close to the smallest floating point number.
+
+```{r}
+((3 - 2.9) - 0.1) < .Machine$double.eps
+
 all.equal((3 - 2.9), 0.1)
-# compare adding percentages: 29% + 29% + 43% = 101%
+
 ```
 
 
@@ -298,6 +356,7 @@ all.equal((3 - 2.9), 0.1)
     - indicate the sequential nature of your work
 - work with `RStudio` projects
 - if allowed, place your project folders in some cloud-based environment
+
 
 # Practical
 

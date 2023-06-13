@@ -46,6 +46,9 @@ pre { /* Code block - determines code spacing between lines */
 # Exercises
 In this practical exercise we are going to play around with the different types of elements in R. 
 
+Open the `RStudio` project that you created in the first practical by clicking on the `Practicals.RProj` file. Open a new R script file or a R Markdown file.
+
+
 ---
 
 ## Exercise 1-5
@@ -144,7 +147,7 @@ Rather tricky; the function `as.data.frame()` has converted the first variable t
 ```{r}
 is.factor(dat3b[, 1])
 ```
-This is due to us not specifying the variable correctly in the matrix we used to create the dataframe. Factors are categorical variables that are depicted by numbers. Character vectors are not converted to factors in data frames by default, but the argument `stringsAsFactors = TRUE` has resulted in this conversion. I forced this to prove a point: You now know that there is a distinction between characters and factors and you know hot to force this conversion to factors in a data frame. 
+This is due to us not specifying the variable correctly in the matrix we used to create the dataframe. Factors are categorical variables that are depicted by numbers. Character vectors are not converted to factors in data frames by default, but the argument `stringsAsFactors = TRUE` has resulted in this conversion. I forced this to prove a point: You now know that there is a distinction between characters and factors and you know how to force this conversion to factors in a data frame. 
 
 ---
 
@@ -153,10 +156,10 @@ This is due to us not specifying the variable correctly in the matrix we used to
 dat3[3, ] #3rd row
 dat3[, 2] #2nd column
 dat3$V2   #also 2nd column
-dat3[3,2] #intersection
+dat3[3, 2] #intersection
 ```
 
-The `[3,2]` index is very useful in 'R'. The first number (before the comma) represents the row and the second number (after the comma) represents the column. For a vector there are no two dimensions and only one dimension can be called. For example, `vec1[3]` would yield `3`. Try it. 
+The `[3, 2]` index is very useful in 'R'. The first number (before the comma) represents the row and the second number (after the comma) represents the column. For a vector there are no two dimensions and only one dimension can be called. For example, `vec1[3]` would yield `3`. Try it. 
 
 Columns can also be called by the `$` sign, but only if a name has been assigned. With dataframes assigning names happens automatically. 
 

@@ -1,6 +1,6 @@
 ---
 title: "Working with R"
-author: "Gerko Vink"
+author: "Gerko Vink, Laurence Frank"
 date: "Statistical Programming with R"
 output: 
   html_document:
@@ -56,11 +56,37 @@ This morning we have learned the basics of programming in `R`:
 set.seed(123)
 ```
 
+# Organise your work in `RStudio`
 
-# Objects that contain more than one element
+## Use `RStudio Projects`
+
+Every time you start a new data analysis project, create a new `RStudio Project`. 
+
+**Because you want your project to work:**
+
+* not only now, but also in a few years;
+* when the folder and file paths have changed;
+* when collaborators want to run your code on their computer.
+
+`RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”:
+
+* all code and outputs are stored in one set location;
+* relative file paths are created;
+* a clean R environment is created every time you open it.
+
+## Example data analysis project with `RStudio project`
+
+Every time you want to work on this project: open the project by clicking the `.Rproj` file.
+
+<center>
+<img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 50%>
+</center>
+
+
+# Working with objects in R
 
 ## More than one element
-- We can assign more than one element to a vector (in this case a 1-dimensional congatenation of numbers 1 through 5)
+- We can assign more than one element to a vector (in this case a 1-dimensional concatenation of numbers 1 through 5)
 ```{r}
 a <- c(1, 2, 3, 4, 5)
 a
@@ -236,42 +262,6 @@ f[["vector"]]
 f$vector
 ```
 
-## Lists in lists
-Take the following example
-```{r}
-g <- list(f, f)
-```
-To call the vector from the second list within the list g, use the following code
-```{r}
-g[[2]][[1]]
-g[[2]]$vector
-```
-
-
-## Functional programming
-```{r}
-library(purrr)
-map(g, "vector")
-map(map(g, "data frame"), "V2")
-```
-
-## Grabbing elements with `map()`
-and making them into new objects
-```{r}
-do.call("cbind", map(map(g, "data frame"), "V2"))
-```
-
-## Now with a pipe
-```{r message=FALSE}
-library(dplyr)
-g %>% 
-  map("data frame") %>% 
-  map("V2") %>% 
-  do.call("cbind", .)
-```
-
-Tomorrow we focus much more on pipes
-
 ## Logical operators
 - Logical operators are signs that evaluate a statement, such as `==`, `<`, `>`, `<=`, `>=`, and `|` (OR) as well as `&` (AND). Typing `!` before a logical operator takes the complement of that action. There are more operations, but these are the most useful. 
 
@@ -279,6 +269,20 @@ Tomorrow we focus much more on pipes
 ```{r}
 c[c > 3]
 ```
+
+## List of logical operators
+
+Symbol | Meaning
+------ | ------
+! | logical *not*
+$\&$ | logical *and*
+$|$ | logical *or* 
+$<$ | less than
+$<=$ | less than or equal to 
+$>$ | greater than
+$>=$ | greater than or equal to
+$==$ | logical equals
+$!=$ | not equal
 
 ## Why does a logical statement on a matrix return a vector?
 ```{r}
@@ -306,7 +310,6 @@ c != 3
 c
 ```
 
-
 ## Things that cannot be done
 - Things that have no representation in real number space (at least not without tremendous effort)
     - For example, the following code returns "Not a Number"
@@ -326,11 +329,48 @@ mean(c(1, 2, NA, 4, 5), na.rm = TRUE)
 mean(na.omit(c(1, 2, NA, 4, 5)))
 ```
 
-## Floating point example
+## Integers and floating points
+In R there are two types of numbers: integers and [floating point numbers](https://floating-point-gui.de/formats/fp/).
+
+Since computer memory is limited, you cannot store numbers with infinite precision. Numbers are therefore represented with floating point numbers.
+
+Floating points cannot represent decimal fractions exactly in most cases, which means you will frequently find that exact matches fail. 
 ```{r}
 (3 - 2.9)
+
 (3 - 2.9) <= 0.1
-(3 - 2.9) - .1
+```
+## Floating point representation
+Let's have a look at how the decimal fractions are actually represented as floating points. You can see this by asking a representation with 54 decimals.
+
+```{r}
+sprintf("%.54f",3 - 2.9)
+
+sprintf("%.54f",0.1)
+
+```
+
+## How to work with floating points
+The difference of 8.326673e-17 is smaller than the representable difference between two numbers whose value is close to 0.1. 
+
+The smallest positive floating point number in R is: 2.220446e-16
+
+```{r}
+(3 - 2.9) - 0.1
+
+ .Machine$double.eps
+```
+
+## How to work with floating points
+You can verify whether the difference between two floating points is smaller than the smallest positive floating point number (2.220446e-16). 
+
+Or use the `all.equal()` function which checks that the difference is close to the smallest floating point number.
+
+```{r}
+((3 - 2.9) - 0.1) < .Machine$double.eps
+
+all.equal((3 - 2.9), 0.1)
+
 ```
 
 ## Some programming tips:

@@ -10,6 +10,8 @@ output: html_document
 #### Exercises
 In this practical we are going to play around with the different types of elements in R. 
 
+Open the `RStudio` project that you created in the first practical by clicking on the `Practicals.RProj` file. Open a new R script file or a R Markdown file.
+
 ---
 
  1. **Make two vectors: one named `vec1` with values 1 through 6 and one named `vec2` with letters A through F. **
@@ -49,7 +51,7 @@ In this practical we are going to play around with the different types of elemen
 
 ---
 
-10. **Open the workspace `boys.RData`. You need to download this file and put it in the project folder.**
+10. **Open the work space `boys.RData`. You need to download this file and put it in the project folder.**
 
 ---
 
