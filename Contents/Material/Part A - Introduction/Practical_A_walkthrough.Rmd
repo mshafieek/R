@@ -153,6 +153,7 @@ To keep your work structure, I suggest you keep all files that relate to this pr
 ---
  
 9. **Compile the script as a `html` file. Click on the ![alt text](figuresPractical/fig7.png) icon and select `html` as the notebook output format. **
+An R notebook is a script file with extra options
 
 The benefit of using html as an output format lies in the dimensional properties of a web-page. Especially when dealing with long code-files, large output from analyses or many graphs, exporting your file as html is much more convenient. You can simply scroll down or up to see the 'rest', instead of having to flip through pages back and forth to compare code, graphs or output. 
 
@@ -171,7 +172,10 @@ to a readable file where code and output are visible. There is, however, an even
 <p><a href="https://vimeo.com/178485416">What is R Markdown?</a> from <a href="https://vimeo.com/rstudioinc">RStudio, Inc.</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
 </center>
 
-See also [this `rmarkdown` cheat sheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf). 
+See also [this `rmarkdown` cheat sheet](https://rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf) and for a quick reference guide within the `RStudio` environment, see:
+
+![](figuresPractical/RstudioHelp_Markdown.png)
+
 
 ---
 
@@ -181,7 +185,7 @@ See also [this `rmarkdown` cheat sheet](https://rstudio.com/wp-content/uploads/2
 
 11. **Open the file `markdown.Rmd`. **
 
-You can find a zip containing the [`markdown.Rmd` here](markdown.Rmd.zip).
+You can find a file containing the [`markdown.Rmd` here](markdown.Rmd).
 
 Again, to keep your work structured, add this file to the folder of the RStudio Project you just created.
 

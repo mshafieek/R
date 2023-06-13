@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-author: "Gerko Vink"
+author: "Laurence Frank, Gerko Vink"
 date: "Statistical Programming with R"
 output: 
   html_document:
@@ -109,7 +109,7 @@ Broadly speaking, computer programming differs from statistical programming in t
 - Gives extra functionality (Shiny, knitr, markdown, LaTeX)
 - Allows for integration with version control routines, such as Git.
 
-# How does R work
+# How does R work?
 
 ## Objects and elements
 - R works with objects that consist of elements. The smallest elements are numbers and characters.

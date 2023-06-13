@@ -15,7 +15,6 @@ You can access the course materials quickly from
 [https://laurencefrank.github.io/R](https://laurencefrank.github.io/R)
 
 
-
 Some guidelines
 
 1. If you have a question, you may always interrupt me 
@@ -116,18 +115,15 @@ a <- 100
 
 ```
 
-## Calling objects
-- Calling things in R is also very straightforward: 
+Calling things in R is also very straightforward: 
 
-    - you just type the name you have given to the object
+  - you just type the name you have given to the object
 
-- For example, we assigned the value `100` to object `a`. To call object `a`, we would type
+For example, we assigned the value `100` to object `a`. To call object `a`, we would type
 
 ```{r}
 a
 ```
-
-
 
 ## Writing code
 <center>
@@ -146,7 +142,7 @@ Every time you start a new data analysis project, create a new `RStudio Project`
 
 * not only now, but also in a few years;
 * when the folder and file paths have changed;
-* when collaborators want to run the code on their computer.
+* when collaborators want to run your code on their computer.
 
 `RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”:
 
@@ -154,11 +150,13 @@ Every time you start a new data analysis project, create a new `RStudio Project`
 * relative file paths are created;
 * a clean R environment is created every time you open it.
 
-## Example structure for data analysis project
+## Example data analysis project with `RStudio project`
 
 <center>
-<img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 75%>
+<img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 70%>
 </center>
+
+Every time you want to work on this project: open the project by clicking the `.Rproj` file.
 
 
 ## Practical A

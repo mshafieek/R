@@ -7,7 +7,7 @@ a <- 1
 # Exercise 2 - verify that 1 is stored in a
 a
 
-# Pfff. Luckily there is nothing to worry about. The value 1 is indeed stored in
+# Luckily there is nothing to worry about. The value 1 is indeed stored in
 # object a. Have you noticed that these lines of text do not contain more than
 # 80 characters? That is the conventional rule that has been agreed upon by the
 # council of R-nerds. Just kidding, but it is somehow convenient. Much more convenient than having a line of code that kind of extends beyond the 80 characters mark. 
@@ -15,7 +15,7 @@ a
 # Exercise 3 - square a
 a^2
 
-# Still 1, duh
+# Still 1
 
 # Exercise 4 - create b and assign a + a. Check if b is indeed a + a. 
 b <- a + a

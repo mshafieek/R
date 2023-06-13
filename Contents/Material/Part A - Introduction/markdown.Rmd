@@ -22,7 +22,7 @@ indeed stored.
 a
 ```
 
-Pfff. Luckily there is nothing to worry about. The value 1 is indeed stored in
+Luckily there is nothing to worry about. The value 1 is indeed stored in
 object `a`. Have you noticed that these lines of text do not contain more than
 80 characters? That is the conventional rule that has been agreed upon by the
 council of R-nerds. Just kidding, but it is somehow convenient. Much more 
