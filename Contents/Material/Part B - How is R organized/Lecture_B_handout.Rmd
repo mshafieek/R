@@ -72,7 +72,9 @@ Every time you start a new data analysis project, create a new `RStudio Project`
 
 * all code and outputs are stored in one set location;
 * relative file paths are created;
-* a clean R environment is created every time you open it.
+* a clean R environment is created every time you open it;
+* every project can have its own version control system and history;
+* RStudio projects can relate to Git (or other online) repositories.
 
 ## Example data analysis project with `RStudio project`
 
