@@ -297,6 +297,29 @@ boys %>%
 
 The `na.rm` argument ensures that the mean and sd of only the observed values in each category are used.
 
+---
+
+8. **Bonus: Change the overall appearance of the plot you have created for exercise 7 using an available theme. Customize the theme (using theme()) in any way you like.**
+
+For example: 
+
+```{r}
+boys %>%
+  mutate(Hgt = hgt - mean(hgt, na.rm = TRUE),
+         Age = cut(age, 0:22, labels = 0:21)) %>%
+  group_by(Age) %>%
+  summarize(Hgt = mean(Hgt, na.rm = TRUE)) %>% 
+  mutate(Diff = cut(Hgt, c(-Inf, 0, Inf),
+                    labels = c("Below Average", "Above Average"))) %>%
+  ggplot(aes(x = Age, y = Hgt, fill = Diff)) + 
+  geom_bar(stat = "identity") +
+  coord_flip() + 
+  theme_classic() +
+  theme(panel.grid.major = element_line(colour = "darkgreen"), 
+        legend.position = "bottom",
+        legend.box.background = element_rect(),
+        legend.title = element_text(face = "bold")) 
+```
 
 ---
 

@@ -71,6 +71,10 @@ With a standard plotting device in `R`:
 
 ---
 
+8. **Bonus: Change the overall appearance of the plot you have created for exercise 7 using an available theme. Customize the theme (using theme()) in any way you like.**
+
+---
+
 End of Practical
 
 ---
