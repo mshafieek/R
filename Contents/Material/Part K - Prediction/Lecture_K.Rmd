@@ -1,0 +1,498 @@
+---
+title: "Prediction"
+author: "Maarten Cruyff"
+date: "Statistical Programming with R"
+output:
+  ioslides_presentation:
+    logo: logo.png
+    smaller: yes
+---
+
+
+
+
+## Statistics vs Prediction
+
+```{r include = F}
+library(dplyr)
+library(ggplot2)
+library(caret)
+library(splines)
+```
+
+Statistics:
+
+- hypothesis testing
+
+    - significance of parameter estimates
+    
+<br>
+
+Prediction:
+
+- make predictions on new data set
+
+    - machine learning (e.g. medical diagnosis)
+    
+
+## Prediction 
+
+Model training
+
+- train the model using some algorithm (e.g. linear model)
+
+- to predict the outcome on new data
+
+![](supervised.png){width="70%"}
+
+
+
+## Model training
+
+- distinction between training data and new data
+
+- aim is to predict outcome in new data set
+
+![](prediction.png){width="70%"}
+
+
+
+
+## Statistical models
+
+**Mathematical representation of a theory** 
+
+<br>
+
+$$y=f(x)+\epsilon$$
+
+<br>
+
+- $y$ outcome/output/response/dependent variable 
+
+- $x$ input/predictors/features
+
+- $f(x)$ prediction function 
+
+- $\epsilon$ (irreducible) prediction error 
+
+
+
+## Competing $f(x)$
+
+Many competing models
+
+- linear models (least squares)
+
+- nonlinear models
+
+- tree-based methods
+
+- support vector machines
+
+- neural networks
+
+- etc.
+
+<br>
+
+Models differ in complexity and interpretability
+
+- related to number of parameters in the model
+
+## Model complexity and interpretability
+
+![](complexity.png)
+
+## Model choice
+
+
+"All models are wrong, but some are useful" (George Box)
+
+<br>
+
+What is the best model choice?
+
+- no a priori best model
+
+- depends on the data
+
+- try out alternatives, and select the best performing
+
+
+<br>
+
+But how to determine which one performs best???
+
+## Mean Squared Error
+
+Find the model with minimal MSE:
+
+
+
+$$MSE =\frac{1}{n}\sum(y-f(x))^2= \frac{1}{n}\sum\varepsilon^2$$
+<br>
+
+- sum of squared differences between observations and predictions
+
+<center>
+![](residuals.png){width="50%"}
+</center>
+# Example
+
+## Polynomial regression models
+
+Increasing model complexity with polynomials
+
+<br>
+
+- Linear model (2 parameters)
+
+$$f(x)=\beta_0+\beta{x}$$
+
+- Quadratic model (3 parameters)
+
+$$f(x)=\beta_0+\beta_1{x}+\beta_2x^2$$
+
+- Cubic model (4 parameters)
+
+$$f(x)=\beta_0+\beta_1{x}+\beta_2x^2+\beta_3x^3$$
+
+etc.
+
+## Data points generated from $f(x)$
+
+What is $f(x)$? Is it . . .
+
+- linear, quadratic, cubic, etc.?
+
+```{r echo=F}
+set.seed(1)
+
+x  <- runif(5, 1, 4)
+xs <- seq(1, 5, length.out = 100)
+y  <- 2 + x + rnorm(5, 0, 2)
+plot(x, y, xlim=c(1, 4), ylim=c(0, 15), pch=19)
+```
+
+
+## Strategy for finding $f(x)$
+
+Fit all polynomial models to the data
+
+- compute the MSE for each model
+
+- select the model with the smallest MSE
+
+<br>
+
+The model with the smallest MSE most resembles the true $f(x)$.
+
+<br>
+
+**TRUE?**
+
+
+
+
+
+## Predicted values for $y$
+
+Regression lines linear, quadratic, cubic and quartic models
+
+- quartic model fits data perfectly
+
+```{r echo=F, message=F}
+library(splines)
+options(warn=-1)
+
+d <-  data.frame(x, y)
+
+bs1 <- lm(y ~ x, data = d)
+bs2 <- lm(y ~ bs(x, degree=2), data = d)
+bs3 <- lm(y ~ bs(x), data = d)
+bs4 <- lm(y ~ bs(x, degree=4), data = d)
+
+
+pred.bs1 <- predict(bs1, data.frame(x=xs))
+pred.bs2 <- predict(bs2, data.frame(x=xs))
+pred.bs3 <- predict(bs3, data.frame(x=xs))
+pred.bs4 <- predict(bs4, data.frame(x=xs))
+
+plot(x, y, xlim=c(1, 5), ylim=c(0, 15), pch=19)
+lines(xs, pred.bs1, type="l", col=5)
+lines(xs, pred.bs2, type="l", col=2)
+lines(xs, pred.bs3, type="l", col=3)
+lines(xs, pred.bs4, type="l", col=4)
+```
+
+## MSE
+
+Comparison of the MSE of the fitted models
+
+Fitted models | MSE | $R^2$
+-- | -- | -- 
+linear    | `r round(mean((y-predict(bs1))^2), 4)` | `r round(summary(bs1)$r.squared, 3)`
+quadratic | `r round(mean((y-predict(bs2))^2), 4)`  | `r round(summary(bs2)$r.squared, 3)`
+cubic     | `r round(mean((y-predict(bs3))^2), 4)`  | `r round(summary(bs3)$r.squared, 3)`
+quartic   | `r round(mean((y-predict(bs4))^2), 4)`  | `r round(summary(bs4)$r.squared, 3)`
+
+<br> 
+
+**So the quartic model is the best????**
+
+
+## Five new data points from $f(x)$
+
+Regression lines for original five data points
+
+- How well do the models fit to these new five data points?
+
+```{r echo=F}
+set.seed(2)
+
+x2  <- runif(5, 1, 5)
+y2  <- 2 + x2 + rnorm(5, 0, 2)
+plot(x2, y2, xlim=c(1, 5), ylim=c(0, 15), xlab="x", ylab= "y", pch=19)
+lines(xs, pred.bs1, type="l", col=5)
+lines(xs, pred.bs2, type="l", col=2)
+lines(xs, pred.bs3, type="l", col=3)
+lines(xs, pred.bs4, type="l", col=4)
+
+mse_quart <- round(mean((y2-predict(bs4, data.frame(x=x2)))^2), 1)
+```
+
+## MSE for new data points
+
+
+MSE of the new data points show different picture!
+
+<br>
+
+Fitted models | MSE 
+---|--- 
+linear    | `r round(mean((y2-predict(bs1, data.frame(x=x2)))^2), 1)` 
+quadratic | `r round(mean((y2-predict(bs2, data.frame(x=x2)))^2), 1)` 
+cubic     | `r round(mean((y2-predict(bs3, data.frame(x=x2)))^2), 1)` 
+quartic   | `r paste(mse_quart)`
+
+<br> 
+
+- quadratic model performs best
+
+- quartic model performs terrible
+
+
+## True $f(x)$
+
+Data generated from from quadratic model:
+
+<br>
+
+$$f(x)=2+x+\epsilon, \ \ \ \ \ \epsilon\sim N(0,4)$$
+
+<br>
+
+What did we not find the correct model with the MSE?
+
+- simple models are biased (to few predictors)
+
+- complex models have high variance (too many predictors)
+
+
+## Bias vs variance
+
+
+The expected MSE is composed of bias, variance and irreducible error
+
+$$E(MSE) = bias^2 + variance + \sigma^2$$
+
+<br>
+
+![](b_vs_v.png)
+
+
+## MSE vs model complexity
+
+
+![](biasvariance.png){width="70%"}
+
+
+
+## Cross validation
+
+Method to find optimal model complexity
+
+
+- Split the data in folds (training and test sets) 
+    - fit the model to the training sets
+    - compute the MSE on the test sets
+    - select model with lowest test MSE
+
+
+![](cv.png){width="75%"}
+
+## 5-fold cross validation on example data
+
+We will program it ourselves
+
+- this the original example data set
+
+```{r}
+d
+```
+
+
+## Folds and training and test sets
+
+Getting the indices for the test sets
+
+- with 5-fold cross validation we need 5 test sets
+
+Use `sample()` to make random test sets
+
+- randomly split the row indices 1 to $n$ into 5 groups (in this case $n=5$)
+
+
+```{r}
+folds   <- 5
+row_id  <- 1:5
+test_id <- split(x = row_id, f = 1:5)  # f is fold 1 to 5
+test_id                                # test_id is a list
+```
+
+## Training and test sets
+
+The training for the 1st fold is
+
+```{r}
+d[test_id[[1]], ]
+```
+
+and the test set for the first fold is 
+
+```{r}
+d[-test_id[[1]], ]
+```
+
+## Get the test MSE 
+
+1. train the models on the five training sets
+2. get the predictions on the test set
+3. compute and store the test MSE
+
+Example for the linear model and the first fold
+
+```{r}
+mse_lin    <- matrix(nrow = folds)                    # for storing test MSE's
+
+fit        <- lm(y ~ x, data = d[-test_id[[1]], ])      # fit model to training set
+
+pred       <- predict(fit, newdata = d[test_id[[1]], ]) # get prediction on test set
+
+mse_lin[1] <- mean((d$y[test_id[[1]]] - pred)^2)         # compute test MSE
+
+mse_lin
+```
+
+## Now for the 2nd fold
+
+```{r}
+fit        <- lm(y ~ x, data = d[-test_id[[2]], ])      # fit model to training set
+
+pred       <- predict(fit, newdata = d[test_id[[2]], ]) # get prediction on test set
+
+mse_lin[2] <- mean((d$y[test_id[[2]]] - pred)^2)         # compute test MSE
+
+mse_lin
+```
+
+## Using a `for` loop
+
+Writing the code for 5 folds is cumbersome
+
+- we can do it more efficiently with a `for` loop
+
+```{r}
+mse_lin    <- matrix(nrow = folds)                    
+
+for (i in 1:folds) {     # i takes the value of the consecutive folds
+  
+  fit        <- lm(y ~ x, data = d[-test_id[[i]], ])      
+  
+  pred       <- predict(fit, newdata = d[test_id[[i]], ]) 
+  
+  mse_lin[i] <- mean((d$y[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
+  
+}
+
+mse_lin
+```
+
+## For the quadratic model
+
+```{r}
+mse_quad    <- matrix(nrow = folds)                    
+
+for (i in 1:folds) {     # i takes the value of the consecutive folds
+  
+  fit         <- lm(y ~ poly(x, 2), data = d[-test_id[[i]], ])     # poly(x, 2) is x + x^2
+  
+  pred        <- predict(fit, newdata = d[test_id[[i]], ]) 
+  
+  mse_quad[i] <- mean((d$y[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
+  
+}
+
+mse_quad
+```
+
+
+## For the cubic model
+
+```{r}
+mse_cub   <- matrix(nrow = folds)                    
+
+for (i in 1:folds) {     
+  
+  fit        <- lm(y ~ poly(x, 3), data = d[-test_id[[i]], ])     
+  
+  pred       <- predict(fit, newdata = d[test_id[[i]], ]) 
+  
+  mse_cub[i] <- mean((d$y[test_id[[i]]] - pred)^2)     
+  
+}
+
+mse_cub
+```
+## For the quartic model
+
+We can't fit the quartic model
+
+- there are only 4 data points left in the training set
+
+- there are at least 5 data points required for the quartic model
+
+<br>
+
+With larger data sets this would not be a problem
+
+## Comparing the test MSE's
+
+```{r}
+data.frame(linear    = mean(mse_lin), 
+           quadratic = mean(mse_quad), 
+           cubic     = mean(mse_cub),
+           row.names = "Average test MSE")
+```
+
+So with cross validation we find the correct model
+
+- select the linear model for prediction on new data set
+
+## Practical
+
+Perform cross validation on the `cars` data set
+
+- Is the stopping distance of a car a linear, quadratic or cubic function of the speed?
+
