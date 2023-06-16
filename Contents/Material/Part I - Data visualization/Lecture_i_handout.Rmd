@@ -340,6 +340,57 @@ boys %>%
   theme_minimal()
 ```
 
+## Changing the Style: Themes
+
+- Themes determine the overall appearance of your plot
+- standard themes: e.g., `theme_minimal()`, `theme_classic()`, `theme_bw()`, ...
+- extra libraries with additional themes: e.g., `ggthemes`
+- customize own theme using options of `theme()`
+
+## Changing the Style: Themes
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, dev.args=list(bg="transparent"), out.width="50%", fig.show="hold"}
+boys %>% 
+  filter(!is.na(reg)) %>% 
+  ggplot(aes(x = hgt, fill = reg)) +
+  geom_density(alpha = 0.5, colour = "transparent") +
+  xlim(0, 250) + 
+  labs(title = "Height across regions",
+       x     = "Height", 
+       fill  = "Region") +
+  theme_minimal()
+
+boys %>% 
+  filter(!is.na(reg)) %>% 
+  ggplot(aes(x = hgt, fill = reg)) +
+  geom_density(alpha = 0.5, colour = "transparent") +
+  xlim(0, 250) + 
+  labs(title = "Height across regions",
+       x     = "Height", 
+       fill  = "Region") +
+  theme_gray()
+
+boys %>% 
+  filter(!is.na(reg)) %>% 
+  ggplot(aes(x = hgt, fill = reg)) +
+  geom_density(alpha = 0.5, colour = "transparent") +
+  xlim(0, 250) + 
+  labs(title = "Height across regions",
+       x     = "Height", 
+       fill  = "Region") +
+  theme_classic()
+
+boys %>% 
+  filter(!is.na(reg)) %>% 
+  ggplot(aes(x = hgt, fill = reg)) +
+  geom_density(alpha = 0.5, colour = "transparent") +
+  xlim(0, 250) + 
+  labs(title = "Height across regions",
+       x     = "Height", 
+       fill  = "Region") +
+  theme_dark()
+```
+
 
 ## Helpful link in RStudio
 <img src="cheatsheet.png" style="display:block;width:90%;margin:0 auto;"></img>
