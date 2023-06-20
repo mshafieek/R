@@ -46,7 +46,7 @@ pre { /* Code block - determines code spacing between lines */
 # Exercises
 In this practical exercise we are going to play around with the different types of elements in R. 
 
-Open the `RStudio` project that you created in the first practical by clicking on the `Practicals.RProj` file. Open a new R script file or a R Markdown file.
+Open the `RStudio` project that you created in the first practical by clicking on the `Practicals.RProj` file. Open a new R Markdown file.
 
 
 ---
@@ -105,7 +105,7 @@ mat3b
 
 If one or more elements in the matrix represent characters, all other elements are also converted to characters. A matrix is just for either numeric or character elements. Notice that the second approach (the column bind approach from `mat3b`) returns a matrix where the column names are already set to the name of the bound objects. 
 
-To solve the problem of charactered numbers we can create a dataframe. A dataframe is essentially a matrix that allows for character elements. The use of a dataframe is often preferred over the use of a matrix in `R`, except for purposes where pure numerical calculations are done, such as in matrix algebra. However, most datasets do contain character information and a dataframe would normally be your preferred choice when working with your own collected datasets in R. 
+To solve the problem of numbers represented as characters we can create a dataframe. A dataframe is essentially a matrix that allows for character elements. The use of a dataframe is often preferred over the use of a matrix in `R`, except for purposes where pure numerical calculations are done, such as in matrix algebra. However, most datasets do contain character information and a dataframe would normally be your preferred choice when working with your own collected datasets in R. 
 
 ---
 
@@ -122,7 +122,7 @@ dat3
 
 ---
 
-6. **Again, make a dataframe called `dat3b` where `vec1` and `vec2` are both columns. Name the columns `V1` and `V2`, respectively. Use function `as.data.frame()` on the matrix obtained from `Question 4`. **
+6. **Make a new dataframe called `dat3b` where you use the matrix `mat3` from `Question 4`. Use function `as.data.frame()` and inspect the help file of this function. **
 
 This is a tricky situation. At face value, everything may seem to be in order. But, be aware that the code
 ```{r}
@@ -148,6 +148,22 @@ Rather tricky; the function `as.data.frame()` has converted the first variable t
 is.factor(dat3b[, 1])
 ```
 This is due to us not specifying the variable correctly in the matrix we used to create the dataframe. Factors are categorical variables that are depicted by numbers. Character vectors are not converted to factors in data frames by default, but the argument `stringsAsFactors = TRUE` has resulted in this conversion. I forced this to prove a point: You now know that there is a distinction between characters and factors and you know how to force this conversion to factors in a data frame. 
+Note that `R` automatically reports the values the character column can take. This means that the column is indeed a factor (a categorical variable - as it is supposed to be). 
+
+**A useful function to check the properties of any R object is the `str()` function. Try this function on `dat3` and `dat3b` and notice the differences.**
+
+You can inspect the structure of a dataframe (or other R object) by using the `str()` function or by clicking on the object in the Environment tab in `RStudio`, which unfolds the properties of each element. See:
+
+<center>
+<img src="figures/Structure_RObjects_Data_tab.png" alt="HTML5 Icon" width = 65%>
+</center>
+
+Try both ways of inspecting the structure of an object on `dat3` and `dat3b`.
+```{r}
+str(dat3)
+str(dat3b)
+```
+Inspecting the structure of your data is vital, as you probably have imported your data from some other source. If we, at a later stage, start analyzing our data without the correct measurement level, we may run into problems. One problem that often occurs is that categorical variables (factors in `R`) are not coded as such. 
 
 ---
 
@@ -163,14 +179,6 @@ The `[3, 2]` index is very useful in 'R'. The first number (before the comma) re
 
 Columns can also be called by the `$` sign, but only if a name has been assigned. With dataframes assigning names happens automatically. 
 
-Note that `R` automatically reports the values the character column can take. This means that the column is indeed a factor (a categorical variable - as it is supposed to be). A useful function to inspect the structure of a dataframe is `str()`. Try running it. 
-
-```{r}
-str(dat3)
-```
-
-Inspecting the structure of your data is vital, as you probably have imported your data from some other source. If we, at a later stage, start analyzing our data without the correct measurement level, we may run into problems. One problem that often occurs is that categorical variables (factors in `R`) are not coded as such. 
-
 ---
 
 9. **Imagine that the first variable `V1` in our dataframe `dat3` is not coded correctly, but actually represents grouping information about cities. Convert the variable to a factor and add the labels Utrecht, New York, London, Singapore, Rome and Cape Town.** 
@@ -178,7 +186,7 @@ Inspecting the structure of your data is vital, as you probably have imported yo
 dat3$V1 <- factor(dat3$V1, labels = c("Utrecht", "New York", "London", "Singapore", "Rome", "Capetown"))
 dat3
 ```
-
+You can verify the changes with `str()` or by inspecting the object `dat3` in the RStudion Environment tab.
 ---
 
 10. **Open the workspace `boys.RData`.** 
@@ -196,10 +204,7 @@ load(con)
 ```
 In the above code we store the connection in object `con` and then load the connection with `load(con)`.
 
-The `boys` object will be added to your Global Environment. You can now use the `boys` data by running
-```{r eval=FALSE}
-boys
-```
+
 
 ---
 
@@ -209,9 +214,10 @@ boys
 
 11. **Most packages have datasets included. Since we have not learned to load packages yet, you are presented with such a data set in a workspace. Open the `boys` dataset (it is from package `mice`, by the way) by typing `boys` in the console, and subsequently by using the function `View()`. **
 
-The output is not displayed here as it is simply too large. 
+The output is not displayed here as the data set is simply too large. 
 
 Using `View()` is preferred for inspecting datasets that are large. `View()` opens the dataset in a spreadsheet-like window (conform MS Excel, or SPSS). If you `View()` your own datasets, you can not edit the datasets' contents. 
+
 
 ---
 
@@ -265,13 +271,13 @@ Note that `bmi` contains 21 missing values, e.g. by looking at the summary infor
 
 15. **Select all boys that are 20 years or older. How many are there?**
 
-The logical operators (TRUE vs FALSE) are a very powerful tool in `R`. For example, we can just select the rows (respondents) in the data that are older than 20 by putting the logical operater within the row index of the dataset:
+The logical operators (TRUE vs FALSE) are a very powerful tool in `R`. For example, we can just select the rows (respondents) in the data that are older than 20 by putting the logical operator within the row index of the dataset:
 ```{r}
 boys2 <- boys[boys$age >= 20, ]
 nrow(boys2)
 ```
 
-or, alternatively, 
+or, alternatively using `subset()`, 
 ```{r}
 boys2.1 <- subset(boys, age >= 20)
 nrow(boys2.1)
