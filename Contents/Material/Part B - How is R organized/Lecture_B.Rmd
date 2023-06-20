@@ -154,9 +154,7 @@ d
 ```
 
 ## Calling row elements in data frames
-```{r echo=FALSE}
-d
-```
+
 There are two ways to obtain row `3` from data frame `d`:
 ```{r}
 d["row 3", ]
@@ -166,7 +164,6 @@ and
 ```{r}
 d[3, ]
 ```
-
 
 ## Selecting columns in data frames
 Both
