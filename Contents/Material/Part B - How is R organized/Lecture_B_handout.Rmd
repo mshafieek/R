@@ -46,7 +46,7 @@ pre { /* Code block - determines code spacing between lines */
 
 This morning we have learned the basics of programming in `R`:
 
-- How to assign elements to objects (`<-`)
+- How to assign elements to objects with `<-` (alt/option -)
 - How to run code
 - How to save `R`-scripts
 - How to manage projects in `RStudio`
@@ -87,8 +87,8 @@ Every time you want to work on this project: open the project by clicking the `.
 
 # Working with objects in R
 
-## More than one element
-- We can assign more than one element to a vector (in this case a 1-dimensional concatenation of numbers 1 through 5)
+## Objects with more than one element
+We can assign more than one element to a vector (in this case a 1-dimensional concatenation of numbers 1 through 5)
 ```{r}
 a <- c(1, 2, 3, 4, 5)
 a
@@ -112,8 +112,8 @@ a
 ```{r}
 rep(a, 15)
 ```
+### Calling elements in vectors
 
-## Calling elements in vectors
 If we would want just the third element, we would type
 ```{r}
 a[3]
@@ -127,23 +127,28 @@ c
 ```
 
 ## Calling elements in matrices #1
-- The first row is called by
+```{r echo=FALSE}
+c
+```
+The first row is called by
 ```{r}
 c[1, ]
 ```
-
-- The second column is called by
+The second column is called by
 ```{r}
 c[, 2]
 ```
 
 ## Calling elements in matrices #2
-- The intersection of the first row and second column is called by
+```{r echo=FALSE}
+c
+```
+The intersection of the first row and second column is called by
 ```{r}
 c[1, 2]
 ```
-
-In short; square brackets [] are used to call elements, rows, columns (and much more beyond the scope of this course)
+Square brackets [] are used to call elements, rows, columns.
+[**a**, **b**]: **a** refers to the row number(s), **b** refers to the column number(s).
 
 ## Matrices with mixed numeric / character data
 If we add a character column to matrix `c`; everything becomes a character:
@@ -179,6 +184,9 @@ d
 ```
 
 ## Calling row elements in data frames
+```{r echo=FALSE}
+d
+```
 There are two ways to obtain row `3` from data frame `d`:
 ```{r}
 d["row 3", ]
@@ -187,11 +195,6 @@ d["row 3", ]
 and
 ```{r}
 d[3, ]
-```
-
-The intersection between row 2 and column 3 can be obtained by
-```{r}
-d[2, 3]
 ```
 
 ## Calling columns elements in data frames
@@ -203,6 +206,24 @@ d[, 2]
 yield the second column. But we can also use `$` to call variable names in data frame objects
 ```{r}
 d$V2
+```
+
+## Calling one element in data frames
+```{r echo=FALSE}
+d
+```
+
+The intersection between row 2 and column 3 can be obtained by
+```{r}
+d[2, 3]
+```
+or
+```{r}
+d[2, "V3"]
+```
+or
+```{r}
+d["row 2", "V3"]
 ```
 
 ## Beyond two dimensions
@@ -229,10 +250,10 @@ e
 ```
 
 ## Solution: a list
-List are just what it says they are: lists. You can have a list of everything mixed with everything. 
-For example, an simple list can be created by
+A list is a container for grouping related things together, e.g. vectors, matrices, data frame, other lists. Note that the elements in the list may be of different type (numeric, character) and dimensions.
+
 ```{r}
-f <- list(a)
+f <- list(a, letters[1:5])
 f
 ```
 
@@ -244,20 +265,20 @@ f[[1]]
 ## Lists (continued)
 We can simply add an object or element to an existing list
 ```{r}
-f[[2]] <- d
+f[[3]] <- d
 f
 ```
-to obtain a list with a vector and a data frame. 
+to obtain a list with a numeric vector, a character vector and a data frame. 
 
 ## Lists (continued)
 We can add names to the list as follows
 ```{r}
-names(f) <- c("vector", "data frame")
+names(f) <- c("vector", "letters", "data frame")
 f
 ```
 
 ## Calling elements in lists
-Calling the vector (a) from the list can be done as follows
+Calling the vector (a) from the list can be done as follows:
 ```{r}
 f[[1]]
 f[["vector"]]
@@ -267,12 +288,12 @@ f$vector
 ## Logical operators
 - Logical operators are signs that evaluate a statement, such as `==`, `<`, `>`, `<=`, `>=`, and `|` (OR) as well as `&` (AND). Typing `!` before a logical operator takes the complement of that action. There are more operations, but these are the most useful. 
 
-- For example, if we would like elements out of matrix `c` that are larger than 3, we would type:
+- For example, if we would like to select elements out of matrix `c` that are larger than 3, we would type:
 ```{r}
 c[c > 3]
 ```
 
-## List of logical operators
+## Logical operators
 
 Symbol | Meaning
 ------ | ------
@@ -287,13 +308,21 @@ $==$ | logical equals
 $!=$ | not equal
 
 ## Why does a logical statement on a matrix return a vector?
+```{r echo=FALSE}
+c
+```
+
 ```{r}
 c > 3
 ```
 The column values for `TRUE` may be of different length. A vector as a return is therefore more appropriate. 
 
 ## Logical operators (cont'd)
-- If we would like the elements that are smaller than 3 OR larger than 3, we could type
+If we would like the elements that are smaller than 3 OR larger than 3, we could type
+```{r echo=FALSE}
+c
+```
+
 ```{r}
 c[c < 3 | c > 3] #c smaller than 3 or larger than 3
 ```
@@ -303,11 +332,11 @@ c[c != 3] #c not equal to 3
 ```
 
 ## Logical operators (cont'd)
-- In fact, `c != 3` returns a matrix 
+In fact, `c != 3` returns a matrix 
 ```{r echo=FALSE}
 c != 3
 ```
-- Remember `c`?: 
+Remember `c`?: 
 ```{r echo=FALSE}
 c
 ```

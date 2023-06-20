@@ -178,17 +178,15 @@ Every time you start a new data analysis project, create a new `RStudio Project`
 * when the folder and file paths have changed;
 * when collaborators want to run the code on their computer.
 
-`RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”:
-
-* all code and outputs are stored in one set location;
-* relative file paths are created;
-* a clean R environment is created every time you open it.
+`RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”.
 
 ## Example structure for data analysis project
 
 <center>
 <img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 75%>
 </center>
+
+Every time you want to work on this project: open the project by clicking the `.Rproj` file.
 
 # Practical A
 

@@ -17,7 +17,7 @@ output:
 
 This morning we have learned the basics of programming in `R`:
 
-- How to assign elements to objects (`<-`)
+- How to assign elements to objects with `<-` (alt/option -)
 - How to run code
 - How to save `R`-scripts
 - How to organize your work with projects in `RStudio`
@@ -58,12 +58,12 @@ Every time you want to work on this project: open the project by clicking the `.
 # Working with objects in R
 
 ## Objects with more than one element
-- We can assign more than one element to a vector (in this case a 1-dimensional concatenation of numbers 1 through 5)
+We can assign more than one element to a vector (in this case a 1-dimensional concatenation of numbers 1 through 5)
 ```{r}
 a <- c(1, 2, 3, 4, 5)
 a
 b <- 1:5
-b
+b 
 ```
 
 ## More than one element, with characters
@@ -82,8 +82,8 @@ a
 ```{r}
 rep(a, 15)
 ```
+### Calling elements in vectors
 
-## Calling elements in vectors
 If we would want just the third element, we would type
 ```{r}
 a[3]
@@ -97,23 +97,28 @@ c
 ```
 
 ## Calling elements in matrices #1
+```{r echo=FALSE}
+c
+```
 The first row is called by
 ```{r}
 c[1, ]
 ```
-
 The second column is called by
 ```{r}
 c[, 2]
 ```
 
 ## Calling elements in matrices #2
+```{r echo=FALSE}
+c
+```
 The intersection of the first row and second column is called by
 ```{r}
 c[1, 2]
 ```
-
-In short; square brackets [] are used to call elements, rows, columns (and much more beyond the scope of this course)
+Square brackets [] are used to call elements, rows, columns.
+[**a**, **b**]: **a** refers to the row number(s), **b** refers to the column number(s).
 
 ## Matrices with mixed numeric / character data
 If we add a character column to matrix `c`; everything becomes a character:
@@ -137,7 +142,7 @@ d <- data.frame("V1" = rnorm(5),
 d
 ```
 
-We 'filled' a data frame with two randomly generated sets from the normal distribution - where $V1$ is standard normal and $V2 \sim N(5,2)$ - and a character set. 
+We 'filled' a dataframe with two randomly generated sets from the normal distribution - where $V1$ is standard normal and $V2 \sim N(5,2)$ - and a character set. 
 
 ## Data frames (continued)
 Data frames can contain both numerical and character elements at the same time, although never in the same column. 
@@ -149,6 +154,9 @@ d
 ```
 
 ## Calling row elements in data frames
+```{r echo=FALSE}
+d
+```
 There are two ways to obtain row `3` from data frame `d`:
 ```{r}
 d["row 3", ]
@@ -159,10 +167,6 @@ and
 d[3, ]
 ```
 
-The intersection between row 2 and column 3 can be obtained by
-```{r}
-d[2, 3]
-```
 
 ## Selecting columns in data frames
 Both
@@ -175,8 +179,18 @@ yield the second column. But we can also use `$` to call variable names in data 
 d$V2
 ```
 
+## Calling one element in data frames
+```{r echo=FALSE}
+d
+```
+### How can I select element "b"?
+
+<center>
+<img src="figures/Wooclap_HowToParticipate.png" alt="HTML5 Icon" width = 90%>
+</center>
+
 ## Beyond two dimensions
-If you wish to use numerical objects that have more than two dimension, an array would be a suitable object. The following code yields a 3-dimensional array (2 rows, 4 columns and 3 matrices):
+If you wish to use numerical objects that have more than two dimensions, an array would be a suitable object. The following code yields a 3-dimensional array (2 rows, 4 columns and 3 matrices):
 ```{r}
 e <- array(1:24, dim = c(2, 4, 3))
 e
@@ -199,50 +213,48 @@ e
 ```
 
 ## Solution: a list
-List are just what it says they are: lists. You can have a list of everything mixed with everything. 
-For example, an simple list can be created by
+A list is a container for grouping related things together, e.g. vectors, matrices, data frame, other lists. Note that the elements in the list may be of different type (numeric, character) and dimensions.
+
 ```{r}
-f <- list(a)
+f <- list(a, letters[1:5])
 f
 ```
-
-Elements or objects within lists can be called by using double square brackets [[]]. For example, the first (and only) element in list `f` is object `a`
+Elements or objects within lists can be called by using double square brackets [[]]. For example, the first element in list `f` is object `a`
 ```{r}
 f[[1]]
 ```
 
+
 ## Lists (continued)
 We can simply add an object or element to an existing list
 ```{r}
-f[[2]] <- d
+f[[3]] <- d
 f
 ```
-to obtain a list with a vector and a data frame. 
+to obtain a list with a numeric vector, a character vector and a data frame. 
 
 ## Lists (continued)
 We can add names to the list as follows
 ```{r}
-names(f) <- c("vector", "data frame")
+names(f) <- c("vector", "letters", "data frame")
 f
 ```
-
 ## Calling elements in lists
-Calling the vector (a) from the list can be done as follows
+Calling the vector (a) from the list can be done as follows:
 ```{r}
 f[[1]]
 f[["vector"]]
 f$vector
 ```
-
 ## Logical operators
 - Logical operators are signs that evaluate a statement, such as `==`, `<`, `>`, `<=`, `>=`, and `|` (OR) as well as `&` (AND). Typing `!` before a logical operator takes the complement of that action. 
 
-- For example, if we would like elements out of matrix `c` that are larger than 3, we would type:
+- For example, if we would like to select elements out of matrix `c` that are larger than 3, we would type:
 ```{r}
 c[c > 3]
 ```
 
-## List of logical operators
+## Logical operators
 
 Symbol | Meaning
 ------ | ------
@@ -257,13 +269,21 @@ $==$ | logical equals
 $!=$ | not equal
 
 ## Why does a logical statement on a matrix return a vector?
+```{r echo=FALSE}
+c
+```
+
 ```{r}
 c > 3
 ```
 The column values for `TRUE` may be of different length. A vector as a return is therefore more appropriate. 
 
 ## Logical operators (cont'd)
-- If we would like the elements that are smaller than 3 OR larger than 3, we could type
+If we would like the elements that are smaller than 3 OR larger than 3, we could type
+```{r echo=FALSE}
+c
+```
+
 ```{r}
 c[c < 3 | c > 3] #c smaller than 3 or larger than 3
 ```
@@ -273,15 +293,14 @@ c[c != 3] #c not equal to 3
 ```
 
 ## Logical operators (cont'd)
-- In fact, `c != 3` returns a matrix 
+In fact, `c != 3` returns a matrix 
 ```{r echo=FALSE}
 c != 3
 ```
-- Remember `c`?: 
+Remember `c`?: 
 ```{r echo=FALSE}
 c
 ```
-
 
 ## Things that cannot be done
 - Things that have no representation in real number space (at least not without tremendous effort)
