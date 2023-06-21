@@ -277,13 +277,12 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
     - [Lecture JK](Contents/Material/Part JK - Model estimation/Lecture_J.html)
     - [Practical JK](Contents/Material/Part JK - Model estimation/Practical_J_walkthrough.html)
     - [Impractical JK](Contents/Material/Part JK - Model estimation/Practical_J.html)
-- Part K: Model estimation
-    - [Lecture JK](Contents/Material/Part JK - Model estimation/Lecture_J.html)
-    - [Practical JK](Contents/Material/Part JK - Model estimation/Practical_J_walkthrough.html)
-    - [Impractical JK](Contents/Material/Part JK - Model estimation/Practical_J.html)
+- Part K: Prediction
+    - [Lecture K](Contents/Material/Part K - Prediction/Lecture_K.html)
+    - [Practical K](Contents/Material/Part K - Prediction/Practical_K_walkthrough.html)
+    - [Impractical K](Contents/Material/Part K - Prediction/Practical_K.html)
 - Part L: GLM's
-    - [Lecture L](Contents/Material/Part L - GLMs/Lecture_L.html)
-    - [The other, much longer, Lecture L](Contents/Material/Part L - GLMs/ch8_ioslides.html)
+    - [Lecture L](Contents/Material/Part L - GLMs/Lecture-L.html)
     - [Practical L](Contents/Material/Part L - GLMs/Practical_L_walkthrough.html)
     - [Impractical L](Contents/Material/Part L - GLMs/Practical_L.html)
 
