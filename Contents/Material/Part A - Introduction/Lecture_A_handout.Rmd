@@ -1,6 +1,6 @@
 ---
 title: "Introduction"
-author: "Laurence Frank, Gerko Vink"
+author: "Laurence Frank"
 date: "Statistical Programming with R"
 output: 
   html_document:
@@ -40,23 +40,17 @@ pre { /* Code block - determines code spacing between lines */
 
 ---
 
-## Very useful
+## Course materials
+
 You can access the course materials quickly from
 
-[https://laurencefrank.github.io/R](https://laurencefrank.github.io/R)
-
-# Overview of this course
-## Program
-<center>
-<img src="figures/schedule.png" alt="HTML5 Icon" width = 70%>
-</center>
+<https://laurencefrank.github.io/R>
 
 # Goal of this course
 
-## 1. Learn to programme in R
-<center>
-  <img src="figures/state_programming.png" alt="HTML5 Icon" width = 100%>
-</center>
+## 1. Learn to program in R
+
+<center><img src="figures/state_programming.png" alt="HTML5 Icon" width="100%"/></center>
 
 and build the foundation for a successful scripting career.
 
@@ -64,129 +58,123 @@ and build the foundation for a successful scripting career.
 
 What is statistical programming?
 
-Broadly speaking, computer programming differs from statistical programming in the following way:
+Broadly speaking:
 
-* **Computer programming** is more focused on software development.
+-   **Computer programming** is more focused on software development.
 
-* **Statistical programming** is more focused on data analysis and the communication of the results.
+-   **Statistical programming** is more focused on data analysis and the
+    communication of the results.
 
+In this course we focus more on the HOW of doing data analysis in R. It is not primarily a course in statistics. This course serves as a preparation for e.g. the Summerschool Utrecht course "Data Analysis".
 
-<center>
-<img src="figures/fig0_stat_programming.png" alt="HTML5 Icon" width = 80%>
-</center>
+<center><img src="figures/fig0_stat_programming.png" alt="HTML5 Icon" width="80%"/></center>
 
-[Source figure: R for Data Science](https://r4ds.had.co.nz/introduction.html)
+[Source figure: R for Data
+Science](https://r4ds.had.co.nz/introduction.html)
 
-# What is R?
+## First introduction to R
 
-## Software
-<center>
-<img src="figures/fig1.png" alt="HTML5 Icon" width = 90%>
-</center>
+### `R`
+
+### `RStudio`
+
+### Organise your work with `R Markdown` and `RStudio projects`
+
+## What is R?
+
+### Software
+
+<center><img src="figures/fig1.png" alt="HTML5 Icon" width="90%"/></center>
 
 ## The origin of R
-- R is a language and environment for statistical computing and for graphics
 
-- GNU project (100% free software)
+-   R is a language and environment for statistical computing and for
+    graphics
 
-- Managed by the R Foundation for Statistical Computing, Vienna, Austria.
+-   GNU project (100% free software)
 
-- Community-driven
+-   Managed by the R Foundation for Statistical Computing, Vienna,
+    Austria.
 
-- Based on the object-oriented language S (1975)
+-   Community-driven
 
-## Integrated Development Environment
-<center>
-<img src="figures/fig2.rstudio-editor.png" alt="HTML5 Icon" width = 75%>
-</center>
+-   Based on the object-oriented language S (1975)
 
-[Source figure: R for Data Science](https://r4ds.had.co.nz/introduction.html)
+## What is `RStudio`?
+### Integrated Development Environment (IDE)
+<center><img src="figures/fig2.rstudio-editor.png" alt="HTML5 Icon" width="68%"/></center>
 
-## RStudio
-- Aggregates all convenient information and procedures into one single place
-- Allows you to work in projects
-- Manages your code with highlighting
-- Gives extra functionality (Shiny, knitr, markdown, LaTeX)
-- Allows for integration with version control routines, such as Git.
+[Source figure: R for Data
+Science](https://r4ds.had.co.nz/introduction.html)
 
-# How does R work?
+### `RStudio`
 
-## Objects and elements
-- R works with objects that consist of elements. The smallest elements are numbers and characters.
+-   Aggregates all convenient information and procedures into one single
+    place
+-   Allows you to work in projects
+-   Manages your code with highlighting
+-   Gives extra functionality (Shiny, knitr, markdown, LaTeX)
+-   Allows for integration with version control routines, such as Git.
 
-    - These elements are assigned to objects. 
-    - A set of objects can be used to perform calculations
-    - Calculations can be presented as functions
-    - Functions are used to perform calculations and return new objects, containing calculated (or estimated) elements. 
+## Writing code with `R Markdown`
 
-## The help
-- Everything that is published on the Comprehensive `R` Archive Network (CRAN) and is aimed at `R` users, must be accompanied by a help file. 
-- If you know the name of the function that performs an operation, e.g. `anova()`, then you just type `?anova` or `help(anova)` in the console. 
-- If you do not know the name of the function: type `??` followed by your search criterion. For example `??anova` returns a list of all help pages that contain the word 'anova'
+R Markdown provides an authoring framework for data analysis. You can
+use a single `R Markdown` file to:
 
-- Alternatively, the internet will tell you almost everything you'd like to know and sites such as http://www.stackoverflow.com and http://www.stackexchange.com, as well as `Google` can be of tremendous help. 
-    - If you google `R` related issues; use 'R:' as a prefix in your search term
-    
-## Assigning elements to objects
-- Assigning things in R is very straightforward: 
+1.  Save and execute code;
+2.  Generate high quality reports that can be shared with collaborators and a broader audience.
 
-    - you just use `<-`
+R Markdown documents are fully reproducible and are able to generate
+many file formats: 
 
-- For example, if you assign the value `100` (an element) to object `a`, you would type
+* MS Word document 
+* PDF 
+* HTML (webpage) 
+* slide show
+* book 
+* dashboard
 
-```{r}
-a <- 100
-```
+[RStudio provides an introduction to `R Markdown` here](<https://rmarkdown.rstudio.com/index.html>)
 
-When reading that code say: “a gets value 100” in your head.
-
-**Good coding practice**:
-
-* `<-` is a pain to type, but don't use `=` instead, it will work, but it will cause confusion later.
-
-* Use `RStudio`’s keyboard shortcut: Alt (or Option) + - (the minus sign).
-
-* Notice that RStudio automatically surrounds `<-` with spaces (good code formatting practice).
-
-## Calling objects
-- Calling things in R is also very straightforward: 
-
-    - you just use type the name you have given to the object
-
-- For example, we assigned the value `100` to object `a`. To call object `a`, we would type
-
-```{r}
-a
-```
-
-## Writing code
-<center>
-<img src="figures/codelight.png" alt="HTML5 Icon" width = 99%>
-</center>
-
-This is why we use R-Studio.
-
-# Organise your work in `RStudio`
+## Demo of `R Markdown`
 
 ## Use `RStudio Projects`
 
-Every time you start a new data analysis project, create a new `RStudio Project`. 
+Every time you start a new (data analysis) project, make it a habit to create a new `RStudio Project`.
 
 **Because you want your project to work:**
 
-* not only now, but also in a few years;
-* when the folder and file paths have changed;
-* when collaborators want to run the code on their computer.
+-   not only now, but also in a few years;
+-   when the folder and file paths have changed;
+-   when collaborators want to run your code on their computer.
 
-`RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”.
+`RStudio Projects` create a convention that guarantees that the project
+can be moved around on your computer or onto other computers and will
+still "just work".
 
-## Example structure for data analysis project
+## Example data analysis project with `RStudio project`
 
-<center>
-<img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 75%>
-</center>
+<center><img src="figures/Example-project-structure.png" alt="HTML5 Icon" width="70%"/></center>
 
-Every time you want to work on this project: open the project by clicking the `.Rproj` file.
+Every time you want to work on this project: open the project by
+clicking the `.Rproj` file.
 
-# Practical A
+## Practical A
+
+Time for your first practical in R!
+
+1. Go to: <https://laurencefrank.github.io/R/> and select the tab "Monday". There you will find the following files:
+    + Two versions of the lecture: the slides and the handout version
+    + "Practical A: template" is an `R Markdown` file with questions and empty code chunks where you can type your answers. 
+    + "Practical A: solutions" (a HTML file) provides the answers. 
+2. Download the "Practical A: template file" and save it in a new folder with name "RSummer2023", for example.
+3. Open `RStudio` and choose File -> New Project. Choose the option "Existing Directory". Find the Project Working Directory, the folder "RSummer2023" you just created. Click on "Create project".
+4. Open the file "Practical_A_template.Rmd" with File -> Open File. Follow the instructions and complete the exercises.
+
+## Practical A
+Aim to make the exercises without looking at the answers and use the solutions file to evaluate your work. 
+
+But, do not 'struggle' too long because you will run out of time. 
+
+**In any case, ask for help when you feel help is needed.**
 
