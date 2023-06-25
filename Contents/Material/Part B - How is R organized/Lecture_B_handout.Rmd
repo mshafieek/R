@@ -46,43 +46,36 @@ pre { /* Code block - determines code spacing between lines */
 
 This morning we have learned the basics of programming in `R`:
 
-- How to assign elements to objects with `<-` (alt/option -)
-- How to run code
-- How to save `R`-scripts
-- How to manage projects in `RStudio`
-- How to create notebooks or markdown HTML files
+- assign elements to objects with `<-` (alt/option -)
+- work with `RStudio` and `R Markdown`
+- run code
+- organize your work with projects in `RStudio`
 
 ```{r echo=FALSE}
 set.seed(123)
 ```
 
-# Organise your work in `RStudio`
 
-## Use `RStudio Projects`
+## The help
 
-Every time you start a new data analysis project, create a new `RStudio Project`. 
+-   Everything that is published on the Comprehensive `R` Archive
+    Network (CRAN) and is aimed at `R` users, must be accompanied by a
+    help file.
 
-**Because you want your project to work:**
+-   If you know the name of the function that performs an operation,
+    e.g. `anova()`, then you just type `?anova` or `help(anova)` in the
+    console.
 
-* not only now, but also in a few years;
-* when the folder and file paths have changed;
-* when collaborators want to run your code on their computer.
+-   If you do not know the name of the function: type `??` followed by
+    your search criterion. For example `??anova` returns a list of all
+    help pages that contain the word 'anova'
+    
+-   Some packages have cheat sheets, see in `R Studio`, Help menu -> Cheat Sheets    
 
-`RStudio Projects` create a convention that guarantees that the project can be moved around on your computer or onto other computers and will still “just work”:
-
-* all code and outputs are stored in one set location;
-* relative file paths are created;
-* a clean R environment is created every time you open it;
-* every project can have its own version control system and history;
-* RStudio projects can relate to Git (or other online) repositories.
-
-## Example data analysis project with `RStudio project`
-
-Every time you want to work on this project: open the project by clicking the `.Rproj` file.
-
-<center>
-<img src="figures/Example-project-structure.png" alt="HTML5 Icon" width = 50%>
-</center>
+-   Alternatively, the internet will tell you almost everything you'd
+    like to know and sites such as <http://www.stackoverflow.com> and
+    <http://www.stackexchange.com>, as well as `Google` can be of
+    tremendous help (use 'R:' as a prefix in your search term).
 
 
 # Working with objects in R
@@ -93,7 +86,7 @@ We can assign more than one element to a vector (in this case a 1-dimensional co
 a <- c(1, 2, 3, 4, 5)
 a
 b <- 1:5
-b
+b 
 ```
 
 ## More than one element, with characters
@@ -184,9 +177,7 @@ d
 ```
 
 ## Calling row elements in data frames
-```{r echo=FALSE}
-d
-```
+
 There are two ways to obtain row `3` from data frame `d`:
 ```{r}
 d["row 3", ]
@@ -197,7 +188,7 @@ and
 d[3, ]
 ```
 
-## Calling columns elements in data frames
+## Selecting columns in data frames
 Both
 ```{r}
 d[, "V2"] # and
@@ -208,33 +199,30 @@ yield the second column. But we can also use `$` to call variable names in data 
 d$V2
 ```
 
-## Calling one element in data frames
+## Calling one element in data frame
 ```{r echo=FALSE}
 d
 ```
+### How can I select element "b" from matrix d?
 
-The intersection between row 2 and column 3 can be obtained by
+
 ```{r}
-d[2, 3]
+d[2,3]
 ```
-or
+Or:
 ```{r}
 d[2, "V3"]
 ```
-or
-```{r}
-d["row 2", "V3"]
-```
 
 ## Beyond two dimensions
-If you wish to use numerical objects that have more than two dimension, an array would be a suitable object. The following code yields a 3-dimensional array (2 rows, 4 columns and 3 matrices):
+If you wish to use numerical objects that have more than two dimensions, an array would be a suitable object. The following code yields a 3-dimensional array (2 rows, 4 columns and 3 matrices):
 ```{r}
 e <- array(1:24, dim = c(2, 4, 3))
 e
 ```
 
 ## Indexing an array
-The square bracket identification works similarly to the identification of matrices and dataframes, but with the added dimension(s). For example, 
+The square bracket identification works similarly to the identification of matrices and data frames, but with the added dimension(s). For example, 
 ```{r}
 e[1, 3, 2]
 ```
@@ -256,11 +244,11 @@ A list is a container for grouping related things together, e.g. vectors, matric
 f <- list(a, letters[1:5])
 f
 ```
-
-Elements or objects within lists can be called by using double square brackets [[]]. For example, the first (and only) element in list `f` is object `a`
+Elements or objects within lists can be called by using double square brackets [[]]. For example, the first element in list `f` is object `a`
 ```{r}
 f[[1]]
 ```
+
 
 ## Lists (continued)
 We can simply add an object or element to an existing list
@@ -276,7 +264,6 @@ We can add names to the list as follows
 names(f) <- c("vector", "letters", "data frame")
 f
 ```
-
 ## Calling elements in lists
 Calling the vector (a) from the list can be done as follows:
 ```{r}
@@ -284,9 +271,8 @@ f[[1]]
 f[["vector"]]
 f$vector
 ```
-
 ## Logical operators
-- Logical operators are signs that evaluate a statement, such as `==`, `<`, `>`, `<=`, `>=`, and `|` (OR) as well as `&` (AND). Typing `!` before a logical operator takes the complement of that action. There are more operations, but these are the most useful. 
+- Logical operators are signs that evaluate a statement, such as `==`, `<`, `>`, `<=`, `>=`, and `|` (OR) as well as `&` (AND). Typing `!` before a logical operator takes the complement of that action. 
 
 - For example, if we would like to select elements out of matrix `c` that are larger than 3, we would type:
 ```{r}
@@ -404,31 +390,17 @@ all.equal((3 - 2.9), 0.1)
 
 ```
 
-## Some programming tips:
-- keep your code tidy
-- use comments (text preceded by `#`) to clarify what you are doing
-    - If you look at your code again, one month from now: you will not know what you did --> unless you use comments 
-
-- when working with functions, use the TAB key to quickly access the help for the function's components
-- work with logically named `R`-scripts
-    - indicate the sequential nature of your work
-- work with `RStudio` projects
-- if allowed, place your project folders in some cloud-based environment
-
 # Practical
 
-## How to approach the next practical
-Aim to make the exercises without looking at the answers. 
+## Practical B
 
-- Use the answers to evaluate your work
-- Use the help to identify the workings of functions
+* Go to the course website and download the file "Practical B: template" (a Markdown file).
 
-If this does not work out --> switch to the answer-based practical. 
+* Save the file in the project folder you created for this course, and, if necessary, open the R Project by clicking on the `.Rproj` file.
 
-In any case; ask for help when you feel help is needed. 
+* Make the exercises, if possible without looking at the answers in the file "Practical B: solutions".
 
-- Do not 'struggle' for too long: we only have limited time!
-
+* In any case; ask for help when you feel help is needed. 
 
 
 
