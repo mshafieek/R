@@ -152,30 +152,33 @@ Naturally, you will need internet access for these services to be accessed. Wire
 We adapt the course as we go. To ensure that you work with the latest iteration of the course materials, we advice all course participants to access the materials online.
 
 - Part A: Introduction
-    - [Lecture A](Contents/Material/Part A - Introduction/Lecture_A.html)
+    - [Lecture A slides](Contents/Material/Part A - Introduction/Lecture_A.html)
     - [Lecture A Handout](Contents/Material/Part A - Introduction/Lecture_A_handout.html)
-    - [Practical A](Contents/Material/Part A - Introduction/Practical_A_walkthrough.html)
-    - [`notebook.R`](Contents/Material/Part A - Introduction/notebook.R)
-    - [`markdown.Rmd`](Contents/Material/Part A - Introduction/markdown.Rmd)
+    - [Practical A: template](Contents/Material/Part A - Introduction/Practical_A_template.Rmd)
+    - [Practical A: solutions](Contents/Material/Part A - Introduction/Practical_A_solutions.html)
     - [Install R on UU laptop](https://gist.github.com/vankesteren/f2e198aa5ab4f6262b21a3d13bbea0b5)
 - Part B: How is `R` organized?
     - [Lecture B](Contents/Material/Part B - How is R organized/Lecture_B.html)
     - [Lecture B Handout](Contents/Material/Part B - How is R organized/Lecture_B_handout.html)
-    - [Practical B](Contents/Material/Part B - How is R organized/Practical_B_walkthrough.html)
-    - [Impractical B](Contents/Material/Part B - How is R organized/Practical_B.html)
+    - [Practical B: template](Contents/Material/Part B - How is R organized/Practical_B_template.Rmd)
+    - [Pactical B: solutions](Contents/Material/Part B - How is R organized/Practical_B_solutions.html)
     - [`boys.RData`](Contents/Material/Part B - How is R organized/boys.RData)
 - Part C: `R` Functionality
     - [Lecture C](Contents/Material/Part C - R-functionality/Lecture_C.html)
     - [Lecture C Handout](Contents/Material/Part C - R-functionality/Lecture_C_handout.html)
-    - [Practical C](Contents/Material/Part C - R-functionality/Practical_C_walkthrough.html)
+    - [Practical C: template](Contents/Material/Part C - R-functionality/Practical_C_walkthrough.html)
+     - [Practical C: solution](Contents/Material/Part C - R-functionality/Practical_C_walkthrough.html)
 
-All lectures are in `html` format. Practicals are walkthrough files that guide you through the exercises. `Impractical` files contain the exercises, without walkthrough, explanations and solutions. 
+All lectures are in `html` format and have two versions: the slides and the handout version.
+Practical template files are `R Markdown` files with the exercises of the practicals. Fill in the the code (the answers) in these files. 
+Practical solutions files give the answers to the exercises of the practicals. 
 
 ## Column 2
 
 ### Useful references
 
-- [R reference card](https://cran.r-project.org/doc/contrib/Short-refcard.pdf)
+- [An introduction in R Markdown](https://rmarkdown.rstudio.com/index.html)
+- [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)
 - [The tidyverse style guide](https://style.tidyverse.org)
 - [The Google R style guide](https://google.github.io/styleguide/Rguide.xml)
 
@@ -274,14 +277,14 @@ boys %$% lm(age ~ reg) %>% coef()
 We adapt the course as we go. To ensure that you work with the latest iteration of the course materials, we advice all course participants to access the materials online.
 
 - Part J: Model estimation
-    - [Lecture JK](Contents/Material/Part JK - Model estimation/Lecture_J.html)
-    - [Practical JK](Contents/Material/Part JK - Model estimation/Practical_J_walkthrough.html)
+    - [Lecture J](Contents/Material/Part JK - Model estimation/Lecture_J.html)
+    - [Practical J](Contents/Material/Part JK - Model estimation/Practical_J_walkthrough.html)
     - [Impractical JK](Contents/Material/Part JK - Model estimation/Practical_J.html)
 - Part K: Prediction
     - [Lecture K](Contents/Material/Part K - Prediction/Lecture_K.html)
     - [Practical K](Contents/Material/Part K - Prediction/Practical_K_walkthrough.html)
     - [Impractical K](Contents/Material/Part K - Prediction/Practical_K.html)
-- Part L: GLM's
+- Part L: Generalized Linear Models
     - [Lecture L](Contents/Material/Part L - GLMs/Lecture-L.html)
     - [Practical L](Contents/Material/Part L - GLMs/Practical_L_walkthrough.html)
     - [Impractical L](Contents/Material/Part L - GLMs/Practical_L.html)
