@@ -81,9 +81,7 @@ This is an `R Markdown` file. `Markdown` is a simple formatting syntax for autho
 
 ### Getting help on `R Markdown`
 To learn more about `R Markdown` and to get help with the options, see: 
-
-- Markdown Quick Reference in `RStudio`, see menu Help -> Markdown Quick Reference. This will open the reference document in the output pane in the tab "Help". 
-- The R Markdown cheat sheet, see menu Help -> Cheat Sheets -> R Markdown Cheat Sheet or R Markdown Reference Guide.
+Markdown Quick Reference in `RStudio`, see menu Help -> Markdown Quick Reference. This will open the reference document in the output pane in the tab "Help". 
 
 ## Exercise 1: try a few options in `R Markdown` plain text
 
@@ -109,7 +107,7 @@ This is some plain text where part of the text is in **bold font** and part of t
 
 ## Exercise 2: Code chunks in Markdown
 
-1. Read the following short lesson about code chunks on this [`R Studio webpage`](https://rmarkdown.rstudio.com/lesson-3.html). 
+1. Download the R Markdown cheat sheet, see `R Studio` menu Help -> Cheat Sheets -> R Markdown Cheat Sheet. Read the section about code chunks, see the section on page 1, bottom left with header "Embed Code with knitr".
 2. Consider the code chunk below. It contains R code that asks for the summary statistics of the `cars` data. 
 3. Run the code by clicking on the green "play" button in the top right corner of the code chunk. Do you obtain the summary statistics?
 
@@ -161,7 +159,7 @@ a^2
 
 Still 1, that's nice!
 
-**Insert a new code chunk and create `b` and assign `a+a`. Check if `b` is indeed `a+a`. **
+**Create `b` and assign `a+a`. Check if `b` is indeed `a+a`. **
 ```{r}
 b <- a + a
 b == a + a

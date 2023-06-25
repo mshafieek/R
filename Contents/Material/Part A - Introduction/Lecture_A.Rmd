@@ -143,7 +143,7 @@ Time for your first practical in R!
     + "Practical A: solutions" (a HTML file) provides the answers. 
 2. Download the "Practical A: template file" and save it in a new folder with name "RSummer2023", for example.
 3. Open `RStudio` and choose File -> New Project. Choose the option "Existing Directory". Find the Project Working Directory, the folder "RSummer2023" you just created. Click on "Create project".
-4. Open the file "Practical_A_template.Rmd" with File -> Open File. Follow the instructions and complete the exercises.
+4. Open the file "Practical_A_template.Rmd" with File -> Open File. Follow the instructions and complete the exercises. 
 
 ## Practical A
 Aim to make the exercises without looking at the answers and use the solutions file to evaluate your work. 

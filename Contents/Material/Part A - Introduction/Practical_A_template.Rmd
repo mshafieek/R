@@ -81,13 +81,11 @@ This is an `R Markdown` file. `Markdown` is a simple formatting syntax for autho
 
 ### Getting help on `R Markdown`
 To learn more about `R Markdown` and to get help with the options, see: 
-
-- Markdown Quick Reference in `RStudio`, see menu Help -> Markdown Quick Reference. This will open the reference document in the output pane in the tab "Help". 
-- The R Markdown cheat sheet, see menu Help -> Cheat Sheets -> R Markdown Cheat Sheet or R Markdown Reference Guide.
+Markdown Quick Reference in `RStudio`, see menu Help -> Markdown Quick Reference. This will open the reference document in the output pane in the tab "Help". 
 
 ## Exercise 1: try a few options in `R Markdown` plain text
 
-Take a look at the Markdown Quick Reference and try the following:
+Take a look at the Markdown Quick Reference in `R Studio` and try the following:
 
 1. Add a Level 1 Header called "This is a Header 1" to this document.
 2. Add a Level 2 sub-header with name "Sub-header 1".
@@ -97,12 +95,12 @@ Take a look at the Markdown Quick Reference and try the following:
 
 The benefit of using html as an output format lies in the dimensional properties of a web-page. Especially when dealing with long code-files, large output from analyses or many graphs, exporting your file as html is much more convenient. You can simply scroll down or up to see the 'rest', instead of having to flip through pages back and forth to compare code, graphs or output.
 
-### Solution Exercise 1:
+
 
 
 ## Exercise 2: Code chunks in Markdown
 
-1. Read the following short lesson about code chunks on this [`R Studio webpage`](https://rmarkdown.rstudio.com/lesson-3.html). 
+1. Download the R Markdown cheat sheet, see `R Studio` menu Help -> Cheat Sheets -> R Markdown Cheat Sheet. Read the section about code chunks, see the section on page 1, bottom left with header "Embed Code with knitr".
 2. Consider the code chunk below. It contains R code that asks for the summary statistics of the `cars` data. 
 3. Run the code by clicking on the green "play" button in the top right corner of the code chunk. Do you obtain the summary statistics?
 
@@ -126,14 +124,25 @@ The line `a <- 100` assigns the value `100` to object `a`. When reading that cod
 
 Even if `<-` is a pain to type, don't use `=` instead, it will work, but it will cause confusion later. Use `RStudio`'s keyboard shortcut: Alt/Option + - (the minus sign). Notice that `RStudio` automatically surrounds `<-` with spaces (good code formatting practice).
 
-**Insert a new code chunk and create an object a with element (value) `1`**
+**Create an object a with element (value) `1`**
+```{r}
+# type your code here
 
+```
 
-**Verify that 1 is stored in `a` (in a new code chunk)**
+**Verify that 1 is stored in `a`**
+```{r}
+# type your code here
+
+```
 
 **Square `a` (in a new code chunk)** 
+```{r}
+# type your code here
 
-**Insert a new code chunk and create `b` and assign `a+a`. Check if `b` is indeed `a+a`. **
+```
+
+**Create `b` and assign `a+a`. Check if `b` is indeed `a+a`.**
 ```{r}
 b <- a + a
 b == a + a
@@ -151,9 +160,11 @@ sqrt(c^b) * (a / b^6)
 
 Nice! But anything beyond a couple of decimals may not be relevant. 
 
-**Round the answer from the previous exercise to 3 decimals in a new code chunk.**
+**Round the answer from the previous exercise to 3 decimals by running the following code:**
 ```{r}
-round(sqrt(c^b) * (a / b^6), 3)
+# type your code here
+c <- b^2 * (a / b)
+sqrt(c^b) * (a / b^6)
 ```
 
 or, alternatively

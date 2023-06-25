@@ -454,21 +454,16 @@ another programming language such as Python).</li>
 <div id="getting-help-on-r-markdown" class="section level3">
 <h3>Getting help on <code>R Markdown</code></h3>
 <p>To learn more about <code>R Markdown</code> and to get help with the
-options, see:</p>
-<ul>
-<li>Markdown Quick Reference in <code>RStudio</code>, see menu Help
--&gt; Markdown Quick Reference. This will open the reference document in
-the output pane in the tab “Help”.</li>
-<li>The R Markdown cheat sheet, see menu Help -&gt; Cheat Sheets -&gt; R
-Markdown Cheat Sheet or R Markdown Reference Guide.</li>
-</ul>
+options, see: Markdown Quick Reference in <code>RStudio</code>, see menu
+Help -&gt; Markdown Quick Reference. This will open the reference
+document in the output pane in the tab “Help”.</p>
 </div>
 </div>
 <div id="exercise-1-try-a-few-options-in-r-markdown-plain-text" class="section level2">
 <h2>Exercise 1: try a few options in <code>R Markdown</code> plain
 text</h2>
-<p>Take a look at the Markdown Quick Reference and try the
-following:</p>
+<p>Take a look at the Markdown Quick Reference in <code>R Studio</code>
+and try the following:</p>
 <ol style="list-style-type: decimal">
 <li>Add a Level 1 Header called “This is a Header 1” to this
 document.</li>
@@ -488,14 +483,14 @@ large output from analyses or many graphs, exporting your file as html
 is much more convenient. You can simply scroll down or up to see the
 ‘rest’, instead of having to flip through pages back and forth to
 compare code, graphs or output.</p>
-<div id="solution-exercise-1" class="section level3">
-<h3>Solution Exercise 1:</h3>
-</div>
 </div>
 <div id="exercise-2-code-chunks-in-markdown" class="section level2">
 <h2>Exercise 2: Code chunks in Markdown</h2>
 <ol style="list-style-type: decimal">
-<li>Read the following short lesson about code chunks on this <a href="https://rmarkdown.rstudio.com/lesson-3.html"><code>R Studio webpage</code></a>.</li>
+<li>Download the R Markdown cheat sheet, see <code>R Studio</code> menu
+Help -&gt; Cheat Sheets -&gt; R Markdown Cheat Sheet. Read the section
+about code chunks, see the section on page 1, bottom left with header
+“Embed Code with knitr”.</li>
 <li>Consider the code chunk below. It contains R code that asks for the
 summary statistics of the <code>cars</code> data.</li>
 <li>Run the code by clicking on the green “play” button in the top right
@@ -535,14 +530,15 @@ in your head. When you run your code, it will be saved.</p>
 Use <code>RStudio</code>’s keyboard shortcut: Alt/Option + - (the minus
 sign). Notice that <code>RStudio</code> automatically surrounds
 <code>&lt;-</code> with spaces (good code formatting practice).</p>
-<p><strong>Insert a new code chunk and create an object a with element
-(value) <code>1</code></strong></p>
-<p><strong>Verify that 1 is stored in <code>a</code> (in a new code
-chunk)</strong></p>
+<p><strong>Create an object a with element (value)
+<code>1</code></strong></p>
+<pre class="r"><code># type your code here</code></pre>
+<p><strong>Verify that 1 is stored in <code>a</code></strong></p>
+<pre class="r"><code># type your code here</code></pre>
 <p><strong>Square <code>a</code> (in a new code chunk)</strong></p>
-<p><strong>Insert a new code chunk and create <code>b</code> and assign
-<code>a+a</code>. Check if <code>b</code> is indeed <code>a+a</code>.
-</strong></p>
+<pre class="r"><code># type your code here</code></pre>
+<p><strong>Create <code>b</code> and assign <code>a+a</code>. Check if
+<code>b</code> is indeed <code>a+a</code>.</strong></p>
 <pre class="r"><code>b &lt;- a + a
 b == a + a</code></pre>
 <pre><code>## [1] TRUE</code></pre>
@@ -555,9 +551,11 @@ sqrt(c^b) * (a / b^6)</code></pre>
 <pre><code>## [1] Inf</code></pre>
 <p>Nice! But anything beyond a couple of decimals may not be
 relevant.</p>
-<p><strong>Round the answer from the previous exercise to 3 decimals in
-a new code chunk.</strong></p>
-<pre class="r"><code>round(sqrt(c^b) * (a / b^6), 3)</code></pre>
+<p><strong>Round the answer from the previous exercise to 3 decimals by
+running the following code:</strong></p>
+<pre class="r"><code># type your code here
+c &lt;- b^2 * (a / b)
+sqrt(c^b) * (a / b^6)</code></pre>
 <pre><code>## [1] Inf</code></pre>
 <p>or, alternatively</p>
 <pre class="r"><code>d &lt;- sqrt(c^b) * (a / b^6)
