@@ -92,13 +92,17 @@ The benefit of using html as an output format lies in the dimensional properties
 
 ### Solution Exercise 1:
 
+Header 1 is created with the following Markdown code: `# Header 1`
+
 # Header 1
+
+Sub-header 1 is created with the Markdown code: `## Sub-header 1`
 
 ## Sub-header 1
 
-## Sub-header 2
-
 This is some plain text where part of the text is in **bold font** and part of the text is in *italic font*. A comprehensive guide on Markdown is [R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/).
+
+Add a hyperlink with the following Markdown code: `[R Markdown: The Definitive Guide](https://bookdown.org/yihui/rmarkdown/)`
 
 ## Exercise 2: Code chunks in Markdown
 
