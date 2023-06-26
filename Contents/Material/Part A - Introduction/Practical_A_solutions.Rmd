@@ -3,21 +3,19 @@ title: "Practical A: solutions"
 author: "Laurence Frank"
 date: "Statistical Programming with R"
 output: 
-    html_document:
+  html_document:
     toc: true
     toc_depth: 5
     toc_float: true
     number_sections: false
 ---
-
-```{=html}
 <style type="text/css">
 
 body{ /* Normal  */
-      font-size: 12px;
+      font-size: 14px;
   }
 td {  /* Table  */
-  font-size: 12px;
+  font-size: 14px;
 }
 h1.title {
   font-size: 18px;
@@ -33,16 +31,13 @@ h3 { /* Header 3 */
   font-size: 18px;
 }
 code.r{ /* Code block */
-    font-size: 12px;
+    font-size: 14px;
 }
 pre { /* Code block - determines code spacing between lines */
     font-size: 14px;
 }
 </style>
-```
 
-
-# Practical A
 
 In this practical you will get acquainted with `R`, `RStudio` and `R Markdown`.
 
@@ -169,30 +164,7 @@ b == a + a
 words, everything before the == is equal to that which is posed after the ==. 
 Now we are talking. 
 
-**Run the following code chunk.**
-```{r}
-c <- b^2 * (a / b)
-sqrt(c^b) * (a / b^6)
-```
-
-Nice! But anything beyond a couple of decimals may not be relevant. 
-
-**Round the answer from the previous exercise to 3 decimals in a new code chunk.**
-```{r}
-round(sqrt(c^b) * (a / b^6), 3)
-```
-
-or, alternatively
-```{r}
-d <- sqrt(c^b) * (a / b^6)
-round(d, 3)
-```
-
-Do you notice that the first solution is shorter, but the second is much more 
-insightful? If you share your code, or plan to use it later on, clarity is of
-great importance. A small effort now, saves you hours later. 
-
-## Exercise 4: Inspect the contents of the global environment by typing and running `ls()`
+## Exercise 3: Inspect the contents of the global environment by typing and running `ls()`
 
 The following is returned by `R`
 

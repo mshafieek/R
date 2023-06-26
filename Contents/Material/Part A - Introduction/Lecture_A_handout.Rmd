@@ -101,11 +101,12 @@ Science](https://r4ds.had.co.nz/introduction.html)
 -   Based on the object-oriented language S (1975)
 
 ## What is `RStudio`?
-### Integrated Development Environment (IDE)
-<center><img src="figures/fig2.rstudio-editor.png" alt="HTML5 Icon" width="68%"/></center>
 
-[Source figure: R for Data
-Science](https://r4ds.had.co.nz/introduction.html)
+**Integrated Development Environment (IDE)**
+
+<center><img src="figures/fig2.rstudio-editor.png" alt="HTML5 Icon" width="75%"/></center>
+
+[Source figure: R for Data Science](https://r4ds.had.co.nz/introduction.html)
 
 ### `RStudio`
 
@@ -164,12 +165,14 @@ clicking the `.Rproj` file.
 Time for your first practical in R!
 
 1. Go to: <https://laurencefrank.github.io/R/> and select the tab "Monday". There you will find the following files:
-    + Two versions of the lecture: the slides and the handout version
-    + "Practical A: template" is an `R Markdown` file with questions and empty code chunks where you can type your answers. 
+    + Two versions of the lecture: the slides and the handout version.
+    + "Practical A: Exercises" provides the exercises of the practical.
+    + "Practical A: template" is an `R Markdown` file with the exercises and empty code chunks where you can type your answers. 
     + "Practical A: solutions" (a HTML file) provides the answers. 
 2. Download the "Practical A: template file" and save it in a new folder with name "RSummer2023", for example.
 3. Open `RStudio` and choose File -> New Project. Choose the option "Existing Directory". Find the Project Working Directory, the folder "RSummer2023" you just created. Click on "Create project".
-4. Open the file "Practical_A_template.Rmd" with File -> Open File. Follow the instructions and complete the exercises.
+4. Open the "Practical_A_template.Rmd" with File -> Open File. 
+5. Go to the course website, select the tab "Monday" and click on "Practical A: Exercises" to get the instructions and the exercises. 
 
 ## Practical A
 Aim to make the exercises without looking at the answers and use the solutions file to evaluate your work. 
@@ -177,4 +180,7 @@ Aim to make the exercises without looking at the answers and use the solutions f
 But, do not 'struggle' too long because you will run out of time. 
 
 **In any case, ask for help when you feel help is needed.**
+
+
+
 
