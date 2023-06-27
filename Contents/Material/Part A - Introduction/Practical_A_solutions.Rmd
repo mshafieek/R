@@ -114,7 +114,7 @@ Add a hyperlink with the following Markdown code: `[R Markdown: The Definitive G
 summary(cars)
 ```
 
-4. Add a new code chunk (use the code chunk icon on top of this editor pane) to this document. Copy the R code that asks for a summary of the `cars` data in this new code chunk. Adapt the code chunk in such a way that only the summary statistics (the results) will be displayed in the knitted HTML document. Knit the document and verify the results.
+4. Add a new code chunk (use the code chunk icon on top of this editor pane) to this document. Copy the R code that asks for a summary of the `cars` data in this new code chunk. Adapt the code chunk in such a way that only the summary statistics (the results) will be displayed in the knitted HTML document. Knit the document (choose Knit -> Knit to HTML) and verify the results. 
 
 ```{r, echo=FALSE}
 summary(cars)
