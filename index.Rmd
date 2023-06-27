@@ -161,14 +161,16 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
 - Part B: How is `R` organized?
     - [Lecture B](Contents/Material/Part B - How is R organized/Lecture_B.html)
     - [Lecture B Handout](Contents/Material/Part B - How is R organized/Lecture_B_handout.html)
-    - [Practical B: template](Contents/Material/Part B - How is R organized/Practical_B_template.Rmd)
-    - [Pactical B: solutions](Contents/Material/Part B - How is R organized/Practical_B_solutions.html)
+    - [Practica B: Exercises](Contents/Material/Part B - How is R organized/Practical_B_exercises.html)
+    - [Practical B: Template](Contents/Material/Part B - How is R organized/Practical_B_template.Rmd)
+    - [Pactical B: Solutions](Contents/Material/Part B - How is R organized/Practical_B_solutions.html)
     - [`boys.RData`](Contents/Material/Part B - How is R organized/boys.RData)
 - Part C: `R` Functionality
     - [Lecture C](Contents/Material/Part C - R-functionality/Lecture_C.html)
     - [Lecture C Handout](Contents/Material/Part C - R-functionality/Lecture_C_handout.html)
-    - [Practical C: template](Contents/Material/Part C - R-functionality/Practical_C_walkthrough.html)
-     - [Practical C: solution](Contents/Material/Part C - R-functionality/Practical_C_walkthrough.html)
+    - [Practica C: Exercises](Contents/Material/Part C - R-functionality/Practical_C_exercises.html)
+    - [Practical C: Template](Contents/Material/Part C - R-functionality/Practical_C_template.Rmd)
+    - [Practical C: Solutions](Contents/Material/Part C - R-functionality/Practical_C_solutions.html)
 
 All lectures are in `html` format and have two versions: the slides and the handout version.
 Practical template files are `R Markdown` files with the exercises of the practicals. Fill in the the code (the answers) in these files. 
