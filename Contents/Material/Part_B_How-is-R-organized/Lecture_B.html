@@ -3406,7 +3406,7 @@ line-height: 1.9;
 <pre >## function (x, size, replace = FALSE, prob = NULL) 
 ## NULL</pre>
 
-<p>Or make use of the pop-up help:</p>
+<p>Or make use of the pop-up help and use the TAB key to cycle through the arguments:</p>
 
 <center>
 
@@ -3651,7 +3651,7 @@ M</pre>
 
 </article></slide><slide class=""><hgroup><h2>Lists</h2></hgroup><article  id="lists" class="smaller ">
 
-<p>Lists are flexible data structures: the elements in a list may be a combinatiaon of different data types (numeric, character) and dimensions.</p>
+<p>Lists are flexible data structures: the elements in a list may be a combination of different data types (numeric, character) and dimensions.</p>
 
 <pre class = 'prettyprint lang-r'>L &lt;- list(names, vector, M)
 L</pre>
@@ -3856,7 +3856,44 @@ M</pre>
 <pre >##             V2 V3
 ## row 1 4.108676  a</pre>
 
-</article></slide><slide class=""><hgroup><h2>Subsetting with <code>[[]]</code></h2></hgroup><article  id="subsetting-with-4" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Subsetting with <code>[]</code></h2></hgroup><article  id="subsetting-with-4" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>D</pre>
+
+<pre >##               V1       V2 V3
+## row 1  0.1292877 4.108676  a
+## row 2  1.7150650 7.448164  b
+## row 3  0.4609162 5.719628  c
+## row 4 -1.2650612 5.801543  d
+## row 5 -0.6868529 5.221365  e</pre>
+
+<pre class = 'prettyprint lang-r'>D[ , -3] # Select all rows and leave out the third column.</pre>
+
+<pre >##               V1       V2
+## row 1  0.1292877 4.108676
+## row 2  1.7150650 7.448164
+## row 3  0.4609162 5.719628
+## row 4 -1.2650612 5.801543
+## row 5 -0.6868529 5.221365</pre>
+
+</article></slide><slide class=""><hgroup><h2>Subsetting with <code>[]</code></h2></hgroup><article  id="subsetting-with-5" class="smaller ">
+
+<pre class = 'prettyprint lang-r'>D</pre>
+
+<pre >##               V1       V2 V3
+## row 1  0.1292877 4.108676  a
+## row 2  1.7150650 7.448164  b
+## row 3  0.4609162 5.719628  c
+## row 4 -1.2650612 5.801543  d
+## row 5 -0.6868529 5.221365  e</pre>
+
+<pre class = 'prettyprint lang-r'>D[2:3, -c(3)] # Select the second and third row minus the third column</pre>
+
+<pre >##              V1       V2
+## row 2 1.7150650 7.448164
+## row 3 0.4609162 5.719628</pre>
+
+</article></slide><slide class=""><hgroup><h2>Subsetting with <code>[[]]</code></h2></hgroup><article  id="subsetting-with-6" class="smaller ">
 
 <p>The <code>[[]]</code> operator selects only one element</p>
 
@@ -3881,7 +3918,7 @@ M</pre>
 
 <pre >## [1] &quot;Mike&quot;   &quot;Anne&quot;   &quot;George&quot;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Subsetting with <code>$</code></h2></hgroup><article  id="subsetting-with-5" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Subsetting with <code>$</code></h2></hgroup><article  id="subsetting-with-7" class="smaller ">
 
 <p>Use <code>$</code> to select elements with name labels in lists or data frames:</p>
 
@@ -3904,7 +3941,7 @@ M</pre>
 
 <pre >## [1] &quot;Mike&quot;   &quot;Anne&quot;   &quot;George&quot;</pre>
 
-</article></slide><slide class=""><hgroup><h2>Subsetting with <code>$</code></h2></hgroup><article  id="subsetting-with-6" class="smaller ">
+</article></slide><slide class=""><hgroup><h2>Subsetting with <code>$</code></h2></hgroup><article  id="subsetting-with-8" class="smaller ">
 
 <p>Use <code>$</code> to select a variable in a data frame:</p>
 

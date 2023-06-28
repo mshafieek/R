@@ -186,7 +186,7 @@ args(sample)
 ```
 
 
-Or make use of the pop-up help:
+Or make use of the pop-up help and use the TAB key to cycle through the arguments:
 
 <center>
 <img src="figures/Help-pop-up.png" alt="HTML5 Icon" width="100%"/>
@@ -354,7 +354,7 @@ M
 
 ## Lists
 
-Lists are flexible data structures: the elements in a list may be a combinatiaon of different data types (numeric, character) and dimensions.
+Lists are flexible data structures: the elements in a list may be a combination of different data types (numeric, character) and dimensions.
 
 
 ```{r}
@@ -472,6 +472,21 @@ D[, 1] # Select first column
 D
 D[2:3, 2] # Select second and third row in second colum
 D[1, c(2,3)] # Select elements in the first row, second and third column
+```
+
+
+## Subsetting with `[]`
+
+```{r}
+D
+D[ , -3] # Select all rows and leave out the third column.
+```
+
+## Subsetting with `[]`
+
+```{r}
+D
+D[2:3, -c(3)] # Select the second and third row minus the third column
 ```
 
 

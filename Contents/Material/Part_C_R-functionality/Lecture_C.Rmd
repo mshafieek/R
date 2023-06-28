@@ -11,19 +11,128 @@ output:
 
 ## Topics
 
+* Tidyverse subsetting
 * Importing data into `R`, exporting data
-* `R` workspace, environment, history
 * Standard solves for missing data
-* Integers and floating points
-* Modeling in `R`
+* Modeling in `R`, model classes
 * Errors, warnings, messages
 * Coding tips
 * Google style guide
 
+# Tidyverse
+
+<center>
+<img src="figures/TidyverseWebsite.png" alt="HTML5 Icon" width="80%"/>
+</center>
+
+## Data transformation with `dplyr` (tidyverse)
+
+<img style="float: right;" src="figures/dplyr_vignette.png" alt="HTML5 Icon" width="25%"/>
+
+`dplyr` is a very useful package for data transformation and manipulation. See cheat sheet in R Studio, Help -> cheat sheets
+
+Subsetting in base R with `[]`, `[[]]` and `$`
+
+In `dplyr`, two important functions for subsetting:
+
+`select()` : subset columns
+
+`filter()` : subset rows
+
+## Subset columns with `select()`
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+set.seed(123)
+D <- data.frame("V1" = rnorm(5),
+                "V2" = rnorm(5, mean = 5, sd = 2), 
+                "V3" = letters[1:5])
+```
+Remove second column with `select()`:
+
+```{r }
+# Remove second column:
+require(plyr)
+dplyr::select(D, -2) 
+# with base R: D[, -2]
+```
+
+## Subset columns with `select()`
+
+Other way to remove the second column
+```{r}
+D
+dplyr::select(D, V1, V3)
+# base R: D[, c(1,3)]
+```
+
+## Subset rows with `filter()`
+
+```{r}
+D
+dplyr::filter(D, V1 < 0 & V2 > 1)
+# with base R: D[D$V1 < 0 & D$V2 > 1, ]
+```
+
+
 
 # Importing data into `R`
 
+## R data format and workspace: `RData`
 
+In Practical B you worked with the `boys` data which were stored in the `R` file format: `.RData`, an R workspace file. 
+
+* A workspace contains all changes you made to your data and functions during a session. 
+* Workspaces are compressed and require relatively little memory when stored. The compression is very efficient and beats reloading large data sets from raw text.
+
+Open the `sleepdata.Rdata` file with:
+```{r }
+load("sleepdata.RData")
+# Note: This code works if you have placed the sleepdata.
+# RData file in the same project folder as your Rmd file:
+# you do not have to specify a file path. 
+```
+
+## Data sets in R (packages)
+
+R has many in-built data sets. The command `data()` will give a list of all in-built data sets (also the data included in the non-base packages that are activated). 
+
+Open an in-built data set as follows:
+```{r}
+require(MASS) # load the package MASS that contains the mammals data.
+data(mammals) # load the mammals data
+```
+
+## Importing delimited data files
+
+Text files (.txt) can be imported in to R with:
+```{r eval=FALSE}
+read.table("mammalsleep.txt")
+```
+
+CSV (comma seperated values) files can be imported with:
+
+```{r eval=FALSE}
+read.csv("filename.csv", header=TRUE, sep=",") # for comma (,) separated files 
+
+read.csv2("filename.csv", header=TRUE, sep=";") # for semicolons (;) separated files
+```
+
+
+## Read and write other data formats: overview of packages
+
+There are many packages that facilitate importing/exporting other data formats from statistical software: 
+
+* SPSS: the function `read_spss` from package `haven` (but also other data formats from Stata and SAS)
+* Mplus: package `MplusAutomation`
+* Stata: `read.dta()` in `foreign`
+* SAS: `sasxport.get()` from package `Hmisc` 
+* MS Excel: 
+    + function `read.xlsx()` from package `openxlsx`
+    + function `read_excel()` from package `readxl`
+
+[`haven`](https://haven.tidyverse.org/index.html) by [Hadley Wickham](http://hadley.nz) provides wonderful functions to import and export many data types from software such as Stata, SAS and SPSS. 
+
+For a short guideline to import multiple formats into `R`, see e.g. http://www.statmethods.net/input/importingdata.html. 
 
 
 # Standard solves for missing values
@@ -181,53 +290,6 @@ If function `plot.lm()` would not exist, `R` tries to apply function `plot()` (w
 
 Since the elements that class `"lm"` returns are known, creating a generic function class is straightforward.
 
-# The blueprint of `R`
-
-## Layers in `R`
-
-There are several 'layers' in `R`:
-
--   The global environment
--   User environments
--   Functions
--   Packages
--   Namespaces
-
-## Environments
-
-The global environment can be seen as an Olympic-size swimming pool. Everything you do has its place there.
-
-If you'd like, you may create another, separate environment to work in.
-
--   A user environment would by default not have access to other environments
-
-## Functions
-
--   If you create a function, it is positioned in the global environment.
-
--   Everything that happens in a function, stays in a function. Unless you specifically tell the function to share the information with the global environment.
-
--   See functions as a shampoo bottle in a swimming pool to which you add some water. If you'd like to see the color of the mixture, you'd have to squeeze the bottle for it to come out.
-
-## Packages
-
--   Packages have their own space.
-
-    -   Everything needed to run the functions in a package is contained within its own space
-    -   See packages as separate (mini) pools that are connected to the main pool (the global environment)
-
-## Workspaces and why you should sometimes save them
-
-A workspace contains all changes you made to environments, functions and namespaces.
-
-A saved workspace contains everything at the time of the state wherein it was saved.
-
-You do not need to run all the previous code again if you would like to continue working at a later time.
-
--   You can save the workspace and continue exactly where you left.
-
-Workspaces are compressed and require relatively little memory when stored. The compression is very efficient and beats reloading large data sets from raw text.
-
 ## History and why it is useful
 
 `R` by default saves (part of) the code history and `RStudio` expands this functionality greatly.
@@ -245,7 +307,7 @@ Most often it may be useful to look back at the code history for various reasons
 
 If you simply get a message, without the words "Error" or "Warning", it is a message to inform you. The code runs as expected, but you are simply made aware of possible unwanted effects:
 
-<img src="figures/Mask_warning.png" alt="HTML5 Icon" width="90%"/>
+<img src="figures/Mask_warning_Hmisc_plyr.png" alt="HTML5 Icon" width="80%"/>
 
 ## Namespaces and the `::` operator
 

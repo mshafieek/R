@@ -135,8 +135,6 @@ clicking the `.Rproj` file.
 
 ## Practical A
 
-Time for your first practical in R!
-
 1. Go to: <https://laurencefrank.github.io/R/> and select the tab "Monday". There you will find the following files:
     + Two versions of the lecture: the slides and the handout version.
     + "Practical A: Exercises" provides the exercises of the practical.

@@ -238,7 +238,7 @@ nrow(boys2.1)
 
 ```
 
-or, alternatively, use subset.
+or, alternatively, use `subset()`.
 
 ```{r}
 
