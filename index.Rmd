@@ -154,7 +154,7 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
 - Part A: Introduction
     - [Lecture A slides](Contents/Material/Part_A_Introduction/Lecture_A.html)
     - [Lecture A Handout](Contents/Material/Part_A_Introduction/Lecture_A_handout.html)
-    - [Practica A: Exercises](Contents/Material/Part_A_Introduction/Practical_A_Exercises.html)
+    - [Practical A: Exercises](Contents/Material/Part_A_Introduction/Practical_A_Exercises.html)
     - [Practical A: Template](Contents/Material/Part_A_Introduction/Practical_A_Template.Rmd)
     - [Practical A: Solutions](Contents/Material/Part_A_Introduction/Practical_A_solutions.html)
     - [Install R on UU laptop](https://gist.github.com/vankesteren/f2e198aa5ab4f6262b21a3d13bbea0b5)
@@ -313,9 +313,17 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
     - [Lecture O](Contents/Material/Part_O_Monte-carlo-simulation/Lecture_O.html)
     - [Practical O](Contents/Material/Part_O_Monte-carlo-simulation/Practical_O_walkthrough.html)
     - [Impractical O](Contents/Material/Part_O_Monte-carlo-simulation/Practical_O.html)
-
+- Shiny apps
+    - [Lecture Shiny apps]()
+    - [Practical Shiny apps]()
+    
 All lectures are in `html` format. Practicals are walkthrough files that guide you through the exercises. `Impractical` files contain the exercises, without walkthrough, explanations and solutions. 
 
+## Column 2
+
+### Useful links
+
+- [Online book: Mastering Shiny by Hadley Wickham](https://mastering-shiny.org/index.html)
 
 # To continue
 
