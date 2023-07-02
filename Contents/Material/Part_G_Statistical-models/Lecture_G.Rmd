@@ -9,14 +9,14 @@ output:
     widescreen: no
 ---
 
-## I use the following package in this lecture
+## I use the following packages in this lecture
 ```{r message=FALSE}
 library(magrittr) #for pipes
 library(MASS)     #for the cats and bacteria data
 library(mice)     #for the boys data
 ```
 
-### New functions
+### Function:
 
 - `lm()` to run linear models
 
@@ -35,7 +35,7 @@ The mathematical formulation of relationship between variables can be written as
 \mbox{observed}=\mbox{predicted}+\mbox{error}
 \]
 
-or (for the greek people) in notation as
+or
 \[y=\mu+\varepsilon\]
 
 where
@@ -60,7 +60,7 @@ where
 
 ## The linear model
 
-The function `lm()` is a base function in `R` and allows you to pose a variety of linear models. 
+The function `lm()` is a base function in `R` and allows you to define a variety of linear models. 
 
 ```{r}
 args(lm)
@@ -75,52 +75,55 @@ If we want to know what these arguments do we can ask R:
 This will open a help page on the `lm()` function.
 
 ## Continuous predictors {.smaller}
-To obtain a linear model with a main effect for `wgt`, we formulate $age\sim wgt$ 
+To obtain a linear model with a main effect for `wgt`, we use the model formula $age\sim wgt$ 
 ```{r warning=FALSE, message = FALSE}
 fit <- boys %$%
   lm(age ~ wgt)
 fit
 ```
 
-## Continuous predictors: more detail {.smaller}
+Notice that we use the `%$%` operator that exposes the elements (variables) of the `boys` data frame to be processed by the `lm()` function.
+
+## More information with `summary()` {.smaller}
 ```{r}
 fit %>% summary
 ```
 
 ## Continuous predictors
-To obtain a linear model with just main effects for `wgt` and `hgt`, we formulate $age\sim wgt + hgt$ 
+To obtain a linear model with just main effects for `wgt` and `hgt`, we use the model formula $age\sim wgt + hgt$ 
+
 ```{r}
-require(mice)
 fit <- boys %$%
   lm(age ~ wgt + hgt)
 fit
 ```
 
-## Continuous predictors: more detail {.smaller}
+## More information with `summary()` {.smaller}
 ```{r}
 fit %>% summary
 ```
 
-## Continuous predictors: interaction effects
-To predict $age$ from $wgt$, $hgt$ and the interaction $wgt*hgt$ we formulate $age\sim wgt * hgt$
+## Continuous predictors: interaction effects {.smaller}
+To predict $age$ from $wgt$, $hgt$ and the interaction $wgt*hgt$ we use the following model formula for the interaction effect $age\sim wgt * hgt$
 ```{r}
 fit <- boys %$% lm(age ~ wgt * hgt)
+# wgt * hgt = wgt + hgt + wgt:hgt
 fit
 ```
 
-##  and with more detail {.smaller}
+## More information with `summary()` {.smaller}
 ```{r}
 fit %>% summary
 ```
 
-## Categorical predictors in the linear model
+## Categorical predictors in the linear model {.smaller}
 If a categorical variable is entered into function `lm()`, it is automatically converted to a dummy set in `R`. The first level is always taken as the reference category. If we want another reference category we can use the function `relevel()` to change this.
 
 ```{r}
 fit <- boys %$% lm(age ~ reg)
 ```
 
-##  and again with more detail {.smaller}
+##  More information with `summary()` {.smaller}
 ```{r}
 fit %>% summary
 ```
@@ -135,8 +138,7 @@ coef(fit) # alternative
 # Distributions
 
 
-## Distributions
-Distributions and models for the random component 
+## Probability distributions
 
 -  Normal distributions
 
@@ -153,6 +155,26 @@ Distributions and models for the random component
     -  Uniform, exponential 
     -  error distribution not normal
 
+## Probability distributions in R {.smaller}
+
+R has a system to work with probability distributions. For example the normal distribution:
+
+`dnorm()`: **d** for density function
+
+`pnorm()`: **p** for cumulative distribution $P(X \leqslant x)$
+
+`qnorm()`: **q** for p-quantile
+
+`rnorm()`: **r** for pseudo-random normally distributed numbers
+
+Example: obtain critical *z*-value for 95% confidence interval:
+```{r}
+qnorm(0.975) # default: mean=0, sd=1
+```
+
+For other distributions, replace `norm` with: `f, chisq, binom, pois, exp, unif, gamma, beta, t`
+
+
 # Discrete distributions
 
 ## Binomial distribution {.smaller}
@@ -168,21 +190,21 @@ For $n=5$ trials:
 par(mfrow=c(1,2), bg = NA)
 y <- factor(0:5)
 x <- 0:5
-barplot(dbinom(x,5,.1),ylim=c(0,.6),names.arg=y,ylab="P(Y=y)",xlab="y")
+barplot(dbinom(x,5,.1), ylim=c(0,.6), names.arg=y, ylab="P(Y=y)", xlab="y")
 text(5,.5,expression(paste(pi," = 0.1")))
-barplot(dbinom(x,5,.5),ylim=c(0,.6),names.arg=y,ylab="P(Y=y)",xlab="y")
-text(5,.5,expression(paste(pi," = 0.5")))
+barplot(dbinom(x,5,.5), ylim=c(0,.6), names.arg=y, ylab="P(Y=y)", xlab="y")
+text(5,.5, expression(paste(pi," = 0.5")))
 ```
 
-## Code that generates plot of previous slide
+## Code that generates plot of previous slide {.smaller}
 ```{r eval=FALSE, fig.height=4}
 par(mfrow=c(1,2), bg = NA)
 y <- factor(0:5)
 x <- 0:5
-barplot(dbinom(x,5,.1),ylim=c(0,.6),names.arg=y,ylab="P(Y=y)",xlab="y")
-text(5,.5,expression(paste(pi," = 0.1")))
-barplot(dbinom(x,5,.5),ylim=c(0,.6),names.arg=y,ylab="P(Y=y)",xlab="y")
-text(5,.5,expression(paste(pi," = 0.5")))
+barplot(dbinom(x,5,.1), ylim=c(0,.6), names.arg=y, ylab="P(Y=y)", xlab="y")
+        text(5,.5,expression(paste(pi," = 0.1")))
+barplot(dbinom(x,5,.5), ylim=c(0,.6), names.arg=y, ylab="P(Y=y)", xlab="y")
+        text(5,.5, expression(paste(pi," = 0.5")))
 ```
 
 ## Poisson distribution {.smaller}
@@ -207,6 +229,7 @@ barplot(dpois(x, 2), ylim = c(0, .6), names.arg = y,
         ylab = "P(Y = y)",xlab="y")
 text(5,.5,expression(paste(lambda," = 2")))
 ```
+
 
 ## Code that generates plot of previous slide{.smaller}
 ```{r eval=FALSE, fig.height=4}
@@ -261,31 +284,27 @@ text(1.5,.8,expression(paste(lambda," = 2")),col="red")
 text(2.3,0.5,expression(paste(lambda," = 0.5")),col="blue")
 ```
 
-# Some more modeling
+# Some more modeling 
 
-## Performing a t-test
+## Performing a t-test {.smaller}
 ```{r}
 cats %$% t.test(Hwt ~ Sex)
 ```
 
 ## Performing a chi-square test {.smaller}
-
+Bacteria data: tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia. 
 ```{r}
 bacteria %>% head(n=8)
 ```
+Two categorical variables:
 
-Column `y`: 
+Column `y`:  `n` = disease absent, `y`= disease present.
 
-* `n`: Disease absent. 
-* `y`: Disease present.
+Column `ap`: `a` = active medicine, `p`= placebo.
 
-Column `ap`: 
+Nul hypothesis: there is no relation between disease status and treatment.
 
-* `a`: Active medicine. 
-* `p`: Placebo.
-
-
-## Performing a chi-square test
+## Performing a chi-square test {.smaller}
 ```{r}
 bacteria %$% table(ap, y)
 ```
@@ -295,7 +314,7 @@ x2.table <- cbind(x2.table, rowSums(x2.table))
 rbind(x2.table, colSums(x2.table))
 ```
 
-## chi-square tests
+## chi-square tests {.smaller}
 
 $$\chi^2 = \sum \frac{(O - E)^2}{E}$$
 
@@ -310,7 +329,7 @@ rbind(x2.table, colSums(x2.table))
 bacteria %$% chisq.test(ap, y)$expected
 ```
 
-## Performing a chi-square test
+## Performing a chi-square test {.smaller}
 ```{r}
 prop.table(table(bacteria$ap, bacteria$y), margin = 1)
 ```
@@ -321,7 +340,7 @@ prop.table(table(bacteria$ap, bacteria$y), margin = 1)
 
 Should we assume this means the medicine works?
 
-## Performing a chi-square test
+## Performing a chi-square test {.smaller}
 ```{r}
 bacteria %$% chisq.test(ap, y)
 ```
@@ -330,7 +349,7 @@ or the other way around
 bacteria %$% chisq.test(y, ap)
 ```
 
-## Or, equivalently:
+## Or, equivalently: {.smaller}
 ```{r}
 bacteria %$% table(ap, y) %>% chisq.test
 ```
@@ -352,49 +371,5 @@ barplot(table(bacteria$y, bacteria$ap),
         args.legend = list(x=4.5, y=80))
 ```
 
-## Fisher's exact test {.smaller}
-
-With small expected cell frequencies (roughly if any are below 5), we should use Fishers exact test.
-
-```{r}
-short <- bacteria %>%
-  subset(week <= 2) %$%
-  table(y, ap)
-short
-```
-
-
-## Fisher's exact test
-
-```{r}
-short %>% chisq.test
-```
-
-
-## Fisher's exact test
-
-```{r warning=TRUE}
-#fisher.test(table(short$y, short$ap))
-short %>%
-  fisher.test
-```
-
-What do we conclude?
-
-## Visualizing this
-
-```{r, dev.args = list(bg = 'transparent')}
-plot(short)
-```
-
-## Visualizing this
-
-```{r fig.height=4, dev.args = list(bg = 'transparent')}
-barplot(short, 
-        beside = TRUE, 
-        legend = c("No infection", "Infection"), 
-        col = c("blue", "orange"),
-        args.legend = list(x=4.5, y=40))
-```
 
 

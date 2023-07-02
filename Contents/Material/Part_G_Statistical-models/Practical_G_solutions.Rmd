@@ -1,5 +1,5 @@
 ---
-title: "Practical G"
+title: "Practical G: Solutions"
 author: "Gerko Vink"
 date: "Statistical Programming with R"
 output: html_document

@@ -1,5 +1,5 @@
 ---
-title: "Practical G"
+title: "Practical G: Exercises"
 author: "Gerko Vink"
 date: "Statistical Programming with R"
 output: html_document
@@ -41,18 +41,17 @@ set.seed(123)
 
 1. **A group of experimenters have 4 experimental conditions they want to run. In each of these four conditions, there are seven manipulations that should be in a random order. Design the experiment such that for every condition, the seven manipulations are randomly ordered.** 
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 # Make an empty matrix. 
-design <- matrix(NA, 7, 4)
+# add your code here to create an empty matrix
 
 # Name the columns and rows. 
 colnames(design) <- paste("condition", 1:4, sep=" ")
 rownames(design) <- paste("manipulation",  1:7, sep=" ")
 
 # Put a random ordering in each column.
-for(j in 1:ncol(design)) {
-    design[, j] <- sample(1:7, replace=FALSE)
-}
+
+# add your code here 
 
 design
 ```
@@ -61,37 +60,37 @@ design
 
 2. **Generate a vector of 100 random standard normal numbers.**
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 # Get random numbers.
-y <- rnorm(100)
+# add your code here
+
 ```
 
 ---
 
 3. **Compute the mean and standard deviation of the vector from question 2.**
 
-```{r eval=printAnswers, echo=printAnswers}
-mean(y)
-sd(y)
+```{r eval=FALSE}
+# add your code here
+
 ```
 
 ---
 
 4. **Generate a vector of 100 random standard normal numbers (like in Exercise 2) 25 times, and each time store means in object `av`. Compute the standard deviation of `av`.**
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 # Repeat the sampling of numbers 25 times, each time getting the mean.
-av <- numeric(25)
-for(i in 1:25) {
-    av[i] <- mean(rnorm(100))
-}
+
+# add your code here
 
 # Standard error of sample mean.
-sd(av) 
+# add your code here
+
 ```
 
 or alternatively with function `rlply()` from package `plyr`:
-```{r}
+```{r eval=FALSE}
 samples <- rlply(.n = 25, rnorm(100, mean = 0, sd = 1))
 ```
 
@@ -100,7 +99,7 @@ results in a list. So the call `rnorm(5000, mean = 0, sd = 1)` is evaluated
 `.n = 25` times. 
 
 We can then call the following `sapply()` statement to create object `av`:
-```{r}
+```{r eval=FALSE}
 av <- sapply(samples, mean)
 sd(av) # Standard error of sample mean.
 ```
@@ -113,20 +112,20 @@ from the `samples` object.
 
 5. **Create a function that automatically returns a vector like `av`.**
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 # Create a function for sd of sample means
 mean.av <- function(n = 100, reps = 25) {
     
   # Make an empty vector. 
-  av <- numeric(reps)
   
-  for(i in 1:reps) {
+  # create a loop
+ 
       
     # Make a random standard normal dataset of size n.
-    y     <- rnorm(n)
+    
     
     # Compute and save the mean. 
-    av[i] <- mean(y)
+    
   }
   
   # Return the vector of means. 
@@ -138,7 +137,7 @@ sd(mean.av())
 
 or, with `rlply()`:
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 # Create a function for sd of sample means
 mean.av <- function(n = 100, reps = 25) {
   rlply(.n = reps, rnorm(n, mean = 0, sd = 1)) %>%
@@ -152,24 +151,21 @@ sd(mean.av())
 
 6. **Add the option to this function to print a density plot. Set it to TRUE by default. **
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 # Create a function for sd of sample means
 mean.av <- function(n = 100, reps = 25, plotDens = TRUE) {
     
   # Make an empty vector. 
-  av <- numeric(reps)
   
-  for(i in 1:reps) {
       
     # Make a random standard normal dataset of size n.
-    y     <- rnorm(n)
+    
     
     # Compute and save the mean. 
-    av[i] <- mean(y)
+    
   }
   
-  if (plotDens) {
-      plot(density(av), main = "Sampling distribution of the mean.")
+  
   }
   
   # Return the vector of means. 
@@ -185,7 +181,7 @@ The above function does two things:
 Let's go through the function. 
 
 - `av <- numeric(reps)`. This line creates a vector with zeros that is long as the number of `reps`. 
-- `for(i in 1:reps) {`. This line starts the for loop and dictates that we are goint to repeat the code within the loop 1 through 25 - so 25 times in total. 
+- `for(i in 1:reps) {`. This line starts the for loop and dictates that we are going to repeat the code within the loop 1 through 25 - so 25 times in total. 
 - `y <- rnorm(n)`. This samples `n` values from the standard normal distribution. Remember that the default argument for `n` is `n=100`. So, by default it draws `100` values. These values are stored in object `y`, such that we can use it later on in the function. 
 - `av[i] <- mean(y)`. Now we calculate the mean on the current (*i*th) sample and store that in the vector `av` as the *i*th element. Over all the for-loops we will replace each element in `av` with the mean of the respective simulated sample. 
 - `if (plotDens) {` evaluates whether to execute the code within the `{` and `}` that define the if-statement. This code is designed to print a plot. The default for `plotDens` is `plotDens=TRUE`, so by default the if-statement will print the plot. `if` looks for `TRUE` or `FALSE` and only executes its code when it finds `TRUE`. Because `plotDens` is `TRUE`, we do not have to say `if (plotDens = TRUE)` and `if(plotDens)` suffices. 
@@ -193,7 +189,7 @@ Let's go through the function.
 
 or, with `rlply()` and a pipe:
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 # Create a function for sd of sample means
 mean.av <- function(n = 100, reps = 25, plotDens = TRUE) {
   av <- 
@@ -212,12 +208,8 @@ sd(mean.av())
 ---
 
 In the next codeblock, we first set the graphical parameters to display a 2 by 2 matrix of plots. Then we run the function `mean.av()` 4 times; each time generating a plot. After running the function four times, we will have filled the 2 by 2 plot raster.  We do not have to specify the arguments of this function because all arguments are set by default. We end by resetting the graphical parameters to its original state by stating `par(mfrow = c(1, 1))`, such that when we plot a new graph, it will be displayed as a single graph and not in a raster of 4 plots. 
-```{r}
-par(mfrow = c(2, 2))
-mean.av()
-mean.av()
-mean.av()
-mean.av()
+```{r eval=FALSE}
+
 ```
 
 and we return the graphing parameter to its previous state of a single plot (i.e. 1 row and 1 column). 
@@ -229,15 +221,15 @@ par(mfrow = c(1, 1))
 
 7. **Generate a random sample of size 20 from a normal population with mean 100 and standard deviation 10. **
 
-```{r eval=printAnswers, echo=printAnswers}
-rnorm(20, 100, 10)
+```{r eval=FALSE}
+# add your code here
 ```
 
 ---
 
 8. **Use `mfrow` to set up the layout for a 3 by 4 array of plots. In the top 4 panels, show normal probability plots ('QQ-plots') for 4 separate "random" samples of size 10, all drawn from a normal distribution. In the middle 4 panels, display plots for samples of size 100. In the bottom 4 panels, display plots for samples of size 1000. Comment on how the appearance of the plots changes as the sample size changes.**
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 par(mfrow=c(3, 4))
 
 for (i in 1:3) {
@@ -251,7 +243,7 @@ for (i in 1:3) {
 
 9. **Repeat exercise 8, but use `runif` instead of `rnorm`.**
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 par(mfrow=c(3, 4))
 
 for (i in 1:3) {
@@ -271,7 +263,7 @@ par(mfrow=c(1, 1))
 - Find the sample mean of the observations. 
 - Compare with the population mean (the mean for an exponential population is 1/rate).
 
-```{r eval=printAnswers, echo=printAnswers}
+```{r eval=FALSE}
 # Simulate numbers 
 data <- rexp(100, .2) 
 
@@ -294,26 +286,14 @@ c("sample.mean" = mean(data), "pop.mean" = 1 / .2)
 - `y4` predicted by `x4` - stored in object `fit4`
 
 ```{r}
-fit1 <- anscombe %$%
-  lm(y1 ~ x1)
-fit2 <- anscombe %$%
-  lm(y2 ~ x2)
-fit3 <- anscombe %$%
-  lm(y3 ~ x3)
-fit4 <- anscombe %$%
-  lm(y4 ~ x4)
+# add your code here
 ```
 
 ---
 
 12. **`Create a data frame from the coefficients of the 4 fitted objects from Exercise 11**
 ```{r}
-out <- data.frame(fit1 = coef(fit1),
-                  fit2 = coef(fit2),
-                  fit3 = coef(fit3),
-                  fit4 = coef(fit4))
-row.names(out) <- names(coef(fit1))
-out
+# add your code here
 ```
 
 These estimates are very similar. 
@@ -322,21 +302,14 @@ These estimates are very similar.
 
 13. **Plot the four fitted models from Exercise 11 in a single plotting window. Make the points in the plots `blue`, `gray`, `orange` and `purple`, respectively. **
 ```{r}
-plot(y1 ~ x1, col = "blue", data = anscombe)
-points(y2 ~ x2, col = "gray", data = anscombe)
-points(y3 ~ x3, col = "orange", data = anscombe)
-points(y4 ~ x4, col = "purple", data = anscombe)
+
 ```
 
 ---
 
 14. **Now plot all four fitted models from Exercise 11 in a plotting window with 2 rows and 2 columns.**
 ```{r}
-par(mfrow = c(2, 2))
-plot(y1 ~ x1, data = anscombe)
-plot(y2 ~ x2, data = anscombe)
-plot(y3 ~ x3, data = anscombe)
-plot(y4 ~ x4, data = anscombe)
+
 ```
 
 ---
