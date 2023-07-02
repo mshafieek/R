@@ -169,23 +169,6 @@ Everything that is published on the Comprehensive `R` Archive Network (CRAN) and
 <img src="figures/syntax-function-sample.png" alt="HTML5 Icon" width="70%"/>
 </center>
 
-## The structure of functions in R
-
-Every function in R has the following structure:
-
-1. a function name
-2. a set of arguments surrounded by parentheses `( )`
-3. a body of code surrounded by curly braces `{ }`
-4. default values
-5. what the function will return
-
-<center>
-<img src="figures/Elements-of-a-function_HandsonProgrammingWithR_2.6.png" alt="HTML5 Icon" width="100%"/>
-</center>
-
-<sup>
-[Image source: Garrett Grolemund, Hands-On Programming with R, 2.6](https://rstudio-education.github.io/hopr/basics.html#functions)
-</sup>
 
 ## The structure of functions in R
 
@@ -213,7 +196,7 @@ args(sample)
 ```
 
 
-Or make use of the pop-up help:
+Or make use of the pop-up help and use the TAB key to cycle through the arguments:
 
 <center>
 <img src="figures/Help-pop-up.png" alt="HTML5 Icon" width="100%"/>
@@ -338,17 +321,13 @@ seq(from=2, to=10, by=2)
 ```
 
 ## Matrices
-`matrix()` creates arrays with specified dimensions
+`matrix()` creates arrays with specified dimensions, e.g. vectors:
 ```{r}
 rvect <- matrix(data=vector, nrow=6, ncol=1)
 rvect
-cvect <- matrix(data=vector, nrow=1, ncol=6)
-cvect
+dim(rvect)
 ```
 
-```{r}
-attributes(rvect)
-```
 
 
 ## Matrices
@@ -381,7 +360,7 @@ M
 
 ## Lists
 
-Lists are flexible data structures: the elements in a list may be a combinatiaon of different data types (numeric, character) and dimensions.
+Lists are flexible data structures: the elements in a list may be a combination of different data types (numeric, character) and dimensions.
 
 
 ```{r}
@@ -467,7 +446,7 @@ In the basic installation of R ("base R") there are three ways to select element
 
 Square brackets `[]` are used to call single elements or entire rows and columns.
 
-[**a**, **b**]: **a** refers to the row number(s), **b** refers to the column number(s).
+`[a, b]`: **a** refers to the row number(s), **b** refers to the column number(s).
 
 ```{r}
 M <- matrix(rnorm(12), nrow=3, ncol=4)
@@ -485,8 +464,6 @@ D[2, 3] # Select element "b"
 ```
 ## Subsetting with `[]`
 
-Square brackets `[]` are used to call single elements
-
 ```{r}
 D
 D[2, ] # Select second row
@@ -499,6 +476,21 @@ D[, 1] # Select first column
 D
 D[2:3, 2] # Select second and third row in second colum
 D[1, c(2,3)] # Select elements in the first row, second and third column
+```
+
+
+## Subsetting with `[]`
+
+```{r}
+D
+D[ , -3] # Select all rows and leave out the third column.
+```
+
+## Subsetting with `[]`
+
+```{r}
+D
+D[2:3, -c(3)] # Select the second and third row minus the third column
 ```
 
 
