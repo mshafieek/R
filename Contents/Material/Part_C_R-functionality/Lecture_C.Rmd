@@ -11,10 +11,11 @@ output:
 
 ## Topics
 
-* Tidyverse subsetting
+* Data manipulation (base R, tidyverse)
+    + subsetting
 * Importing data into `R`, exporting data
 * Standard solves for missing data
-* Modeling in `R`, model classes
+* Modeling in `R`: the model formula
 * Errors, warnings, messages
 * Coding tips
 * Google style guide
@@ -72,7 +73,6 @@ D
 dplyr::filter(D, V1 < 0 & V2 > 1)
 # with base R: D[D$V1 < 0 & D$V2 > 1, ]
 ```
-
 
 
 # Importing data into `R`
@@ -154,134 +154,24 @@ mean(na.omit(c(1, 2, NA, 4, 5)))
 # Modeling in `R`
 
 ## The model formula
-To model objects based on other objects, we use the `~` (tilde) operator to construct an R model formula, a type of language object.
+To model objects based on other objects, we use the `~` (tilde) operator to construct an **R model formula**, a type of **language object**.
 
-For example, to model body mass index (BMI) on weight, we would type
+For example, to model body mass index (BMI) on weight with a linear regression model, use the model formula `bmi ~ wgt` with the linear model function `lm()`:
 
-```{r eval=FALSE}
-BMI ~ weight
-```
-
-The `~` is used to separate the left- and right-hand sides in a model formula.
-
-For functions (or models), within models we use `I()` - For example, to model body mass index (BMI) on its deterministic function of weight and height, we would type
-
-```{r eval=FALSE}
-BMI ~ I(weight / height^2)
-```
-
-```{r echo=FALSE, message=FALSE, warning=FALSE}
+```{r message=FALSE, warning=FALSE}
 require(mice)
+lm(formula = bmi ~ wgt, data = boys)
 ```
+In this case, ``bmi` ~ `wgt` means "regress `bmi` on `weight`.
 
-## Example {.smaller}
+## The model formula
 
-Remember the `boys` data from package `mice`:
-```{r}
-lm(bmi ~ wgt, data = boys)
+The model formula can also be used to plot create a scatterplot with `bmi` on the y-axis and `wgt` on the x-axis. 
+
+
+```{r message=FALSE, warning=FALSE}
+plot(formula = bmi ~ wgt, data = boys)
 ```
-```{r}
-lm(bmi ~ wgt + I(wgt^2), data = boys)
-```
-## Why we need `I()` {.smaller}
-
-Inside an R model formula, the the `+`, `:`, and `^` operators behave differently than when used in calculations with numeric vectors. Using `I()` converts these operators to their numerical meaning.
-
-```{r}
-lm(bmi ~ wgt + wgt^2, data = boys)
-lm(bmi ~ wgt + I(wgt^2), data = boys)
-```
-
-## More efficient
-
-It is 'nicer' to store the output from the function in an object. The convention for regression models is an object called `fit`.
-
-```{r}
-fit <- lm(bmi ~ I(wgt / (hgt / 100)^2), data = boys)
-```
-
-The object `fit` contains a lot more than just the regression weights. To inspect what is inside you can use
-
-```{r}
-ls(fit)
-```
-
-## Inspecting what is inside `fit`
-
-Another approach to inspecting the contents of `fit` is the function `attributes()`
-
-```{r}
-attributes(fit)
-```
-
-The benefit of using `attributes()` is that it directly tells you the class of the object.
-
-## Classes in R {.smaller}
-
-```{r}
-class(fit)
-```
-
-Classes are used for an object-oriented style of programming. This means that you can write a specific function that 
-
-- has fixed requirements with respect to the input. 
-- presents output or graphs in a predefined manner.
-
-When a generic function `fun` is applied to an object with class attribute `c("first", "second")`, the system searches for a function called `fun.first` and, if it finds it, applies it to the object.
-
-If no such function is found, a function called `fun.second` is tried. If no class name produces a suitable function, the function `fun.default` is used (if it exists). If there is no class attribute, the implicit class is tried, then the default method.
-
-## Classes example: plotting without class
-
-```{r, dev.args = list(bg = 'transparent')}
-plot(bmi ~ wgt, data = boys)
-```
-
-## Classes example: plotting with class
-
-```{r, dev.args = list(bg = 'transparent')}
-plot(lm(bmi ~ wgt, data = boys), which = 1)
-```
-
-## Classes example: plotting with class
-
-```{r, dev.args = list(bg = 'transparent')}
-plot(lm(bmi ~ wgt, data = boys), which = 2)
-```
-
-## Classes example: plotting with class
-
-```{r, dev.args = list(bg = 'transparent')}
-plot(lm(bmi ~ wgt, data = boys), which = 3)
-```
-
-## Classes example: plotting with class
-
-```{r, dev.args = list(bg = 'transparent')}
-plot(lm(bmi ~ wgt, data = boys), which = 4)
-```
-
-## Classes example: plotting with class
-
-```{r, dev.args = list(bg = 'transparent')}
-plot(lm(bmi ~ wgt, data = boys), which = 5)
-```
-
-## Classes example: plotting with class
-
-```{r, dev.args = list(bg = 'transparent')}
-plot(lm(bmi ~ wgt, data = boys), which = 6)
-```
-
-## Why is plot different for class `"lm"`?
-
-The function `plot()` is called, but not used. Instead, because the linear model has class `"lm"`, `R` searches for the function `plot.lm()`.
-
-If function `plot.lm()` would not exist, `R` tries to apply function `plot()` (which would have failed in this case because plot requires `x` and `y` as input)
-
-`plot.lm()` is created by John Maindonald and Martin Maechler. They thought it would be useful to have a standard plotting environment for objects with class `"lm"`.
-
-Since the elements that class `"lm"` returns are known, creating a generic function class is straightforward.
 
 # More R functionality
 
@@ -546,11 +436,6 @@ When indenting your code, use two spaces. `RStudio` does this for you!
 Never use tabs or a mix of tabs and spaces.
 
 Exception: When a line break occurs inside parentheses, align the wrapped line with the first character inside the parenthesis.
-
-
-
-
-
 
 
 ## In general...

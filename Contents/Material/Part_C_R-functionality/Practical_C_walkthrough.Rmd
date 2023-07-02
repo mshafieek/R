@@ -58,7 +58,7 @@ Go to `Tools` > `Install Packages` in `RStudio`. If you are connected to the int
 
 Some packages depend on other packages, meaning that their functionality may be limited if their dependencies are not installed. Installing dependencies is therefor recommended, but internet connectivity is required. 
 
-If all is right, you will receive a message in the console that the package has been installed (as well as its dependencies. 
+If all is right, you will receive a message in the console that the package has been installed (as well as its dependencies). 
 
 ALternatively, if you know the name of the package you would like to install - in this case `mice` - you can also call `install.packages("mice")` in the console window.
 
@@ -86,7 +86,7 @@ Using `View()` is preferred for inspecting datasets that are large. `View()` ope
 library(mice)
 write.table(mammalsleep, "mammalsleep.txt", sep = "\t", dec = ".", row.names = FALSE)
 ```
-The command `sep = "\t"` indicates that the file is tabulated and the command `dec = "."` indicates that a point is used as the decimal seperator (instead of a comma). `row.names = FALSE` tells `R` that row names are not to be included in exported file. 
+The command `sep = "\t"` indicates that the file is tabulated and the command `dec = "."` indicates that a point is used as the decimal separator (instead of a comma). `row.names = FALSE` tells `R` that row names are not to be included in the exported file. 
 
 ---
 
@@ -99,7 +99,7 @@ The command `sep = "\t"` indicates that the file is tabulated and the command `d
 
 All files that are presented in the work directory of the current `R` project, can essentially be imported into the workspace (the space that contains all environments) directly. All other locations require you to specify the specific path from the root of your machine. To find out what the current work directory is, you can type `getwd()` and to change the work directory you can use `setwd()`. The beauty of using projects in RStudio is that you would never have to change the work directory, as the work directory is automatically set, relative to your projects' `R`-scripts. 
 
-There are many packages that facilitate importing datasets from other statistical software packages, such as SPSS (e.g. function `read_spss` from package `haven`), Mplus (package `MplusAutomation`), Stata (`read.dta()` in `foreign`), SAS (`sasxport.get()` from package `Hmisc`) and from spreadsheet software, such as MS Excel (function `read.xlsx()` from package `xlsx`). For a short guideline to import multiple formats into `R`, see e.g. http://www.statmethods.net/input/importingdata.html. 
+There are many packages that facilitate importing data sets from other statistical software packages, such as SPSS (e.g. function `read_spss` from package `haven`), Mplus (package `MplusAutomation`), Stata (`read.dta()` in `foreign`), SAS (`sasxport.get()` from package `Hmisc`) and from spreadsheet software, such as MS Excel (function `read.xlsx()` from package `xlsx`). For a short guideline to import multiple formats into `R`, see e.g. http://www.statmethods.net/input/importingdata.html. 
 
 ---
 
@@ -109,23 +109,22 @@ There are many packages that facilitate importing datasets from other statistica
 
 6. **The dataset we've just imported contains the sleepdata by Allison & Cicchetti (1976). Inspect the sleepdata and make yourself familiar with it. **
 
-If you would like to know more about this dataset, you can open the help for the `mammalsleep` dataset in package `mice` through `?mammalsleep`. Don't forget to load package `mice` first. 
+If you would like to know more about this dataset, you can open the help for the `mammalsleep` dataset in package `mice` through `?mammalsleep`. 
 
 Inspecting the sleepdata could be done by 
 ```{r}
-
- #the data structure
+#the data structure
 summary(sleepdata) #distributional summaries
 round(cor(sleepdata[, -1], use = "pairwise.complete.obs"), 2) #bivariate correlations, variable 1 excluded. 
 head(mammalsleep) #first six rows
 tail(mammalsleep) #last six rows
 ?mammalsleep # the help
 ```
-Note that the sleepdata dataset is automatically recognized as a dataframe. After all, there is one factor (categorical variable) containing the animal names. 
+Note that the sleepdata dataset is automatically recognized as a dataframe. There is one factor (categorical variable) containing the animal names. 
 
-The functions `head()` and `tail()` are very useful functions. As is function `str` as it gives you a quick overview of the measurement levels in `mammalsleep`. 
+The functions `head()` and `tail()` are very useful functions. As is function `str()` as it gives you a quick overview of the measurement levels in `mammalsleep`. 
 
-Since `mammalsleep` is an `R`-dataset, there should be a help file. Taking a look at `?mammalsleep` may yield valuable insight about the measurements and origin of the variables. 
+Since `mammalsleep` is an `R`-data set, there should be a help file. Taking a look at `?mammalsleep` provides information about the measurements and origin of the variables.
 
 One thing that may have caught your attention is the relation between `ts`, `ps` and `sws`. This is a deterministic relation where total sleep (`ts`) is the sum of paradoxical sleep (`ps`) and short-wave sleep (`sws`). In the event that you would model the data, you need to take such relations into account. 
 
@@ -133,13 +132,13 @@ One thing that may have caught your attention is the relation between `ts`, `ps`
 
 7. **Save the current workspace. Name the workspace `Practical_C.RData`. Also, save the sleepdata file as a separate workspace called `Sleepdata.RData`. **
 
-Now that we have imported our data, it may be wise to save the current workspace, i.e. the current state of affairs. Saving the workspace will leave everything as is, so that we can continue from this exact state at a later time, by simply opening the workspace file. To save everything in the current workspace, type
+Now that we have imported our data, it may be wise to save the current workspace, i.e. the current state of affairs. Saving the workspace will leave everything as is, so that we can continue from this exact state at a later time, by simply opening the workspace file. To save everything in the current workspace, type:
 ```{r}
 # To save the entire workspace:
 save.image("Practical_C.RData")
 ```
 
-To save just the data set `sleepdata`, and nothing else, type
+To save just the data set `sleepdata`, and nothing else, type:
 ```{r}
 # To save the data set only.
 save(sleepdata, file = "Sleepdata.RData")
@@ -149,7 +148,7 @@ With the save functions, any object in the workspace can be saved.
 
 ---
 
-8. **Some animals were not used in the calculations by Allison and Cicchetti. Exclude the following animals from the sleepdata data set: Echidna, Lesser short-tailed shrew and Musk shrew. Save the data set as `sleepdata2`.** Tip: use the square brackets to indicate [rows, columns].
+8. **Some animals were not used in the calculations by Allison and Cicchetti. Exclude the following animals from the sleepdata data set: Echidna, Lesser short-tailed shrew and Musk shrew. Save the data set as `sleepdata2`.** Tip: use the square brackets to indicate [rows, columns] or use the function `filter()` from `dplyr`.
 
 There are three ways to exclude the three animals from the data set. The first approach uses the names:
 ```{r}
@@ -159,18 +158,17 @@ which
 sleepdata2 <- sleepdata[!which, ]
 ```
 
-the second approach uses function `filter()` from package `dplyr`:
-```{r}
-library(dplyr) # Data Manipulation
-filter(sleepdata, !sleepdata$species %in% exclude) # ! makes all TRUES into FALSE
-```
-
-and the third approach uses the row numbers directly (you would need to inquire about, or calculate the row numbers)
+and the second approach uses the row numbers directly (you would need to inquire about, or calculate the row numbers)
 ```{r}
 sleepdata2 <- sleepdata[-c(16, 32, 38), ]
 ```
-
 Note that the numbered option requires less code, but the named option has a much lower probability for error. As the data set might change, or might get sorted differently, the second option may not be valid anymore. 
+
+The third approach uses function `filter()` from package `dplyr`:
+```{r}
+library(dplyr) # Data Manipulation
+dplyr::filter(sleepdata, !sleepdata$species %in% exclude) # ! makes all TRUES into FALSE
+```
 
 ---
 
