@@ -202,19 +202,19 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
 
 - Part D: Generating Data
     - [Lecture D](Contents/Material/Part_D_Data-generation/Lecture_D.html)
-    - [Practical D: Exercises]()
-    - [Practical D: Template]()
-    - [Practical D: Solutions]()
+    - [Practical D: Exercises](Contents/Material/Part_D_Data-generation/Practical_D_exercises.html)
+    - [Practical D: Template](Contents/Material/Part_D_Data-generation/Practical_D_template.Rmd)
+    - [Practical D: Solutions](Contents/Material/Part_D_Data-generation/Practical_D_solutions.html)
 - Part E: Custom functions
     - [Lecture E](Contents/Material/Part_E_Functions-apply-and-looping/Lecture_E.html)
-    - [Practical E: Exercises]()
-    - [Practical E: Template]()
-    - [Practical E: Solutions]()
+    - [Practical E: Exercises](Contents/Material/Part_E_Functions-apply-and-looping/Practical_E_Exercises.html)
+    - [Practical E: Template](Contents/Material/Part_E_Functions-apply-and-looping/Practical_E_Template.Rmd)
+    - [Practical E: Solutions](Contents/Material/Part_E_Functions-apply-and-looping/Lecture_E_Solutions.html)
 - Part F: Pipes
     - [Lecture F](Contents/Material/Part_F_Pipes/Lecture_F.html)
-    - [Practical F: Exercises]()
-    - [Practical F: Template]() 
-    - [Practical F: Solutions]() 
+    - [Practical F: Exercises](Contents/Material/Part_F_Pipes/Practical_F_Exercises.html)
+    - [Practical F: Template](Contents/Material/Part_F_Pipes/Practical_F_Template.Rmd) 
+    - [Practical F: Solutions](Contents/Material/Part_F_Pipes/Practical_F_Solutions.html) 
 
 All lectures are in `html` format and have two versions: the slides and the handout version.
 Practical template files are `R Markdown` files with the exercises of the practicals. Fill in the the code (the answers) in these files. Practical solutions files give the answers to the exercises of the practicals. 
@@ -239,20 +239,20 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
 
 - Part G: Statistical models
     - [Lecture G](Contents/Material/Part_G_Statistical-models/Lecture_G.html)
-    - [Practical G: Exercises]()
-    - [Practical G: Template]()
-    - [Practical G: Solutions]()
+    - [Practical G: Exercises](Contents/Material/Part_G_Statistical-models/Practical_G_exercises.html)
+    - [Practical G: Template](Contents/Material/Part_G_Statistical-models/Practical_G_template.Rmd)
+    - [Practical G: Solutions](Contents/Material/Part_G_Statistical-models/Practical_G_solutions.html)
 - Part H: Statistical Inference
     - [Lecture H](Contents/Material/Part_H_Statistical-inference/Lecture_H.html)
-    - [Practical H: Exercises]()
-    - [Practical H: Template]()
-    - [Practical H: Solutions]()
+    - [Practical H: Exercises](Contents/Material/Part_G_Statistical-models/)
+    - [Practical H: Template](Contents/Material/Part_G_Statistical-models/)
+    - [Practical H: Solutions](Contents/Material/Part_G_Statistical-models/)
     - [Simulation of Confidence Intervals, Markdown file](SimulationConfidenceIntervals.Rmd)
 - Part I: Data visualization
     - [Lecture I](Contents/Material/Part_I_Data-visualization/Lecture_i.html)
-    - [Practical I: Exercises]()
-    - [Practical I: Template]()
-    - [Practical I: Solutions]().
+    - [Practical I: Exercises](Contents/Material/Part_G_Statistical-models/)
+    - [Practical I: Template](Contents/Material/Part_G_Statistical-models/)
+    - [Practical I: Solutions](Contents/Material/Part_G_Statistical-models/).
 
 All lectures are in `html` format and have two versions: the slides and the handout version.
 Practical template files are `R Markdown` files with the exercises of the practicals. Fill in the the code (the answers) in these files. Practical solutions files give the answers to the exercises of the practicals. 
