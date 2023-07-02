@@ -16,10 +16,6 @@ knitr::opts_chunk$set(dev.args=list(bg="transparent"))
 
 ## Topics
 
-* Data manipulation (base R, tidyverse)
-    + subsetting
-    + transforming
-    + rearranging
 * Drawing data from distributions
 * Sampling, random seed, pseudo-random number generator
 
