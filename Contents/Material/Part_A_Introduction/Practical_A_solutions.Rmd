@@ -176,7 +176,7 @@ The following is returned by `R`
 ls()
 ```
 
-There is are 4 objects in the environment: `a`, `b`, `c`, and `d`. If you look at the environment pane, you can quickly see the same information (i.e. there is no need to type `ls()`) and more, because you also see that these objects contain values. 
+There is are 4 objects in the environment: `a` and `b`. If you look at the environment pane, you can quickly see the same information (i.e. there is no need to type `ls()`) and more, because you also see that these objects contain values. 
 
 A single value is the most basic object in `R`. The next step up in objects is a vector, followed by a matrix, followed by an array. Eventually, each of these objects can be stored in a list. We will learn about vectors, matrices and arrays later today.
 
