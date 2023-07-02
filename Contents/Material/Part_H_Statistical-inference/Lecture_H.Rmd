@@ -164,17 +164,43 @@ c(x.bar - t.crit * SEM, x.bar + t.crit * SEM)
         Journal of the Royal Statistical Society, Vol. 97, No. 4 (1934), pp. 558-625
 
 ## Misconceptions {.smaller}
-Confidence intervals are frequently misunderstood, even well-established researchers sometimes misinterpret them. .
+Confidence intervals are frequently misunderstood, even well-established researchers sometimes misinterpret them.
 
 1. A realised 95% CI does not mean:
 
 - that there is a 95% probability the population parameter lies within the interval
 - that there is a 95% probability that the interval covers the population parameter
 
-    Once an experiment is done and an interval is calculated, the interval either covers, or does       not cover the parameter value. Probability is no longer involved. 
+    Once an experiment is done and an interval is calculated, the interval either covers, or does not cover the parameter value. Probability is no longer involved. 
 
     The 95% probability only has to do with the estimation procedure. 
 
 2. A 95% confidence interval does not mean that 95% of the sample data lie within the interval.
 3. A confidence interval is not a range of plausible values for the sample mean, though it may be understood as an estimate of plausible values for the population parameter.
 4. A particular confidence interval of 95% calculated from an experiment does not mean that there is a 95% probability of a sample mean from a repeat of the experiment falling within this interval.
+
+## Conceptualisation of confidence intervals {.smaller}
+
+Computer power allows us to use computational statistics and to work empirically with theoretical statistical concepts such as the Central Limit Theorem, sampling distributions of statistics and confidence intervals. 
+
+It is quite straightforward to repeatedly draw random samples from a distribution or data set. The interpretation of a 95% CI becomes more clear when you see the results of estimating 100 times a 95% CI for a sample mean. 
+
+* With simulation, we can show what happens when repeated samples are drawn from the same population distribution. The sample mean from these simulated samples will vary according to its own sampling distribution.
+
+* If a Confidence level of 95% is chosen, we expect approximately 95% of the simulated intervals to overlap the true location of the population mean.
+
+## Conceptualisation of confidence intervals {.smaller}
+To illustrate the concept of a confidence, see the following interactive applications:
+
+* A Shiny app: https://shiny.rit.albany.edu/stat/confidence/
+
+* An interactive visualisation: https://rpsychologist.com/d3/ci/
+
+Both applications show the probability process of repeatedly estimating a 95% confidence interval. The interpretation of a 95% CI becomes more clear when you see the results of estimating 100 times a 95% CI for a sample mean. 
+
+<center><img src="ShinyApp-CI-sample-mean.png" alt="HTML5 Icon" width="90%"/></center>
+
+## Practical
+
+During the practical you can work with a Markdown file that simulates the estimation of 100 confidence intervals for the mean. 
+

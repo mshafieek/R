@@ -10,7 +10,7 @@ printAnswers <- TRUE
 ```
 
 We use the following packages:
-```{r}
+```{r warning=FALSE, message=FALSE, error=FALSE}
 library(ggplot2)
 library(dplyr)
 ```
@@ -273,7 +273,8 @@ rnorm(100, mean=0, sd=2)^2 %>%
   plotfun(meanest = 0, plot = TRUE)
 ```
 
+12. **Open the Markdown file `SimulationConfidenceIntervals.Rmd`.** Examine the code and verify that you understand what is being done. Run the code. Then run the code again but change the random seed at the top of the document. What happens with the coverage probability?
 
----
+
 
 End of practical. 
