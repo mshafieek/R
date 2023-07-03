@@ -47,24 +47,24 @@ The call `rnorm(n = 10)` results in a draw of 10 values from a standard normal d
 ```{r}
 args(rnorm)
 ```
-We can see that by default, values a drawn with `mean = 0` and `sd = 1`. Unless we specify other values for the mean and standard deviation, the defaults will be used. Defaults are a useful property in a developers toolset. We will discuss defaults in more detail later today. 
+We can see that by default, values a drawn with `mean = 0` and `sd = 1`. Unless we specify other values for the mean and standard deviation, the defaults will be used. 
 
 ---
 
-3. **Verify that the means and variances for object `draw1` are indeed conform the default arguments of function `rnorm()`**
+3. **Verify that the means and variances for object `draw1` are indeed conform to the default values for `mean` and `sd` of the function `rnorm()`**
 ```{r}
 mean(draw1)
 sd(draw1)
 ```
-The means and variances are close, but not equal. However, we've only drawn 10 values from a theoretical distribution. It is statistically not reasonable to expect that a single draw of 10 values will result in an unbiased estimate of the (infinitely large) population parameters.
+The means and variances are close, but not equal to the default values. However, we've only drawn 10 values from a theoretical distribution. It is statistically not reasonable to expect that a single draw of 10 values will result in an unbiased estimate of the (infinitely large) population parameters.
 
 ---
 
 4. **Draw 1000 values from a standard normal distribution and store the values in an object called `draw2`**.
 ```{r}
-draw2 <- rnorm(1000)
+draw2 <- rnorm(n=1000)
 ```
-Note that I do not have to specify `n = 1000`: by default, the ordering of the arguments is used to evaluate a function call. So `rnorm(40, 20, 5)` would generate a draw of 40 values from a normal distribution with mean equal to 20 and a standard deviation of 5. 
+ 
 
 ---
 
@@ -77,11 +77,11 @@ result <- data.frame(n=n, mean=means, sd=sds)
 row.names(result) <- c("population", "draw1", "draw2")
 result
 ```
-We have now created a `data.frame` with the results. Perhaps this dataframe becomes easier to read with some rounding:
+We have now created a `data.frame` with the results. Perhaps this data frame becomes easier to read with some rounding:
 ```{r}
 round(result, 3)
 ```
-It is clear that the larger sample size will, in general, yield less bias. However, the bias we obtain is directly dependent on the chosen random seed. For example, if we repeat the above process with `set.seed(125)`, we obtain completely different results:
+It is clear that the larger sample size will, in general, yield less bias. However, the bias we obtain is depends on the chosen random seed. For example, if we repeat the above process with `set.seed(125)`, we obtain completely different results:
 ```{r}
 set.seed(125)
 draw1b <- rnorm(10)
@@ -96,7 +96,7 @@ Now `draw2` has a larger absolute bias from the mean, despite its larger sample 
 
 ---
 
-The lesson so far is: When you fix your random seed, do not forget that your results are dependent on this random seed. It may be the case that results you obtain are a mere fluke: extremely rare, but obtained because you use a random seed. It would be nice to automate any random number process with different seeds to obtain the sampling distribution of estimates. This we will do on Friday when we consider Monte Carlo simulation. 
+The lesson so far is: When you fix your random seed, do not forget that your results are dependent on this random seed. It may be the case that results you obtain are a mere fluke: extremely rare, but obtained because you use a random seed. It would be nice to automate any random number process with different seeds to obtain the sampling distribution of estimates. This we will do on Thursday and Friday when we consider resampling techniques like cross-validation and bootstrapping. 
 
 ---
 
@@ -113,8 +113,8 @@ set.seed(123)
 
 7. **Draw objects `draw1` and `draw2` again, but name them `draw3` and `draw4`, respectively.**
 ```{r}
-draw3 <- rnorm(10)
-draw4 <- rnorm(1000)
+draw3 <- rnorm(n=10)
+draw4 <- rnorm(n=1000)
 ```
 
 ---
@@ -198,76 +198,9 @@ hist(draw.F, breaks = 25)
 hist(draw.pois, breaks = 25)
 ```
 
----
 
-Alternatively, we can automate this procedure with a simple single line call:
-```{r}
-invisible(apply(data, 2, function(x) hist(x, breaks = 25)))
-```
+12. **Draw two variables of size `1000` from a multivariate normal distribution, both with mean `5` and variance `1` and make sure that they correlate $\rho = .8$.**
 
-I use the `invisible()` function to omit the printing of the histogram data and only printing the histogram itself. 
-
-We will learn all about `apply()` in the next meeting for today. 
-
----
-
-We can use random number generation to simulate data. For example, we can use `sample()` to simulate rolling a single die 100 times:
-```{r}
-die.roll <- sample(1:6, size = 100, replace = TRUE)
-```
-We have to set `replace = TRUE` to sample with replacement because the sample size `size = 100` is larger than the set `1:6 = ``r 1:6`. 
-
----
-
-12.  **Calculate the probability for obtaining each side of the die in `die.roll`. **
-```{r}
-die.roll.tbl <- table(die.roll)
-prop.table(die.roll.tbl)
-```
-We see that in this try, the values 1 and 2 have a much higher probability than the other values. There results are obtained by first creating a frequency table out of `die.roll`:
-```{r}
-table(die.roll)
-```
-and then calculating the probability of the frequencies, given the total number of rolls
-```{r}
-prop.table(table(die.roll))
-```
-
-
----
-
-So far, we have only considered univariate distributions. Let's generate some multivariate data
-
----
-
-13. **Draw two variables (aka sets or features) of size `1000` from a multivariate normal distribution, both with mean `5` and variance `1` and make sure that they correlate $\rho = .8$.**
-
-There are two ways to go about this.
-
----
-
-- Approach 1: generate two univariate normal distributions and *make them correlate*:
-```{r}
-rho = .8
-var1 <- rnorm(1000, 5, sqrt(1)) #first variable
-var2 <- scale(var1) * rho + rnorm(1000, 0, sqrt(1 - rho^2)) #second variable step 1
-var2 <- var2 * sd(var1) + mean(var1) #second variable step 2
-data <- data.frame(var1 = var1, var2 = var2) #combined data frame
-colMeans(data) #means
-var(data) #variance/covariance matrix
-cor(var1, var2) #correlations
-```
-We see that the means are indeed approximately `5`, the variances approximate `1` and the correlation is approximately `.8`. In the case where the variance equals `1`, the correlation is equal to the covariance. For example, if the variance were exactly `1`, the correlation would be:
-
-\[\rho_{X,Y} = \frac{\text{COV(X,Y)}}{\sigma_X\sigma_Y} = \frac{.7925752}{1\times1} = .7925752.\]
-
-In our case, the correlation equals:
-
-\[\rho_{X,Y} =  \frac{.7925752}{\sqrt{0.9847586}\times\sqrt{.9830075}} = .8055587 \approx .80.\]
-
----
-
-- Approach 2: generate multivariate data from the multivariate normal distribution:
 ```{r}
 #you need function rmvnorm from package mvtnorm
 sigma <- matrix(c(1, .8, .8, 1), nrow = 2, ncol = 2) #variance/covariance matrix
@@ -275,7 +208,7 @@ data <- mvtnorm::rmvnorm(n = 1000, sigma = sigma, mean = c(5, 5))
 colMeans(data)
 var(data)
 ```
-Approach two yields approximately the same result as approach 1. Note that both approaches are equally valid: differences between them are only due to random variation. If we would simulate the processes repeatedly an infinite ($\infty$) number of times, the average parameters over these repeated simulations will converge to the population parameters. 
+
 
 ---
 

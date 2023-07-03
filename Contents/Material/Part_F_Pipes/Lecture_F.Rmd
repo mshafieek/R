@@ -443,11 +443,6 @@ cats %$%
 
 ```
 
-## The `%T>%` pipe
-<center>
-<img src="flow_T_pipe.png" alt="HTML5 Icon" width = 100%>
-</center>
-
 ## Debugging pipelines {.smaller}
 Sample 3 positions from the alphabet and show the position and the letter. If you don't know what's going on, run each statement separately!
 ```{r}
@@ -462,6 +457,7 @@ set.seed(123)
 1:26 %>%
   sample(3) %>%
   paste(., LETTERS[.])
+
 ```
 
 ## Performing a t-test in a pipe
@@ -483,3 +479,4 @@ cats.test <-
 cats.test
 ```
 # Practical 
+

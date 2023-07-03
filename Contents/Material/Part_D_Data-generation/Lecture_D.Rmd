@@ -1,6 +1,6 @@
 ---
 title: "Generating Data"
-author: "Laurence Frank"
+author: "Gerko Vink, Laurence Frank"
 date: "Statistical Programming with R"
 output:
   ioslides_presentation:
@@ -50,7 +50,7 @@ matrix(1:15, nrow = 3, ncol = 5, byrow = TRUE)
 
 Create a vector from a matrix:
 ```{r}
-mat <- matrix(1:18, 3, 6)
+mat <- matrix(data=1:18, nrow=3, ncol=6)
 mat
 c(mat)
 ```
@@ -58,7 +58,12 @@ c(mat)
 ## But we can also draw a sample
 Of the same size,
 ```{r}
-sample(mat)
+sample(x=mat)
+# Besides x=mat, no other arguments are specified, therefore the function uses 
+# the defaults:
+# If size is not specified, size = number of elements in x
+# replace: default value is FALSE
+
 ```
 smaller size,
 ```{r}
@@ -90,6 +95,7 @@ set.seed(123)
 sample(mat, size = 50, replace = TRUE)
 ```
 
+
 ## We can replicate a chain of samples
 ```{r}
 set.seed(123)
@@ -100,19 +106,23 @@ sample(mat, size = 5, replace = TRUE)
 sample(mat, size = 7, replace = TRUE)
 ```
 
-## The random seed
+## The random seed, pseudo-random numbers
 The random seed is a number used to initialize the pseudo-random number generator
 
-If replication is needed, pseudorandom number generators must be used
+If replication is needed, pseudo-random number generators must be used
 
-- Pseudorandom number generators generate a sequence of numbers
+- Pseudo-random number generators generate a sequence of numbers determined by an initial value
 - The properties of generated number sequences approximates the properties of random number sequences
-- Pseudorandom number generators are not truly random, because the process is determined by an initial value. 
+- But the sequence is predictable and therefore not truly random
+
+## The random seed, pseudo-random numbers
+
+For truly random numbers, visit https://www.random.org/ (random numbers are generated based on atmosperic noise)
 
 The initial value (the seed) itself does not need to be random.
 
-  - The resulting process is random because the seed value is not used to generate randomness
-  - It merely forms the starting point of the algorithm for which the results are random. 
+  - The resulting process is (pseudo-)random because the seed value is not used to generate randomness
+  - It merely forms the starting point of the algorithm. 
 
 ## Why fix the random seed
 When an `R` instance is started, there is initially no seed. In that case, `R` will create one from the current time and process ID. 
@@ -124,20 +134,15 @@ When an `R` instance is started, there is initially no seed. In that case, `R` w
 
 `If the method has not changed:` the results of the process will be identical when using the same seed. 
 
-  - Replications allows for verification
+  - Replications allow for verification
   - But beware: the process depends on the seed
-    - The results obtained could theoretically be extremely rare and would not have occured with every other potential seed
+    - The results obtained could theoretically be extremely rare and would not have occurred with every other potential seed
     - Run another seed before publishing your results
 
 
 ## Random seeds
 <center>
 <img src="fig/random_seed.png" alt="HTML5 Icon" width = 60%>
-</center>
-
-## Random processes
-<center>
-<img src="fig/random_process.png" alt="HTML5 Icon" width = 80%>
 </center>
 
 ## Drawing data
@@ -228,7 +233,7 @@ colMeans(data)
 var(data)
 ```
 
-## Bivariate normal
+## Bivariate normal 
 ```{r fig.height=5, fig.width=5}
 plot(data)
 ```
@@ -240,13 +245,13 @@ hist(data[, 1])
 hist(data[, 2])
 ```
 
-## To conclude
-<center> 
-<img src="going_out_for_a_byte.png" alt="HTML5 Icon" width = 50%>
-</center>
-[source](https://www.reddit.com/r/ProgrammerHumor/comments/8za9b6/hello_i_am_your_server_for_today/)
 
 # Practical
 
-- 
+## Practical B
+- Open the `Practical B Solutions` file to check the answers.
+- Open the `Practical B Template` file to write the code.
+
+
+
 

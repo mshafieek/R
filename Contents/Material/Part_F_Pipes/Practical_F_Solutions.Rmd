@@ -5,12 +5,6 @@ date: "Statistical Programming with R"
 output: html_document
 ---
 
-
-```{r echo=FALSE}
-printAnswers <- TRUE
-```
-
-
 ---
 
 #### Exercises
@@ -71,7 +65,7 @@ anscombe %$%
 
 4. **Use a pipe to calculate the correlation between `hgt` and `wgt` in the `boys` data set from package `mice`.**
 
-Because `boys` has missings values for almost all variables, we must first select `wgt` and `hgt` and then omit the rows that have missing values, before we can calculate the correlation. Using the standard `%>%` pipe, this would look like:
+Because `boys` has missing values for almost all variables, we must first select `wgt` and `hgt` and then omit the rows that have missing values, before we can calculate the correlation. Using the standard `%>%` pipe, this would look like:
 ```{r}
 boys %>%
   subset(select = c("wgt", "hgt")) %>%
@@ -90,7 +84,7 @@ Alternatively, we can use the `%$%` pipe:
 boys %$% 
   cor(hgt, wgt, use = "pairwise.complete.obs")
 ```
-The `%$%` pipe *unfolds* the listed dimensions of the `boys` dataset, such that we can refer to them directly. 
+The `%$%` pipe *unfolds* the listed dimensions of the `boys` data set, such that we can refer to them directly. 
 
 ---
 
@@ -102,31 +96,6 @@ boys %>%
   transform(hgt = hgt / 100) %$%
   mean(hgt, na.rm = TRUE)
 ```
-
----
-
-6. **Use a pipe to plot the pair (`hgt`, `wgt`) two times: once for `hgt` in meters and once for `hgt` in centimeters. Make the points in the 'centimeter' plot `red` and in the 'meter' plot `blue`. **
-
-This is best done with the `%T>%` pipe:
-```{r}
-boys %>%
-  subset(select = c(hgt, wgt)) %T>%
-  plot(col = "red", main = "Height in centimeters") %>%
-  transform(hgt = hgt / 100) %>%
-  plot(col = "blue", main = "Height in meters")
-```
-
-The `%T>%` pipe is very useful, because it creates a literal `T` junction in the pipe. It is perhaps most informative to graphically represent the above pipe as follows:
-```{r eval=FALSE}
-boys %>%
-  subset(select = c(hgt, wgt)) %T>%
-  plot(col = "red", main = "Height in centimeters") %>%
-  transform(hgt = hgt / 100) %>%
-  plot(col = "blue", main = "Height in meters")
-```
-![](flow_t_pipe.png)
-
-We can see that there is indeed a literal T-junction. Naturally, we can expand this process with more `%T>%` pipes. However, once a pipe gets too long or too complicated, it is perhaps more useful to cut the piped problem into smaller, managable pieces. 
 
 ---
 

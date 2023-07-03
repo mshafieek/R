@@ -1,15 +1,9 @@
 ---
-title: "Practical F: Template"
+title: "Practical F: template"
 author: "Gerko Vink"
 date: "Statistical Programming with R"
 output: html_document
 ---
-
-
-```{r echo=FALSE}
-printAnswers <- TRUE
-```
-
 
 ---
 
@@ -37,7 +31,6 @@ set.seed(123)
 - make a scatterplot of these two columns
 ```{r}
 
-
 ```
 
 
@@ -55,48 +48,29 @@ set.seed(123)
 
 Using the standard `%>%` pipe:
 ```{r}
-# Type your code here
+
 ```
 Alternatively, we can use the `%$%` pipe from package `magrittr` to make this process much more efficient.
 ```{r}
-# Type your code here
+
 ```
 
 ---
 
 4. **Use a pipe to calculate the correlation between `hgt` and `wgt` in the `boys` data set from package `mice`.**
 
-Because `boys` has missings values for almost all variables, we must first select `wgt` and `hgt` and then omit the rows that have missing values, before we can calculate the correlation. Write the code with base R, with the `%>%` pipe and the `%$%` pipe.
-
 ```{r}
-# Type your code here
+
 ```
 
 ---
 
-5. **In the `boys` data set, `hgt` is recorded in centimeters. Use a pipe to transform `hgt` in the `boys` dataset to height in meters and verify the transformation** (Hint: use a combination of the standard `%>%` pipe and the `%$%` pipe)
+5. **In the `boys` data set, `hgt` is recorded in centimeters. Use a pipe to transform `hgt` in the `boys` dataset to height in meters and verify the transformation**
+
+
 ```{r}
-# Type your code here
+
 ```
-
----
-
-6. **Use a pipe to plot the pair (`hgt`, `wgt`) two times: once for `hgt` in meters and once for `hgt` in centimeters. Make the points in the 'centimeter' plot `red` and in the 'meter' plot `blue`. **
-
-This is best done with the `%T>%` pipe. Add the correct pipe types in the code below.
-```{r eval=FALSE}
-boys 
-  subset(select = c(hgt, wgt)) 
-  plot(col = "red", main = "Height in centimeters") 
-  transform(hgt = hgt / 100) 
-  plot(col = "blue", main = "Height in meters")
-```
-
-The `%T>%` pipe is very useful, because it creates a literal `T` junction in the pipe. It is perhaps most informative to graphically represent the above pipe as follows:
-
-![](flow_t_pipe.png)
-
-We can see that there is indeed a literal T-junction. Naturally, we can expand this process with more `%T>%` pipes. However, once a pipe gets too long or too complicated, it is perhaps more useful to cut the piped problem into smaller, managable pieces. 
 
 ---
 
