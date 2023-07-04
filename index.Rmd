@@ -237,15 +237,14 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
     - [Lecture G](Contents/Material/Part_H_Statistical-inference/Lecture_H.html)
     - [Practical G: Template](Contents/Material/Part_H_Statistical-inference/SimulationConfidenceIntervals.Rmd)
     - [Practical G: Solutions](Contents/Material/Part_H_Statistical-inference/SimulationConfidenceIntervals.html)
-    - [Simulation of Confidence Intervals, Markdown file](Contents/Material/Part_H_Statistical-inference/SimulationConfidenceIntervals.Rmd)
 - Part H: Statistical models
     - [Lecture H](Contents/Material/Part_G_Statistical-models/Lecture_G.html)
     - [Practical H: Template](Contents/Material/Part_G_Statistical-models/Practical_G_Template.Rmd)
     - [Practical H: Solutions](Contents/Material/Part_G_Statistical-models/Practical_G_Solutions.html)
 - Part I: Data visualization
     - [Lecture I](Contents/Material/Part_I_Data-visualization/Lecture_i.html)
-    - [Practical I: Template](Contents/Material/Part_G_Statistical-models/)
-    - [Practical I: Solutions](Contents/Material/Part_G_Statistical-models/).
+    - [Practical I: Template](Contents/Material/Part_I_Data-visualization/Practical_i.Rmd)
+    - [Practical I: Solutions](Contents/Material/Part_I_Data-visualization/Practical_i_walkthrough.html)
 
 All lectures are in `html` format and have two versions: the slides and the handout version.
 Practical template files are `R Markdown` files with the exercises of the practicals. Fill in the the code (the answers) in these files. Practical solutions files give the answers to the exercises of the practicals. 

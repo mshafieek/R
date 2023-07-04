@@ -36,6 +36,9 @@ set.seed(123)
 ---
 
 1. **Create a scatterplot between `age` and `bmi` in the `mice::boys` data set**
+```{r}
+
+```
 
 ---
 
@@ -46,32 +49,53 @@ set.seed(123)
 - If `bmi > 25 & bmi < 30` use `color = "orange"`
 - If `bmi > 30` use `color = "red"`
 
+```{r}
+
+```
 
 ---
 
 3. **Create a histogram for `age` in the `boys` data set**
+```{r}
+
+```
 
 ---
 
 4. **Create a bar chart for `reg` in the boys data set**
 With a standard plotting device in `R`:
+```{r}
+
+```
 
 ---
 
 5. **Create a box plot for `hgt` with different boxes for `reg` in the `boys` data set**
 With a standard plotting device in `R`:
+```{r}
+
+```
 
 ---
 
 6. **Create a density plot for `age` with different curves for boys from the `city` and boys from rural areas (`!city`).**
+```{r}
+
+```
 
 ---
 
 7. **Create a diverging bar chart for `hgt` in the `boys` data set, that displays for every `age` year that year's mean height in deviations from the overall average `hgt`** 
+```{r}
+
+```
 
 ---
 
 8. **Bonus: Change the overall appearance of the plot you have created for exercise 7 using an available theme. Customize the theme (using theme()) in any way you like.**
+```{r}
+
+```
 
 ---
 
