@@ -207,7 +207,7 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
 - Part E: Custom functions
     - [Lecture E](Contents/Material/Part_E_Functions-apply-and-looping/Lecture_E.html)
     - [Practical E: Template](Contents/Material/Part_E_Functions-apply-and-looping/Practical_E_Template.Rmd)
-    - [Practical E: Solutions](Contents/Material/Part_E_Functions-apply-and-looping/Lecture_E_Solutions.html)
+    - [Practical E: Solutions](Contents/Material/Part_E_Functions-apply-and-looping/Practical_E_Solutions.html)
 - Part F: Pipes
     - [Lecture F](Contents/Material/Part_F_Pipes/Lecture_F.html)
     - [Practical F: Template](Contents/Material/Part_F_Pipes/Practical_F_Template.Rmd) 
