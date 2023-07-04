@@ -13,12 +13,12 @@ output: html_document
 ---
 
 
+
 It is always wise to fix the random seed. I often use a seed value of `123`:
 ```{r}
 set.seed(123)
 ```
 at the top of my document. This ensures that all calculations in my documents are exactly reproducible. This is because the random number generator in `R` will take its origin from the specified seed value. Every subsequent random process advance the random generation by one step. When we specify a seed value we can replicate the exact chain of random processes. This is an extremely useful tool.
-
 When an `R` instance is started, there is initially no seed. In that case, `R` will create one from the current time and process ID. Hence, different sessions will give different results when random numbers are involved. When you store a workspace and reopen it, you will continue from the seed specified within the workspace. 
 
 ---
