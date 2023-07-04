@@ -60,13 +60,13 @@ Participants will receive a certificate at the end of the course.
 | 09.00 | 09.30  | Lecture |
 | 09:30 | 10.15  | Practical |
 | 10.15 | 10.45  | Discussion |
-|       | **break** |            |
+| 10.45  | 11:00     |          **break**  |
 | 11.00 | 11.45  | Lecture |
-| 11:45 | 12.30  | Practical |
-|       | [Lunch](https://goo.gl/maps/GuxZQUCvtQixgzVE8) |            |
+| 11:45 | 13:00  | [Lunch](https://goo.gl/maps/GuxZQUCvtQixgzVE8)    |
+| 13:00 | 14.00  | Practical |
 | 14:00 | 14.30  | Discussion |
-| 14:30 | 15:30 | Lecture |
-|       | **break** |            |
+| 14:30 | 14:45  | **break**     |
+| 14:45 | 15:45 | Lecture |
 | 15:45 | 16.30  | Practical |
 | 16:30 | 17:00  | Discussion |
 
@@ -76,8 +76,7 @@ Participants will receive a certificate at the end of the course.
 |:--------|:-------|
 | Monday | [Viktor J. Koningsberger building, Room Pangea](https://goo.gl/maps/ufn6aXVL9K48Gn7S6) |
 | Tuesday | [Viktor J. Koningsberger building, Room Pangea](https://goo.gl/maps/ufn6aXVL9K48Gn7S6)  | 
-| Wednesday morning| [Viktor J. Koningsberger building, Room Pangea](https://goo.gl/maps/ufn6aXVL9K48Gn7S6)  | 
-| Wednesday afternoon| [Viktor J. Koningsberger building, Room Pangea](https://goo.gl/maps/jG6Vzv5ugfCXvR8x8) | 
+| Wednesday | [Viktor J. Koningsberger building, Room Pangea](https://goo.gl/maps/ufn6aXVL9K48Gn7S6)  | 
 | Thursday | [Viktor J. Koningsberger building, Room Pangea](https://goo.gl/maps/jG6Vzv5ugfCXvR8x8)  | 
 | Friday | [Viktor J. Koningsberger building, Room Pangea](https://goo.gl/maps/ufn6aXVL9K48Gn7S6) |            
 
@@ -234,20 +233,17 @@ The above links are useful references that connect to today's materials.
 ### Wednesday's materials
 We adapt the course as we go. To ensure that you work with the latest iteration of the course materials, we advice all course participants to access the materials online.
 
-- Part G: Statistical models
-    - [Lecture G](Contents/Material/Part_G_Statistical-models/Lecture_G.html)
-    - [Practical G: Exercises](Contents/Material/Part_G_Statistical-models/Practical_G_exercises.html)
-    - [Practical G: Template](Contents/Material/Part_G_Statistical-models/Practical_G_template.Rmd)
-    - [Practical G: Solutions](Contents/Material/Part_G_Statistical-models/Practical_G_solutions.html)
-- Part H: Statistical Inference
-    - [Lecture H](Contents/Material/Part_H_Statistical-inference/Lecture_H.html)
-    - [Practical H: Exercises](Contents/Material/Part_G_Statistical-models/)
-    - [Practical H: Template](Contents/Material/Part_G_Statistical-models/)
-    - [Practical H: Solutions](Contents/Material/Part_G_Statistical-models/)
-    - [Simulation of Confidence Intervals, Markdown file](SimulationConfidenceIntervals.Rmd)
+- Part G: Statistical Inference
+    - [Lecture G](Contents/Material/Part_H_Statistical-inference/Lecture_H.html)
+    - [Practical G: Template](Contents/Material/Part_H_Statistical-inference/SimulationConfidenceIntervals.Rmd)
+    - [Practical G: Solutions](Contents/Material/Part_H_Statistical-inference/SimulationConfidenceIntervals.html)
+    - [Simulation of Confidence Intervals, Markdown file](Contents/Material/Part_H_Statistical-inference/SimulationConfidenceIntervals.Rmd)
+- Part H: Statistical models
+    - [Lecture H](Contents/Material/Part_G_Statistical-models/Lecture_G.html)
+    - [Practical H: Template](Contents/Material/Part_G_Statistical-models/Practical_G_Template.Rmd)
+    - [Practical H: Solutions](Contents/Material/Part_G_Statistical-models/Practical_G_Solutions.html)
 - Part I: Data visualization
     - [Lecture I](Contents/Material/Part_I_Data-visualization/Lecture_i.html)
-    - [Practical I: Exercises](Contents/Material/Part_G_Statistical-models/)
     - [Practical I: Template](Contents/Material/Part_G_Statistical-models/)
     - [Practical I: Solutions](Contents/Material/Part_G_Statistical-models/).
 

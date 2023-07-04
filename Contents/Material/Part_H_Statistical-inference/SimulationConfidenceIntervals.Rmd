@@ -5,18 +5,32 @@ date: "2023-07-01"
 output: html_document
 ---
 
+## Exercises
+
+1. Open the "Solutions" file and download the "Template" file (the R Markdown file).
+
+2. Start with reading the "Solutions" file and try to understand what happens in each code chunk. If you do not understand what the code does, use the following possible strategies:
+  + Consult the help file of the function
+  + Run the code (in the Markdown file) line by line and inspect the output of the code in the "Environment" tab
+  + When you understand the code, add comments in the code chunks (use `#` to start a comment)
+
+3. Run the entire document by using the `Run All` option in the `Run` menu (upper right in the editor pane). Run the code again, but first change the seed at line 21. What do you observe? How many confidence intervals cover the population mean value = 0? 
+
 We start by fixing the random seed. 
 ```{r}
 set.seed(123)
 ```
-Then, we draw 100 samples from a standard normal distribution, i.e. a distribution with $\mu=0$ and $\sigma^2=1$, such that for any drawn sample X we could write $X ∼ \mathcal{N}(0,1)$
-. No specification about the size of the samples is explicitly requested, so for computational reasons a mere 5000 cases would suffice to obtain a detailed approximation.
+Then, we draw 100 samples from a standard normal distribution, i.e. a distribution with $\mu=0$ and $\sigma^2=1$, such that for any drawn sample X we could write $X ∼ \mathcal{N}(0,1)$. No specification about the size of the samples is explicitly requested, so for computational reasons a mere 5000 cases would suffice to obtain a detailed approximation.
 
 ```{r message=FALSE}
 library(plyr)
-samples <- plyr::rlply(100, rnorm(5000, mean = 0, sd = 1))
+samples <- plyr::rlply(.n = 100, rnorm(n = 5000, mean = 0, sd = 1))
 ```
-We use the `plyr::rlply()` function to draw the 100 samples and return the resulting output as a list. Further, we extract the following sources of information for each sample:
+We use the `plyr::rlply()` function to draw the 100 samples and return the resulting output as a list. 
+
+**Find the help file of `rlply()` and `rnorm()` and see if you understand what happens in the above code chunk**. 
+
+Further, we extract the following sources of information for each sample:
 
 * the sample mean $\bar{x}$
 * the absolute bias: $|\bar{x} - \mu |$, which would be $\bar{x}$ in this case.
@@ -41,7 +55,7 @@ results <- samples %>%
   vapply(., info, format) %>%
   t()
 ```
-Because object samples is a list, we can execute function `vapply()` to obtain a numerical object with the results of function `info()`. `vapply()` allows you to return output to a pre-defined format. Function `t()`is used to obtain the transpose of `vapply()`’s return - the resulting object has all information in the columns.
+Because object `samples` is a list, we can execute function `vapply()` to obtain a numerical object with the results of function `info()`. `vapply()` allows you to return output to a pre-defined format. Function `t()`is used to obtain the transpose of `vapply()`’s return - the resulting object has all information in the columns.
 
 To create an indicator for the inclusion of the population value $\mu=0$ in the confidence interval, we can add the following coverage column cov to the data:
 
@@ -50,11 +64,11 @@ results <- results %>%
   as.data.frame() %>%
   mutate(Covered = Lower < 0 & 0 < Upper)
 ```
-Converting the numerical object to an object of class data.frame allows for a more convenient calling of elements. Now we can simply take the column means over dataframe results to obtain the average of the estimates returned by `info()`.
+Converting the numerical object to an object of class data.frame allows for a more convenient calling of elements. Now we can simply take the column means over the data frame results to obtain the average of the estimates returned by `info()`.
 ```{r}
 colMeans(results)
 ```
-**We can see that 95 out of the 100 samples cover the population value.**
+**We can see that 94 out of the 100 samples cover the population value.**
 
 To identify the samples for which the population value is not covered, we can use column `cov` as it is already a logical evaluation.
 
@@ -76,7 +90,7 @@ kable(table, "html") %>%
 ```
 For an even more flexible presentation of tabulated results, the graphical parameters for `kable()` can be changed. For example, the following code renders a table that does not span the width of the page, is in a right-aligned floating container and has some visually pleasing aesthetics, like striping, hovering (mouse pointer) and is somewhat condensed.
 
-However, you need to pay attention to the final result. Justified floats have a tendency to mess up the ‘natural’ flow of the text, unless the body of text is sufficiently large. For example, this whole paragraph serves that purpose: to create a suffiently large body of text.
+However, you need to pay attention to the final result. Justified floats have a tendency to mess up the ‘natural’ flow of the text, unless the body of text is sufficiently large. For example, this whole paragraph serves that purpose: to create a sufficiently large body of text.
 
 To create a graph that would serve the purpose of the exercise, one could think about the following graph:
 ```{r message=FALSE}

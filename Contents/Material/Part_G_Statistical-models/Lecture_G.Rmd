@@ -1,375 +1,421 @@
 ---
-title: "Lecture G - Statistical Models"
-author: "Gerko Vink"
-date: "Statistical Programming with R"
-output:
+title: "Data Analysis with R"
+subtitle: "Linear model"
+params:
+  answer: true
+author: "Maarten Cruyff"
+output: 
   ioslides_presentation:
-    logo: logo.png
-    smaller: no
-    widescreen: no
+    smaller: true
 ---
 
-## I use the following packages in this lecture
-```{r message=FALSE}
-library(magrittr) #for pipes
-library(MASS)     #for the cats and bacteria data
-library(mice)     #for the boys data
+```{r include = FALSE}
+knitr::opts_chunk$set(comment = "", warning = F)
+library(ggplot2)
+library(magrittr)
+library(dplyr)
+library(gridExtra)
 ```
 
-### Function:
 
-- `lm()` to run linear models
+## Content
+
+1. The linear model `lm()`
+
+2. Simple regression
+
+    + continuous predictors
+    
+    + categorical predictors
+    
+3. Multiple regression
+
+   + main effect models
+   
+   + interaction models
+
+4. Residual plots
 
 
-```{r echo=FALSE}
-set.seed(123)
-```
+## Linear Model
 
-# Statistical models
+The linear regression model:
 
-## Statistical model
-
-The mathematical formulation of relationship between variables can be written as
-
-\[
-\mbox{observed}=\mbox{predicted}+\mbox{error}
-\]
-
-or
-\[y=\mu+\varepsilon\]
-
+$$y_i=\beta_0+\beta_{1} x_{i1}+\beta_2x_{i2}+\dots+\varepsilon_i, \ \ \ \ \ \  \varepsilon_i\sim N(0, \sigma^2)$$
 where
 
--   $\mu$ (mean) is the part of $Y$ that is explained by model 
--  $\varepsilon$ (residual) is the part of $Y$ that is not explained by model 
+- $y_i$ is score of individual $i$ on the numeric dependent variable $Y$
+
+- $x_{i1}$ is the score of individual $i$ on predictor $X_1$  
+
+- $\beta_0$ is the intercept 
+
+- $\beta_1$ is the slope of $X_1$
+
+- $\varepsilon_{i}$ is the residual (prediction error)
+
+- $\sigma^2$ is the variance of the residuals
 
 
-## A simple example
-Regression model:
+## The `lm()` function
 
--  Model individual age from weight
+```{r eval = FALSE}
+lm(formula, data) # returns an object of class lm
+```
 
-\[
-\text{age}_i=\alpha+\beta\cdot{\text{weight}}_i+\varepsilon_i
-\]
+formula        | model
+:--------------|--------------------------
+`y ~ 1`        | intercept-only
+`y ~ x1`       | main effect of x1
+`y ~ x1 + x2`  | main effects of x1, x2
+`y ~ .`        | main effects of all predictors
+`y ~ . - x1`   | main effects of all predictors except x1
+`y ~ x1 + x2 + x1:x2`    | main effects + interaction between x1 and x2
+`y ~ x1*x2`      | idem
+`y ~ .^2`      | main effects + pairwise interactions between all predictors
 
+
+# Simple regression
+
+
+## Continuous predictor 
+
+$$y_i=\hat{y}_i+\varepsilon_i$$
 where
+$$\hat{y}_i=\beta_0 + \beta_1x_i$$
 
--  $\alpha+\beta{x}_i$ is the mean of `age`, $y$, conditional on `weight`, $x$.
--  $\varepsilon_i$ is random variation 
+<br>
 
-## The linear model
+- $\hat{y}_i$ is the fitted value of $y_i$ for $X=x_i$
 
-The function `lm()` is a base function in `R` and allows you to define a variety of linear models. 
+- $x_i$ is the score on the numeric predictor 
 
-```{r}
-args(lm)
-```
+- $\varepsilon_i$ is the residual
 
-If we want to know what these arguments do we can ask R:
+- $\beta_0$ is the fitted value for $X = 0$
 
-```{r, eval=FALSE}
-?lm
-```
+- $\beta_1$ is the change in the fitted value for unit increase in $X$
 
-This will open a help page on the `lm()` function.
+## `mtcars` data
 
-## Continuous predictors {.smaller}
-To obtain a linear model with a main effect for `wgt`, we use the model formula $age\sim wgt$ 
-```{r warning=FALSE, message = FALSE}
-fit <- boys %$%
-  lm(age ~ wgt)
-fit
-```
+The help file of the `mtcars` data provides the following information on the data:
 
-Notice that we use the `%$%` operator that exposes the elements (variables) of the `boys` data frame to be processed by the `lm()` function.
+*The data was extracted from the 1974 Motor Trend US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).*
 
-## More information with `summary()` {.smaller}
-```{r}
-fit %>% summary
-```
+We will consider the following three variables of this data set:
 
-## Continuous predictors
-To obtain a linear model with just main effects for `wgt` and `hgt`, we use the model formula $age\sim wgt + hgt$ 
+* `mpg` (numerical): miles per gallon, the determinant of fuel efficiency.
+* `disp` (numerical): displacement measures overall volume in the engine as a factor of cylinder circumference, depth and total number of cylinders. This metric gives a good proxy for the total amount of power the engine can generate.
+* `gear` (numeric): Number of forward gears. Number of gears in the transmission. Manual transmissions have either 4 or 5 forward gears; Automatic either 3 or 4.
+
+## Information about the data set
 
 ```{r}
-fit <- boys %$%
-  lm(age ~ wgt + hgt)
-fit
+str(mtcars)
 ```
 
-## More information with `summary()` {.smaller}
+
+## Linear model
+
+```{r include = params$answer}
+lm(formula = mpg ~ disp, data = mtcars)
+```
+For `disp = 0`, the predicted value of `mpg` is 29.6
+
+For each unit increase in `disp`, the predicted value of `mpg` decreases with 0.041
+
+(i.e. cars with higher engine power consume more fuel)
+
+## The `lm` object
+
+Extracting information from an `lm` object called `fit`:
+
+Function / Subsetting | Output
+-------------------|-------------------------
+`summary(fit)`       | summary of the model
+`coef(fit) / fit$coef`          | coefficients
+`coef(summary(fit)) / summary(fit)$coef`   | coefficients, SEs, $t$-values, $p$-values
+`fitted(fit) / fit$fitted`        | fitted values
+`resid(fit) / fit$resid`         | residuals
+`anova(fit)`         | ANOVA table 
+`plot(fit)`          | residual plots
+
+## Extracting the coefficients
+
+```{r include = params$answer}
+summary(lm(mpg ~ disp, mtcars))$coef %>% round(3)
+```
+
+The intercept is significantly different from 0
+
+The slope is significantly different from 0
+
+
+## Scatterplot
+
+Display a scatter plot with linear regression line for the previous model. 
+
+```{r  include = params$answer, echo = FALSE, message = FALSE, fig.align = "center"}
+ggplot(mtcars, aes(disp, mpg)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F)
+```
+
+
+## Categorical predictor 
+
+A predictor with $k$ categories is converted into $k-1$ dummy variables.
+
+- one dummy per category, except for the reference category
+
+- dummy has value $1$ for corresponding category and $0$ otherwise
+
+- the reference category has value $0$ on all dummies 
+
+<br>
+
+```{r echo = FALSE, out.width = "70%", fig.cap = "Reference category of $z$ is $a$", fig.align = "center"}
+knitr::include_graphics("dummies.png")
+```
+
+
+## Interpreting dummies
+
+Model with two dummies $zb$ and $zc$:
+
+$$\hat{y}=\beta_0+\beta_1zb+\beta_2zc$$
+
+<br>
+
+- $\beta_0$ is fitted value for $z=a$ (reference category)
+
+- $\beta_0+\beta_1$ is the fitted value for $z=b$
+
+- $\beta_0+\beta_2$ is the fitted value for $z=c$ 
+
+
+
+
+## Linear model with `gear` as factor
+
+`gear` is a categorical variable and has values 3, 4, 5, and has data type numeric. 
 ```{r}
-fit %>% summary
+lm(mpg ~ factor(gear), mtcars)
 ```
 
-## Continuous predictors: interaction effects {.smaller}
-To predict $age$ from $wgt$, $hgt$ and the interaction $wgt*hgt$ we use the following model formula for the interaction effect $age\sim wgt * hgt$
-```{r}
-fit <- boys %$% lm(age ~ wgt * hgt)
-# wgt * hgt = wgt + hgt + wgt:hgt
-fit
+- mean `mpg` for 3 gears is 16.107
+
+- mean `mpg` for 4 gears is 16.107 + 8.427 
+
+- mean `mpg` for 5 gears is 16.107 + 5.273 
+
+
+## Regression lines
+
+Two plots, each with reference category `gear = 3`
+
+```{r message = FALSE, fig.asp = 0.4, echo=F}
+grid.arrange(
+  mtcars %>% filter(gear != 5) %>%  
+    ggplot(aes(gear, mpg)) + 
+    geom_point() + 
+    geom_smooth(method = "lm", se = F) + 
+    scale_x_continuous(breaks = c(3, 4)) +
+    ggtitle("slope for gear = 4"),
+  mtcars %>% filter(gear != 4) %>% 
+    ggplot(aes(gear, mpg)) + 
+    geom_point() + 
+    geom_smooth(method = "lm", se = F) + 
+    scale_x_continuous(breaks = c(3, 5)) +
+    ggtitle("slope for gear = 5"),
+  nrow = 1)
 ```
 
-## More information with `summary()` {.smaller}
-```{r}
-fit %>% summary
-```
+## Model summary
 
-## Categorical predictors in the linear model {.smaller}
-If a categorical variable is entered into function `lm()`, it is automatically converted to a dummy set in `R`. The first level is always taken as the reference category. If we want another reference category we can use the function `relevel()` to change this.
-
-```{r}
-fit <- boys %$% lm(age ~ reg)
-```
-
-##  More information with `summary()` {.smaller}
-```{r}
-fit %>% summary
-```
-
-## Components of the linear model {.smaller}
-```{r}
-names(fit) # the names of the list with output objects
-fit$coef  # show the estimated coefficients
-coef(fit) # alternative
-```
-
-# Distributions
-
-
-## Probability distributions
-
--  Normal distributions
-
-    -  Linear model
-    -  error distribution is normal
-
--  Discrete distributions (counts)
-
-    -  Bernoulli, Binomial or Poisson model
-    -  error distribution not normal
-
--  Other continuous distributions 
-
-    -  Uniform, exponential 
-    -  error distribution not normal
-
-## Probability distributions in R {.smaller}
-
-R has a system to work with probability distributions. For example the normal distribution:
-
-`dnorm()`: **d** for density function
-
-`pnorm()`: **p** for cumulative distribution $P(X \leqslant x)$
-
-`qnorm()`: **q** for p-quantile
-
-`rnorm()`: **r** for pseudo-random normally distributed numbers
-
-Example: obtain critical *z*-value for 95% confidence interval:
-```{r}
-qnorm(0.975) # default: mean=0, sd=1
-```
-
-For other distributions, replace `norm` with: `f, chisq, binom, pois, exp, unif, gamma, beta, t`
-
-
-# Discrete distributions
-
-## Binomial distribution {.smaller}
-
-Probability of $y$ successes in $n$ trials with probability of success $\pi$
-
-\[
-P(y|n,\pi)={n\choose y}\pi^y(1-\pi)^{(n-y)}
-\]
-
-For $n=5$ trials:
-```{r echo=FALSE, fig.height=4}
-par(mfrow=c(1,2), bg = NA)
-y <- factor(0:5)
-x <- 0:5
-barplot(dbinom(x,5,.1), ylim=c(0,.6), names.arg=y, ylab="P(Y=y)", xlab="y")
-text(5,.5,expression(paste(pi," = 0.1")))
-barplot(dbinom(x,5,.5), ylim=c(0,.6), names.arg=y, ylab="P(Y=y)", xlab="y")
-text(5,.5, expression(paste(pi," = 0.5")))
-```
-
-## Code that generates plot of previous slide {.smaller}
-```{r eval=FALSE, fig.height=4}
-par(mfrow=c(1,2), bg = NA)
-y <- factor(0:5)
-x <- 0:5
-barplot(dbinom(x,5,.1), ylim=c(0,.6), names.arg=y, ylab="P(Y=y)", xlab="y")
-        text(5,.5,expression(paste(pi," = 0.1")))
-barplot(dbinom(x,5,.5), ylim=c(0,.6), names.arg=y, ylab="P(Y=y)", xlab="y")
-        text(5,.5, expression(paste(pi," = 0.5")))
-```
-
-## Poisson distribution {.smaller}
-The probability of $y$ events within a time period (e.g. number of earthquakes in a year)
-\[
-P(y|\lambda)=\frac{e^{-\lambda}\lambda^y}{y!}, \text{where } lambda=\text{rate parameter}
-\]
-```{r echo=FALSE, fig.height=4}
-par(mfrow = c(1, 3), bg = NA)
-y <- factor(0:5)
-x <- 0:5
-barplot(dpois(x, .5), ylim = c(0, .6), names.arg = y, 
-        ylab = "P(Y=y)", xlab = "y")
-text(5, .5, expression(paste(lambda, " = 0.5")))
-barplot(dpois(x, 1), 
-        ylim = c(0, .6), 
-        names.arg = y, 
-        ylab = "P(Y=y)", 
-        xlab = "y")
-text(5, .5, expression(paste(lambda, " = 1")))
-barplot(dpois(x, 2), ylim = c(0, .6), names.arg = y, 
-        ylab = "P(Y = y)",xlab="y")
-text(5,.5,expression(paste(lambda," = 2")))
-```
-
-
-## Code that generates plot of previous slide{.smaller}
-```{r eval=FALSE, fig.height=4}
-par(mfrow = c(1, 3), bg = NA)
-y <- factor(0:5)
-x <- 0:5
-barplot(dpois(x, .5), 
-        ylim = c(0, .6), 
-        names.arg = y, 
-        ylab = "P(Y=y)", 
-        xlab = "y")
-text(5, .5, expression(paste(lambda, " = 0.5")))
-barplot(dpois(x, 1), 
-        ylim = c(0, .6), 
-        names.arg = y, 
-        ylab = "P(Y=y)", 
-        xlab = "y")
-text(5, .5, expression(paste(lambda, " = 1")))
-barplot(dpois(x, 2), 
-        ylim = c(0, .6), 
-        names.arg = y, 
-        ylab = "P(Y = y)",
-        xlab="y")
-text(5,.5,expression(paste(lambda," = 2")))
-```
-
-# Continuous distributions
-## Normal distribution: pdf en cdf {.smaller}
-The probability density function (pdf): 
-```{r fig.height=4}
-par(mfrow=c(1,2), bg=NA)
-curve(dnorm(x,0,1),xlim=c(-3,3),ylab="f(x)",main='') 
-curve(pnorm(x,0,1),xlim=c(-3,3),ylab="F(X < x)",main='')
-```
-
-## Exponential distribution
-
--  Waiting times (e.g. time until occurrence eartquake)
-\[
-f(t|\lambda)=\lambda{e}^{-\lambda{t}}
-\]
-
-```{r echo = FALSE, fig.height=4}
-par(mfrow=c(1,2), bg = NA)
-curve(dexp(x,2),from=0, to=5,xlab="t",ylab="f(t)",col="red",main='') 
-curve(dexp(x,.5),from=0, to=5,main='',col="blue",add=TRUE) 
-text(.8,1.8,expression(paste(lambda," = 2")),col="red")
-text(4,0.25,expression(paste(lambda," = 0.5")),col="blue")
-curve(pexp(x,2),from=0, to=5,xlab="t",ylab="F(T < t)",main='',col="red")
-curve(pexp(x,.5),from=0, to=5,main='',col="blue",add=TRUE)
-text(1.5,.8,expression(paste(lambda," = 2")),col="red")
-text(2.3,0.5,expression(paste(lambda," = 0.5")),col="blue")
-```
-
-# Some more modeling 
-
-## Performing a t-test {.smaller}
-```{r}
-cats %$% t.test(Hwt ~ Sex)
-```
-
-## Performing a chi-square test {.smaller}
-Bacteria data: tests of the presence of the bacteria H. influenzae in children with otitis media in the Northern Territory of Australia. 
-```{r}
-bacteria %>% head(n=8)
-```
-Two categorical variables:
-
-Column `y`:  `n` = disease absent, `y`= disease present.
-
-Column `ap`: `a` = active medicine, `p`= placebo.
-
-Nul hypothesis: there is no relation between disease status and treatment.
-
-## Performing a chi-square test {.smaller}
-```{r}
-bacteria %$% table(ap, y)
-```
-```{r}
-x2.table <- table(bacteria$ap, bacteria$y)
-x2.table <- cbind(x2.table, rowSums(x2.table))
-rbind(x2.table, colSums(x2.table))
-```
-
-## chi-square tests {.smaller}
-
-$$\chi^2 = \sum \frac{(O - E)^2}{E}$$
-
-- Observed: 
-```{r echo = FALSE}
-rbind(x2.table, colSums(x2.table))
-```
-
-- Expected:
+Summary of model statistics
 
 ```{r echo = FALSE}
-bacteria %$% chisq.test(ap, y)$expected
+summary(lm(formula = mpg ~ factor(gear), data = mtcars))
 ```
 
-## Performing a chi-square test {.smaller}
+
+## Model comparisons with `anova()`
+
+Which model fits better: 
+
+1. `mpg ~ 1`
+
+2. `mpg ~ gear`  
+
+3. `mpg ~ factor(gear)`
+
+<br>
+
+Each subsequent model has one more parameter, so it is expected to fit better.
+
+- But is it significantly better?
+
+<br>
+
+We can check this with an $F$-test for the $R^2$-change
+
+- The function to do this test is `anova(model 1, model 2, model 3)`
+
+
+## Which model fits best?
+
+Test the $R^2$-change for the 3 models on the previous slide
+
+- which model fits best?
+
+```{r  include = params$answer}
+anova(lm(formula = mpg ~ 1, data = mtcars),
+      lm(formula = mpg ~ gear, data = mtcars),
+      lm(formula = mpg ~ factor(gear), data = mtcars))
+```
+
+Model 3 fits best.
+
+
+# Multiple regression
+
+## Main-effects model
+
+No interactions in the model, e.g.
+
+$$\hat{y}=\beta_0+\beta_1x_1+\beta_2x_2$$
+<br>
+
+Interpretation
+
+- the slope of $x_1$ does not depend on $x_2$
+
+- the slope of $x_2$ does not depend on $x_1$
+
+- the slopes of $x_1$ and $x_2$ are corrected for the correlation $r_{x_1,x_2}$
+
+## Model with `disp` and `gear`
+
+Slopes corrected for correlation `disp` and `gear` $(r = -0.56)$
+
+Slope for `disp` and `gear` in simple regression models
 ```{r}
-prop.table(table(bacteria$ap, bacteria$y), margin = 1)
+c(lm(formula = mpg ~ disp, data = mtcars)$coef[2], 
+  lm(formula = mpg ~ gear, data = mtcars)$coef[2])
 ```
 
-* In the treatment condition, 1/4 is free of disease. 
-
-* In the placebo condition 1/8 is free of the disease. 
-
-Should we assume this means the medicine works?
-
-## Performing a chi-square test {.smaller}
+Slope for `disp` and `gear` in multiple regression model
 ```{r}
-bacteria %$% chisq.test(ap, y)
+lm(formula = mpg ~ disp + gear, data = mtcars)$coef[2:3]
 ```
-or the other way around
+
+## Interaction model
+
+An interaction effect is (literally) the product of two predictors:
+
+$$\hat{y}=\beta_0+\beta_1x_1+\beta_2x_2 + \beta_{12}x_1x_2$$
+
+- The main effects should always be included too!
+
+Interpreting the interaction effect
+
+- The slope of $x_1$ is $\beta_1+\beta_{12}x_2$.
+ 
+- The slope of $x_2$ is $\beta_2+\beta_{12}x_1$.
+
+
+## Model summary
+
 ```{r}
-bacteria %$% chisq.test(y, ap)
-```
-
-## Or, equivalently: {.smaller}
-```{r}
-bacteria %$% table(ap, y) %>% chisq.test
+summary(lm(formula = mpg ~ disp * factor(gear), data = mtcars)) 
 ```
 
 
-## Visualizing this
+## Regression plots
 
-```{r, dev.args = list(bg = 'transparent')}
-bacteria %$% table(y, ap) %>% plot
+
+```{r echo = FALSE, message = FALSE, fig.asp = .4}
+grid.arrange(
+  
+  ggplot(mtcars, aes(disp, mpg, col = factor(gear))) +
+  geom_point() +
+  geom_line(aes(y = predict(lm(mpg ~ disp + factor(gear), mtcars))), linewidth = 1) +
+    ggtitle("main effects model"),
+  
+  ggplot(mtcars, aes(disp, mpg, col = factor(gear))) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F) +
+    ggtitle("interaction model"),
+  
+  nrow = 1)
 ```
 
-## Visualizing this {.smaller}
 
-```{r fig.height=4.5, dev.args = list(bg = 'transparent')}
-barplot(table(bacteria$y, bacteria$ap), 
-        beside = TRUE, 
-        legend = c("No infection", "Infection"), 
-        col = c("blue", "orange"),
-        args.legend = list(x=4.5, y=80))
+## Compare the models 
+
+Compare and interpret the fit of the following models
+
+- intercept-only
+
+- model with `disp` predicting `mpg`
+
+- main effects model with `disp` and `factor(gear)` predicting `mpg`
+
+- interaction model with `disp` and `factor(gear)` predicting `mpg`
+
+## Results
+
+```{r  include = params$answer}
+anova(lm(formula = mpg ~ 1, data = mtcars),
+      lm(formula = mpg ~ disp, mtcars),
+      lm(formula = mpg ~ disp + factor(gear), mtcars),
+      lm(formula = mpg ~ disp * factor(gear), mtcars))
+
+```
+
+# Residual plots
+
+
+## Residuals vs Fitted
+
+**linearity**
+
+- approximately straight red line at 0
+
+```{r fig.width = 5, echo=F, fig.align = 'center'}
+plot(lm(formula = mpg ~ disp * factor(gear), data = mtcars), which = 1)
+```
+
+## Normal Q-Q
+
+**Normally distributed residuals**
+
+- residuals approximately on diagonal 
+
+```{r fig.width = 5, echo=F, fig.align = 'center'}
+plot(lm(formula = mpg ~ disp * factor(gear), data = mtcars), which = 2)
 ```
 
 
+## Scale-Location**
+
+**Homoscedasticity (constant variance residuals)**
+
+- approximately straight red line
+
+```{r fig.width = 5, echo=F, fig.align = 'center'}
+plot(lm(formula = mpg ~ disp * factor(gear), mtcars), which = 3)
+```
+
+## Residuals vs Leverage
+
+**Influential data points**
+
+- data points with a Cook's Distance larger than 1
+
+
+```{r fig.width = 5, fig.align = 'center', echo=F}
+plot(lm(formula = mpg ~ disp * factor(gear), data = mtcars), which = 5)
+```
 

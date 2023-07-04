@@ -1,6 +1,6 @@
 ---
-title: "Practical G: Template"
-subtitle: "Linear Model"
+title: "Practical G: Solutions"
+subtitle: "Linear model"
 author: "Maarten Cruyff"
 params:
   answers: true
@@ -78,16 +78,16 @@ $m_0$ predicting `brain` from `body`; display its summary, and interpret the
 parameter estimates and the R-squared. 
 
 ```{r}
-# type your code here
+m0 <- lm(formula = brain ~ body, data = Animals)
+summary(m0)
 ```
 
 e. Display the diagnostic residual plots for the previous model, and interpret 
 the results.
 
 ```{r fig.asp = 1.2}
-par(mfcol = c(2, 2)) # this prepares a plotting area for 4 plots in a 2x2 display
-# type your code here to make the plot of the lm class object:
-
+par(mfcol = c(2, 2))
+plot(m0)
 ```
 
 ## Data transformations
@@ -122,14 +122,16 @@ transformed `brain`; display its summary, and interpret the parameter estimates
 and the R-squared. 
 
 ```{r}
-# Type your code here
+m1 <- lm(formula = log(brain) ~ log(body), data = Animals)
+summary(m1)
 ```
 
 e. Display the diagnostic plots for `m1` and interpret. Are the model 
 assumptions fulfilled?
 
 ```{r fig.asp = 1.2}
-# Type your code here
+par(mfcol = c(2, 2))
+plot(lm(formula = log(brain) ~ log(body), data = Animals))
 ```
 
 ## Adding a predictor
@@ -168,13 +170,15 @@ b. Fit the model `m2` by adding the predictor `species` to model `m1`, display
 its summary, and interpret the parameter estimates and the R-squared.
 
 ```{r}
-# Type your code here
+m2 <- lm(formula = log(brain) ~ log(body) + species, data = Animals)
+summary(m2)
 ```
 
 c. Display and interpret the diagnostic plots for `m2`.
 
 ```{r fig.asp = 1.2}
-# Type your code here
+par(mfcol = c(2, 2))
+plot(m2)
 ```
 
 The diagnostic plots show outliers that have a higher (logarithm of) `brain` 
@@ -217,20 +221,22 @@ e. Fit the model `m3` with the modified predictor `species`; display its
 summary, and interpret the parameter estimates and the R-squared.
 
 ```{r}
-# Type your code here
+m3 <- lm(formula = log(brain) ~ log(body) + species, data = Animals)
+summary(m3)
 ```
 
 f. Display and interpret the diagnostic plots for `m3`. What do the residual 
 plots say about the brain weight of the Gorilla?
 
 ```{r fig.asp = 1.2}
-# Type your code here
+par(mfcol = c(2, 2))
+plot(m3)
 ```
 
 g. Test the fit of the models `m1` to `m3` with the `anova()` function.
 
 ```{r}
-# Type your code here
+anova(m1, m2, m3)
 ```
 
 
