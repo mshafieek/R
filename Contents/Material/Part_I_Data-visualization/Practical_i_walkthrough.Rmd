@@ -96,7 +96,7 @@ It may be easier to create a new variable that creates the specified categories.
 ```{r cache=TRUE}
 boys2 <- 
   boys %>%
-  mutate(class = cut(bmi, c(0, 18.5, 25, 30, Inf),
+  mutate(class = cut(x = bmi, breaks = c(0, 18.5, 25, 30, Inf),
                     labels = c("underweight",
                                "healthy",
                                "overweight",
@@ -119,9 +119,9 @@ to obtain the same result.
 With the standard plotting device in `R` we can now specify:
 
 ```{r cache=TRUE}
-plot(bmi ~ age, subset = class == "underweight", col = "light blue", data = boys2, 
+plot(bmi ~ age, subset = class == "underweight", col = "lightblue", data = boys2, 
      ylim = c(10, 35), xlim = c(0, 25))
-points(bmi ~ age, subset = class == "healthy", col = "light green", data = boys2)
+points(bmi ~ age, subset = class == "healthy", col = "lightgreen", data = boys2)
 points(bmi ~ age, subset = class == "overweight", col = "orange", data = boys2)
 points(bmi ~ age, subset = class == "obese", col = "red", data = boys2)
 ```
@@ -140,7 +140,7 @@ Although the different classifications have different colours, the colours are n
 boys2 %>%
   ggplot() +
   geom_point(aes(age, bmi, col = class)) +
-  scale_color_manual(values = c("light blue", "light green", "orange", "red"))
+  scale_color_manual(values = c("lightblue", "lightgreen", "orange", "red"))
 ```
 
 Because there are missing values, `ggplot2` displays a warning message. If we would like to not consider the missing values when plotting, we can simply exclude the `NA`s by using a `filter()`:
@@ -150,7 +150,7 @@ boys2 %>%
   filter(!is.na(class)) %>%
   ggplot() +
   geom_point(aes(age, bmi, col = class)) +
-  scale_color_manual(values = c("light blue", "light green", "orange", "red"))
+  scale_color_manual(values = c("lightblue", "lightgreen", "orange", "red"))
 ```
 
 Specifying a filter on the feature `class` is sufficient: age has no missings and the missings in `class` directly correspond to missing values on `bmi`. Filtering on `bmi` would therefore yield an identical plot.
@@ -225,6 +225,11 @@ With `ggplot2`:
 boys %>%
   ggplot(aes(reg, hgt)) +
   geom_boxplot()
+
+# This does not work!
+#boys %$%
+#  ggplot(aes(reg, hgt)) +
+#  geom_boxplot()
 ```
 
 ---

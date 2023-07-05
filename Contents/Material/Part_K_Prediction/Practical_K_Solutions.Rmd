@@ -1,5 +1,5 @@
 ---
-title: "Practical K: Template"
+title: "Practical K Solutions"
 author: "Maarten Cruyff"
 date: "Statistical Programming in R"
 output: prettydoc::html_pretty
@@ -20,13 +20,13 @@ The data sets `cars` contain the two variables `speed` and `distance`. In this p
 a. Display a plot of the data.
 
 ```{r}
-
+plot(cars)
 ```
 
 b. Display the summary of a cubic model predicting `dist` from `speed`. What do you conclude from this model?
 
 ```{r}
-
+summary(lm(dist ~ poly(speed, 3), cars))
 ```
 c. If you display the data you will see that the cases are ordered in ascending order of `speed`. We don't want that we are going to make the folds. To mixed them up a little bit run the following line of code: 
 
@@ -48,7 +48,8 @@ folds <- 5
 b. Make the list `test_id` by sampling of the indices for the test sets. Display the list to check its content.
 
 ```{r}
-
+test_id <- split(1:nrow(cars), 1:5)
+test_id
 ```
 
 3. **Get the MSE for the first fold of the linear model.**
@@ -56,31 +57,33 @@ b. Make the list `test_id` by sampling of the indices for the test sets. Display
 a. Make the matrix `mse_lin` with `folds` rows to store the test MSE's of the linear model.
     
 ```{r}
-
+mse_lin <- matrix(nrow = folds)
 ```
 
 b. Fit the linear model to the training set `cars[-test_id[[1]], ]` of the first fold (beware to use the correct number of square brackets!). Save the object as `fit`.
     
 ```{r}
-
+fit <- lm(dist ~ speed, cars[-test_id[[1]], ])
 ```
     
 c. Get the predictions for the test set and save then as `pred`. Display the result.
     
 ```{r}
+pred <- predict(fit, newdata = cars[test_id[[1]], ])
 
+pred
 ```
 
 d. Compute the test MS and store it in the 1st row of `pred`.
     
 ```{r}
-
+mse_lin[1] <- mean((cars$dist[test_id[[1]]] - pred)^2)
 ```
 
 e. Display `pred`. It should be a matrix with 5 rows with the test MSE of the 1st fold in the first row.
     
 ```{r}
-
+mse_lin
 ```
 
 ---
@@ -94,11 +97,11 @@ a. Write the `for` loop for cross validation of the linear model. Follow the exa
 ```{r}
 for (i in 1:folds) {
   
-  fit        <-     
+  fit        <- lm(dist ~ speed, data = cars[-test_id[[i]], ])      
   
-  pred       <- 
+  pred       <- predict(fit, newdata = cars[test_id[[i]], ]) 
   
-  mse_lin[i] <-      
+  mse_lin[i] <- mean((cars$speed[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
   
 }
 
@@ -113,11 +116,11 @@ mse_quad <- matrix(nrow = folds)
 
 for (i in 1:folds) {
   
-  fit         <-     
+  fit         <- lm(dist ~ poly(speed, 2), data = cars[-test_id[[i]], ])      
   
-  pred        <- 
+  pred        <- predict(fit, newdata = cars[test_id[[i]], ]) 
   
-  mse_quad[i] <-      
+  mse_quad[i] <- mean((cars$speed[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
   
 }
 
@@ -131,11 +134,11 @@ mse_cub <- matrix(nrow = folds)
 
 for (i in 1:folds) {
   
-  fit         <- 
+  fit         <- lm(dist ~ poly(speed, 3), data = cars[-test_id[[i]], ])      
   
-  pred        <- 
+  pred        <- predict(fit, newdata = cars[test_id[[i]], ]) 
   
-  mse_cub[i]  <- 
+  mse_cub[i]  <- mean((cars$speed[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
   
 }
 
@@ -149,7 +152,10 @@ mse_cub
 a. Display a data frame with the averaged MSE's for the linear, quadratric and cubic models.
      
 ```{r}
-
+data.frame(linear    = mean(mse_lin), 
+           quadratic = mean(mse_quad), 
+           cubic     = mean(mse_cub),
+           row.names = "Average test MSE")
 ```
 
     

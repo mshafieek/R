@@ -1,0 +1,246 @@
+---
+title: "Practical J: Solutions"
+subtitle: "Model estimation"
+author: "Maarten Cruyff"
+output:
+  html_document: default
+  pdf_document: default
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+------------------------------------------------------------------------
+
+
+
+```{r message=FALSE, warning=FALSE}
+library(MASS)
+library(ggplot2)
+library(dplyr)
+library(gridExtra)
+```
+
+
+# The Diamonds data
+
+In this exercise,  predict the price of diamonds from 
+a continuous and categorical variable. The data set is `diamonds` 
+of the package `ggplot2`, The data set is very large, so we will work with
+a random sample of 500 cases.
+
+First have a look at the structure of the data set with: `str()`. What do you conclude? Which data types do you see?
+```{r}
+str(diamonds)
+```
+
+a.  Set the seed to 100 and---with the help of pipe operators---use the
+    `slice_sample()` function to take a random sample form the original data set. 
+    Call the new data set: `my_diamonds`,
+    Change the class of the variables `cut`, `color` and `clarity` from `ordered factor` to `factor`. 
+    Look again at the results with `str()` and `summary()`.
+
+
+```{r}
+set.seed(100)
+my_diamonds <- dplyr::slice_sample(diamonds, n = 500, replace = TRUE) %>% 
+  dplyr::mutate(cut = factor(cut, ordered = FALSE),
+         color   = factor(color, ordered = FALSE),
+         clarity = factor(clarity, ordered = FALSE))
+
+str(my_diamonds)
+```
+```{r}
+summary(my_diamonds)
+```
+## Presentation ready summary tables
+The package [`gtsummary`](https://www.danieldsjoberg.com/gtsummary/) provides a flexible way to create presentation-ready summary tables. Have a look at the webpage of this package to learn more about the possibilities.
+Install the package `gtsummary` and load it. 
+
+Make a `gtsummary` table of the `my_diamonds` data with the following code: `my_diamonds %>% tbl_summary()`
+
+```{r message=FALSE, warning=FALSE}
+# install.packages("gtsummary")
+require(gtsummary)
+
+my_diamonds %>% tbl_summary()
+```
+
+Make a scatterplot with `ggplot` with the following aesthetics: x-axis = `carat`; y-axis = `price`; color =
+`depth` and add a meaningful main title to the plot, as well as axis lables. What do you conclude?
+
+
+```{r}
+
+p <- ggplot(my_diamonds, aes(x=carat, y=price, color=depth)) +
+      geom_point() +
+      labs(x = "carat", y = "price", title = "Price of diamonds related to their carat and depth values") 
+p
+```
+
+------------------------------------------------------------------------
+
+## Numeric predictors
+
+We start with a simple regression predicting the `price` of diamonds from the numeric
+predictor `carat`.
+
+a.  Display a scatter plot of `price` against `carat`, and add a linear
+    regression line (set the size of the points to 0.5).
+
+```{r}
+ggplot(my_diamonds, aes(x = carat, y = price)) +
+  geom_point(size = 0.5) +
+  geom_smooth(method = "lm", se = FALSE) 
+```
+
+b.  Describe the effect of `carat` on `price`.
+
+   - `carat` is positively associated with `price`.
+
+
+c.  Display and interpret the summary of the model.
+
+```{r}
+fit <- lm(price ~ carat, my_diamonds)
+fit %>% summary()
+```
+
+
+d.  Test the significance of the model against the intercept-only model.
+
+```{r}
+anova(lm(price ~ 1, my_diamonds), fit)
+```
+
+e.  Display and interpret a the residual plots of the model.
+
+```{r fig.asp = 1}
+par(mfrow = c(2, 2))
+plot(fit)
+```
+
+## Categorical predictor
+
+We now predict the `price` of diamonds from the categorical
+predictors `cut`. The variable `cut` in this data set 
+has class `ordered` (the class for
+ordinal variables), but, for this practical, we want it to have class
+`factor` (the class for categorical variables).
+
+a.  Display boxplots of `price` for the different
+    levels of `cut` with `ggplot`. Interpret the results.
+
+```{r}
+my_diamonds %>% 
+  ggplot(aes(price, cut)) +
+  geom_boxplot()
+
+```
+
+b.  Display and interpret the summary of the model with `cut` predicting
+    `price`.
+
+```{r}
+fit <- lm(price ~ cut, my_diamonds)
+fit %>% summary()
+```
+
+c.  What is the reference category of `cut`?
+
+   - Fair
+
+
+d.  Which category has the highest predicted price?
+
+   - Fair
+
+
+e.  Display and interpret the residual plots of the model.
+
+```{r fig.asp = 1}
+par(mfrow = c(2, 2))
+plot(fit)
+```
+
+
+## Multiple regression
+
+a.  Fit the main effects model with `carat` and `cut` as predictors of `price`, and display and interpret the summary of the regression results. 
+
+
+```{r}
+fit_main <- lm(price ~ carat + cut, my_diamonds) 
+summary(fit_main)
+```
+b. Make a table of the output of the regression model with `tbl_regression()` (part of the `gtsummary` package) using the following code:
+```{r}
+t1 <-
+  lm(price ~ carat + cut, my_diamonds) %>% 
+  tbl_regression()
+t1
+```
+
+
+b.  Qualitatively compare the size and significance of the parameter
+    estimates from this model to those from the simple regression
+    models.
+
+
+   - The effects are somewhat smaller in the multiple regression model and the 
+     significance levels are somewhat lower. The `depth` effect was significant 
+     in the simple regression model and not in the multiple regression model.
+
+
+
+a.  Fit a the same model with the interaction between `carat` and `cut` included, and display and interpret the model
+    summary.
+
+```{r}
+fit_interact <- lm(price ~ carat * cut, my_diamonds) 
+summary(fit_interact)
+```
+
+```{r}
+t2 <-
+  lm(price ~ carat * cut, my_diamonds) %>% 
+  tbl_regression()
+t2
+```
+
+b.  What do you notice about the significance of the effects?
+
+   - Only the effect of `carat` is significant.
+
+c. Compare the fit of the model with main effects and the model with interaction effects with the `anova` function.
+```{r}
+anova(fit_main, fit_interact)
+```
+Make a presentation-ready regression table of both models: the main effect model and the interaction effect model with the following code:
+
+```{r}
+# presentation ready regression table
+
+tbl_merge(
+  list(t1, t2),
+  tab_spanner = c("**Main effects model**", "**Interaction model**")
+)
+```
+
+
+d.  Display a scatter plot with `price` on the x-axis, `carat` on the y-axis, with
+different colors for the points and linear regression lines for the levels of `cut`.
+Suppress the confidence bands. What does this plot tell you about the main effects 
+and the interaction effect of `carat` and `cut`?
+
+```{r}
+ggplot(my_diamonds, aes(carat, price, col = cut))+
+  geom_point() +
+  geom_smooth(method = "lm", se = F)
+```
+
+   - The regression lines are separated, so there are some main effects.
+   - They are almost parallel, so no interactions.
+
+
+End of practical

@@ -31,7 +31,7 @@ dichotomous variable. The data set for this practical is
 to use the function `data()`.
 
 ```{r}
-data(lungcap)
+
 ```
 
 # Lungcap
@@ -43,14 +43,14 @@ these characteristics to predict the probability of being a smoker.
 a. Display the summary of the data, and check the variables for skew.
 
 ```{r}
-summary(lungcap)
+
 ```
 
 b. Display a frequency table for the variable `Smoke` to see how many smokers 
-and non-smokers there are in the data.
-
+and non-smokers there are in the data. Use the function `xtabs()`.
+ 
 ```{r}
-xtabs(~ Smoke, lungcap)
+
 ```
 
 ## Linear model
@@ -62,25 +62,20 @@ a. Fit the generalized linear model `Smoke ~ Age` with the argument
 `family = "gaussian"`, and display and interpret its summary.
 
 ```{r}
-linear <- glm(Smoke ~ Age, "gaussian", lungcap)
-summary(linear)
+
 ```
 
 b. Display a scatterplot with `Age` on the x-axis and `Smoke` on the y-axis, and 
 add the linear regression line regression line.
 
 ```{r}
-ggplot(lungcap, aes(Age, Smoke)) + 
-  geom_point() + 
-  geom_smooth(method = "lm") +
-  theme_minimal()
+
 ```
 
 c. Display and interpret the diagnostic residual plots for the linear model.
 
 ```{r fig.asp = 1}
-par(mfrow = c(2, 2))
-plot(linear)
+
 ```
 
 ## Logistic regression model
@@ -91,8 +86,7 @@ a. Fit the logistic regression model `Smoke ~ Age`, and display and interpret
 its summary.
 
 ```{r}
-logistic <- glm(Smoke ~ Age, "binomial", lungcap)
-summary(logistic)
+
 ```
 
 b. Display a scatterplot with `Age` on the x-axis and `Smoke` on the y-axis. Add 
@@ -102,31 +96,32 @@ the linear model.
 
 ```{r}
 lungcap %>% 
-  mutate(pred = predict(logistic, type = "response")) %>% 
+  mutate(pred = ## add code here ) %>% 
   ggplot() + 
-  geom_point(aes(Age, Smoke)) +
-  geom_line(aes(Age, pred), col = "red") +
+  ## add code here 
+  ## add code here
   theme_minimal()
 ```
 
 ## Model selection
 
 a. Find the most parsimonious main-effects logistic regression model when all 
-variables in `lungcap` are allowed to enter the model as predictors.
+variables in `lungcap` are allowed to enter the model as predictors. Use the `step()`
+function.
 
 ```{r}
-step(logistic, scope = Smoke ~ Age + FEV + Ht + Gender)
+
 ```
 
 
 b. Find the most parsimonious logistic regression model allowing  all pairwise 
-interactions between the predictors to eneter the model.
+interactions between the predictors to enter the model.
 
 ```{r}
-step(logistic, scope = Smoke ~ (Age + FEV + Ht + Gender)^2)
+
 ```
 
-c. Which models is the most parsimonious, the one with or the one without the pairwise interactions?
+c. Which model is the most parsimonious, the one with or the one without the pairwise interactions?
 
 ---
 
