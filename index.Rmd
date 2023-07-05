@@ -316,7 +316,7 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
     - [Practical O](Contents/Material/Part_O_Monte-carlo-simulation/Practical_O_walkthrough.html)
     - [Impractical O](Contents/Material/Part_O_Monte-carlo-simulation/Practical_O.html)
 - Shiny apps
-    - [Lecture Shiny apps]()
+    - [Lecture Shiny apps](Contents/Material/Part_P_Shiny-apps/lecture.pdf)
     - [Practical Shiny apps]()
     
 All lectures are in `html` format and have two versions: the slides and the handout version.
