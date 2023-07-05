@@ -255,6 +255,7 @@ Practical template files are `R Markdown` files with the exercises of the practi
 ### Useful links
 
 - [The `ggplot2` reference page](https://ggplot2.tidyverse.org/reference/)
+- [The R Graph Gallery: an overview of plots you can make with R code provided](https://r-graph-gallery.com/)
 - [A great reference on contrasts with linear modeling](https://rstudio-pubs-static.s3.amazonaws.com/65059_586f394d8eb84f84b1baaf56ffb6b47f.html)
 - These papers are a nice reference for editors:
 
@@ -281,20 +282,29 @@ boys %$% lm(age ~ reg) %>% coef()
 We adapt the course as we go. To ensure that you work with the latest iteration of the course materials, we advice all course participants to access the materials online.
 
 - Part J: Model estimation
-    - [Lecture J]()
-    - [Practical J]()
-    - [Impractical J]()
+    - [Practical J: Template](Contents/Material/Part_J_Model-estimation/Practical_J_Template.Rmd)
+    - [Practical J: Solutions](Contents/Material/Part_J_Model-estimation/Practical_J_Solutions)
 - Part K: Prediction
     - [Lecture K](Contents/Material/Part_K_Prediction/Lecture_K.html)
-    - [Practical K]()
-    - [Impractical K]()
+    - [Practical K: Template](Contents/Material/Part_K_Prediction/Practical_K_Template.Rmd)
+    - [Practical K: Solutions](Contents/Material/Part_K_Prediction/Practical_K_Solutions.html)
 - Part L: Generalized Linear Models
-    - [Lecture L](Contents/Material/Part_L _GLMs/Lecture-L.html)
-    - [Practical L]()
-    - [Impractical L]()
+    - [Lecture L](Contents/Material/Part_L_GLMs/Lecture-L.html)
+    - [Practical L: Template](Contents/Material/Part_L_GLMs/Practical_L.Rmd)
+    - [Practical L: Solutions](Contents/Material/Part_L_GLMs/Practical_L_walkthrough.html)
 
 All lectures are in `html` format and have two versions: the slides and the handout version.
 Practical template files are `R Markdown` files with the exercises of the practicals. Fill in the the code (the answers) in these files. Practical solutions files give the answers to the exercises of the practicals. 
+
+## Column 2
+
+### Useful links
+
+- [The R Graph Gallery: an overview of plots you can make in R (with code provided)](https://r-graph-gallery.com/)
+- [Make nice tables in R Markdown with `gtsummary`](https://www.danieldsjoberg.com/gtsummary/index.html)
+- [`gtsummary` cheat sheet](https://github.com/rstudio/cheatsheets/blob/main/gtsummary.pdf)
+
+https://github.com/rstudio/cheatsheets/blob/main/gtsummary.pdf
 
 # Friday
 
