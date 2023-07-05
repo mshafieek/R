@@ -239,7 +239,7 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
     - [Practical G: Solutions](Contents/Material/Part_H_Statistical-inference/SimulationConfidenceIntervals.html)
 - Part H: Statistical models
     - [Lecture H](Contents/Material/Part_G_Statistical-models/Lecture_G.html)
-    - [Practical H: Template](Contents/Material/Part_G_Statistical-models/Practical_G_Template.Rmd)
+    - [Practical H: Template](Contents/Material/Part_G_Statistical-models/Practical_G_Template2.Rmd)
     - [Practical H: Solutions](Contents/Material/Part_G_Statistical-models/Practical_G_Solutions.html)
 - Part I: Data visualization
     - [Lecture I](Contents/Material/Part_I_Data-visualization/Lecture_i.html)
