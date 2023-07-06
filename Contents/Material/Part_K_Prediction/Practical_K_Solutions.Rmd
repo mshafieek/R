@@ -101,7 +101,7 @@ for (i in 1:folds) {
   
   pred       <- predict(fit, newdata = cars[test_id[[i]], ]) 
   
-  mse_lin[i] <- mean((cars$speed[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
+  mse_lin[i] <- mean((cars$dist[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
   
 }
 
@@ -120,7 +120,7 @@ for (i in 1:folds) {
   
   pred        <- predict(fit, newdata = cars[test_id[[i]], ]) 
   
-  mse_quad[i] <- mean((cars$speed[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
+  mse_quad[i] <- mean((cars$dist[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
   
 }
 
@@ -138,7 +138,7 @@ for (i in 1:folds) {
   
   pred        <- predict(fit, newdata = cars[test_id[[i]], ]) 
   
-  mse_cub[i]  <- mean((cars$speed[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
+  mse_cub[i]  <- mean((cars$dist[test_id[[i]]] - pred)^2)     # test MSE of the i-th fold
   
 }
 

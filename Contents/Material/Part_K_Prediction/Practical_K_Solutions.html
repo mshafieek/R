@@ -283,17 +283,17 @@ the names of the data set and the variables!). Save the test MSE’s in
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  pred       <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> cars[test_id[[i]], ]) </span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  mse_lin[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((cars<span class="sc">$</span>speed[test_id[[i]]] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>)     <span class="co"># test MSE of the i-th fold</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  mse_lin[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((cars<span class="sc">$</span>dist[test_id[[i]]] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>)     <span class="co"># test MSE of the i-th fold</span></span>
 <span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>mse_lin</span></code></pre></div>
-<pre><code>##           [,1]
-## [1,]  940.6102
-## [2,] 1083.4952
-## [3,]  867.0474
-## [4,] 1025.8344
-## [5,]  952.7114</code></pre>
+<pre><code>##          [,1]
+## [1,] 249.6232
+## [2,] 340.9066
+## [3,] 228.3121
+## [4,] 138.8675
+## [5,] 275.8684</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>Now do the same for the quadratic model. Don’t forget to make the
 matrix <code>mse_quad</code> to store the test MSE’s before you run the
@@ -307,17 +307,17 @@ loop.</li>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  pred        <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> cars[test_id[[i]], ]) </span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  mse_quad[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((cars<span class="sc">$</span>speed[test_id[[i]]] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>)     <span class="co"># test MSE of the i-th fold</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  mse_quad[i] <span class="ot">&lt;-</span> <span class="fu">mean</span>((cars<span class="sc">$</span>dist[test_id[[i]]] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>)     <span class="co"># test MSE of the i-th fold</span></span>
 <span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>mse_quad</span></code></pre></div>
-<pre><code>##           [,1]
-## [1,]  896.1513
-## [2,] 1117.8112
-## [3,]  780.0544
-## [4,] 1031.3880
-## [5,]  926.6786</code></pre>
+<pre><code>##          [,1]
+## [1,] 290.7010
+## [2,] 319.7124
+## [3,] 235.1947
+## [4,] 108.8191
+## [5,] 290.2651</code></pre>
 <ol start="3" style="list-style-type: lower-alpha">
 <li>And for the cubic model.</li>
 </ol>
@@ -329,17 +329,17 @@ loop.</li>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  pred        <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, <span class="at">newdata =</span> cars[test_id[[i]], ]) </span>
 <span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  mse_cub[i]  <span class="ot">&lt;-</span> <span class="fu">mean</span>((cars<span class="sc">$</span>speed[test_id[[i]]] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>)     <span class="co"># test MSE of the i-th fold</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  mse_cub[i]  <span class="ot">&lt;-</span> <span class="fu">mean</span>((cars<span class="sc">$</span>dist[test_id[[i]]] <span class="sc">-</span> pred)<span class="sc">^</span><span class="dv">2</span>)     <span class="co"># test MSE of the i-th fold</span></span>
 <span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>mse_cub</span></code></pre></div>
-<pre><code>##           [,1]
-## [1,]  816.4565
-## [2,] 1108.7581
-## [3,]  747.3644
-## [4,] 1039.0395
-## [5,]  926.9784</code></pre>
+<pre><code>##          [,1]
+## [1,] 348.5955
+## [2,] 324.2862
+## [3,] 224.7608
+## [4,] 109.5376
+## [5,] 288.7389</code></pre>
 <hr />
 <ol start="5" style="list-style-type: decimal">
 <li><strong>Model selection</strong></li>
@@ -353,7 +353,7 @@ quadratric and cubic models.</li>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">cubic     =</span> <span class="fu">mean</span>(mse_cub),</span>
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">row.names =</span> <span class="st">&quot;Average test MSE&quot;</span>)</span></code></pre></div>
 <pre><code>##                    linear quadratic    cubic
-## Average test MSE 973.9397  950.4167 927.7194</code></pre>
+## Average test MSE 246.7156  248.9384 259.1838</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li><p>What is your conclusion regarding the relationship between
 stopping distance and speed of a car?</p></li>
