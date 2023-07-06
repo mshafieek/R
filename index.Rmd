@@ -302,9 +302,9 @@ Practical template files are `R Markdown` files with the exercises of the practi
 
 - [The R Graph Gallery: an overview of plots you can make in R (with code provided)](https://r-graph-gallery.com/)
 - [Make nice tables in R Markdown with `gtsummary`](https://www.danieldsjoberg.com/gtsummary/index.html)
+- [Reproducible summary tables with `gtsummary`](Contents/Material/Part_J_Model-estimation/RJ-2021-053_Reproducible-Publication-Ready-Tables.pdf)
 - [`gtsummary` cheat sheet](https://github.com/rstudio/cheatsheets/blob/main/gtsummary.pdf)
 
-https://github.com/rstudio/cheatsheets/blob/main/gtsummary.pdf
 
 # Friday
 
