@@ -327,10 +327,10 @@ We adapt the course as we go. To ensure that you work with the latest iteration 
     - [Impractical O](Contents/Material/Part_O_Monte-carlo-simulation/Practical_O.html)
 - Shiny apps
     - [Lecture Shiny apps](Contents/Material/Part_P_Shiny-apps/Lecture/lecture.pdf)
-    - [Practical Shiny Part 1](Contents/Material/Part_P_Shiny-apps/Lecture/Practical_Shiny_Part1.html)
-    - [Practical Shiny Part 2](Contents/Material/Part_P_Shiny-apps/Lecture/Practical_Shiny_Part2.html)
-    - [Solutions ui.R file Practical Part 2](Contents/Material/Part_P_Shiny-apps/Practical/ui.R)
-    - [Solutions server.R file Practical Part 2](Contents/Material/Part_P_Shiny-apps/Practical/server.R)
+    - [Practical Shiny Part 1](Contents/Material/Part_P_Shiny-apps/Practical_Shiny_Part1.html)
+    - [Practical Shiny Part 2](Contents/Material/Part_P_Shiny-apps/Practical_Shiny_Part2.html)
+    - [Solutions ui.R file Practical Part 2](Contents/Material/Part_P_Shiny-apps/ui.R)
+    - [Solutions server.R file Practical Part 2](Contents/Material/Part_P_Shiny-apps/server.R)
     
 All lectures are in `html` format and have two versions: the slides and the handout version.
 Practical template files are `R Markdown` files with the exercises of the practicals. Fill in the the code (the answers) in these files. Practical solutions files give the answers to the exercises of the practicals. 
