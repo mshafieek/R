@@ -313,14 +313,14 @@ Practical template files are `R Markdown` files with the exercises of the practi
 ### Friday's materials
 We adapt the course as we go. To ensure that you work with the latest iteration of the course materials, we advice all course participants to access the materials online.
 
-- Part M: Classification & Clustering
-    - [Lecture M](Contents/Material/Part_M_Unsupervised-learning/Lecture_M.html)
-    - [Practical M]()
-    - [Impractical M]()
-- Part N: Bootstrapping
-    - [Lecture N](Contents/Material/Part_N_Bootstrapping/Lecture_N.html)
-    - [Practical N]()
-    - [Impractical N]()
+- Part M: Bootstrap
+    - [Lecture](Contents/Material/Part_N_Bootstrapping/Bootstrap.pdf)
+    - [Practical: Solutions](Contents/Material/Part_N_Bootstrapping/Practical_N_Solutions.html)
+    - [Practical: Markdown file](Contents/Material/Part_N_Bootstrapping/Practical_N_Solutions.Rmd)
+- Part N: Unsupervised learning
+    - [Lecture](Contents/Material/Part_M_Unsupervised-learning/Lecture_M.html)
+    - [Practical: Solutions](Contents/Material/Part_M_Unsupervised-learning/Practical_M_walkthrough.html)
+    - [Practical: Markdown file](Contents/Material/Part_M_Unsupervised-learning/Practical_M_walkthrough.Rmd)
 - Part O: Monte Carlo simulation
     - [Lecture O](Contents/Material/Part_O_Monte-carlo-simulation/Lecture_O.html)
     - [Practical O](Contents/Material/Part_O_Monte-carlo-simulation/Practical_O_walkthrough.html)

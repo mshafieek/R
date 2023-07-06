@@ -119,7 +119,8 @@ correct.twohalf <- fit.knn.twohalf == class.test.twohalf
 mean(correct.twohalf)
 ```
 
-The model based on the 2.5 adjustment data performs much better. But in this model the classes are also more separated. 
+The model based on the 2.5 adjustment data performs much better. 
+But in this model the classes are also more separated. 
 
 ---
 
