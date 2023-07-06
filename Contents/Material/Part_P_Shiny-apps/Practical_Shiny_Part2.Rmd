@@ -1,0 +1,870 @@
+---
+title: "Practical_Shiny_Part2"
+author: "Emmeke Aarts"
+mainfont: Arial
+fontsize: 12pt
+urlcolor: blue
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    theme: paper
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Part 2: Building your own application
+
+So the beauty of `Shiny` applications, as with most things within `R`, is that it is highly modular, meaning that this section will focus on building up your application bit by bit to reach the example at the beginning. It is recommended that at the end of each mini-section you test-run your application to ensure it is working correctly, as regular checking ensures that your code is working correctly.
+
+## Step 1. Start with the basics 
+
+So, if you take a moment to review the [example](<https://twise.shinyapps.io/RshinyPracticalADAV/>) provided at the beginning of this lab, you will see that this is based around our *favourite* dataset, `diamonds` from `ggplot`, and as such you will need to ensure that the `tidyverse` is loaded into both your ui.R and server.R tabs. 
+
+Before we get started, it is important to clean the example from section 1 from our code, to ensure that we can work effectively without any of the previous code from the simple example interacting with our new code we are going to program. 
+
+---
+
+5. __Copy the following code into the relevant tabs so we have a clean code to begin building from:__
+
+---
+
+```{r, eval = FALSE, echo = TRUE}
+# In your ui.R tab
+library(tidyverse)
+
+shinyUI(fluidPage(
+
+    # Application title
+    titlePanel(),
+    
+    # Description
+    p(),
+
+    # Sidebar 
+    sidebarLayout(
+        sidebarPanel(
+            
+        ),
+
+        # Show the generated plots
+        mainPanel(
+          
+          # Sub-Heading 
+          h4(),
+          
+          # Main Graphical Output
+            plotOutput()
+        )
+    )
+))
+
+# In your server.R tab
+library(tidyverse)
+
+shinyServer(function(input, output) {
+
+    output$ <- renderPlot({
+
+
+    })
+
+})
+
+
+```
+
+---
+
+## Step 2. Core Components
+
+So at this point, you now have an empty shell of an `RShiny` application, with the aim to create the basic User Interface, which contains a static example plot, which has a title and a brief description to inform the user as to the purpose of the application. As this final example contains a large amount of different components, we will work step-by-step first creating a basic model, before adapting it to make it more complex. 
+
+Although there are multiple ways to approach creating a `Shiny` application (like all things within R), it is sometimes most useful to start by thinking what you would like to achieve before working backwards from this. So in this case, we are looking to create an application which has a clear title and brief line of text, alongside creating a scatterplot output which plots Diamond Price against the Diamond's Carat, which is split by the diamond's cut. The best way for us to create such a graphic, is through using `ggplot`. 
+
+As such we are able to split this into two parts, firstly adding a title and text, before plotting the static graph. 
+
+As previously discussed the typical layout of `Shiny` application is based around a `titlePanel()`, a `sidePanel()` and a `mainPanel()`, which are defined within the ui.R tab. As such to add a title, simply add your text within the `titlePanel()` function (within `" "`) in order to specify this as your application title. But contrast, to add plain (non-reactive) text to your plot, you need to use functions based upon `html` code. As such in order to add this to your application, simply add your text you wish to display into the function `p()` (see within the template under `#Description`).
+
+It is also possible to add in headings or additional text sections within your panels themselves, to add an additional heading simply call one of the functions `h[x]()`, replacing the `[x]` with a number between 1 & 6 depending on the size of the heading you would like. 
+
+---
+
+6a. __Within the ui.R tab, add an appropriate title, as part of the `titlePanel()` function, and an appropriate description of the application, as part of the `p()` function.__
+```{r, eval = FALSE}
+
+    # Application title
+    titlePanel("Statistics in the Sky with Diamonds"),
+    
+    # Description
+    p("A Shiny application, predicting the Carat of different Cuts of Diamonds, by their Price."),
+
+```
+
+---
+
+Next, we are able to plot our static graph using `ggplot`, as part of the `renderPlot({})` function within the server.R tab. 
+
+---
+
+6b. __Within the server.R tab, as part of the `renderPlot({})` function, start by creating a basic `ggplot` graphic, which plots price (x-axis) by carat (y-axis) and cut (colour) from the Diamonds dataset within `ggplot`. This should then be assigned to the variable `output$diaPlot`__
+
+```{r, eval = FALSE}
+# This is how your server.R tab should look:
+    output$diaPlot <- renderPlot({
+        
+        ggplot(data = diamonds, 
+               mapping = aes(x = price, y = carat, colour = cut)) + 
+            geom_point() +
+            theme_minimal()
+        
+    })
+   
+```
+
+---
+
+So now you have a basic setup behind the scenes which will create a static plot in your `Shiny` application. Make sure this is now matched for the UI. 
+
+---
+
+7. __Within the ui.R tab, provide the value `"diaPlot"` to the function `plotOutput()` in the applications `mainPanel()`. In addition, provide a sub heading for your graphical plot in the function `h4()` just above your plot in the `mainPanel()`.__
+
+```{r, eval = FALSE}
+# This is how your ui.R tab should look:
+    
+    # Application title
+    titlePanel("Statistics in the Sky with Diamonds"),
+    
+    # Sidebar
+    sidebarLayout(
+        sidebarPanel(
+            
+            
+        ),
+        
+        # Show the generated plots
+        mainPanel(
+          
+           # Sub-Heading
+            h4("Graphical Output"),
+            
+            plotOutput("diaPlot")
+        )
+    )
+
+
+```
+
+---
+
+If you run this set up now you should create a rather boring `Shiny` application, with no reactive components, meaning you will see a static `ggplot` graph. 
+
+---
+
+## Step 3. Adding reactive components
+
+Within the example, you can see that there is a large amount of different reactive components used, lets start with one of the core components, **slider inputs**. In order to add slider inputs into `Shiny` application this requires the use of the `sliderInput()` within your ui.R tab, with the relevant mapped `input` within your server.R tab. 
+
+Since there are two sliders within this example, we will walk through one, before you can create the second for yourself. 
+
+Let us begin with the Price Input slider, which allows the defining of the price range of the Diamonds observed within your `ggplot` graphic. 
+
+Withing the **ui.R** tab, as part of the **`sidebarPanel()`** you will need to add the following component:
+
+```{r, eval = FALSE}
+
+sliderInput(inputId = ??,          # The name of your slider, which will match with the input$inputId
+            label = ??,            # The label presented on the UI
+            min = ??,              # The sliders min value
+            max = ??,              # The sliders max value
+            value = c(??,??),      # The inital value of the slider
+            step = ??)             # The stepped increments in the slider
+
+```
+
+This will produce a slider bar which allows the creation of a range of values to be applied to the graphic. If you would prefer the indication of a single value, rather than a single value simply specify a single value under `value` rather than a pair. 
+
+In order to implement this slider bar behind the scenes in the **server.R** tab, things are a little more complex. On a conceptual front, the purpose of this slider is to change the range of data displayed within the plot. Therefore, to implement this slider, you will need to a filtering tool, such as `dplyr`'s `filter()` function. By using this function, it will allow you to filter the data based upon the values selected on this slider bar. 
+
+To implement this within the server.R tab, you will need to create a new variable (such as `dia.filtered`), which will replace the dataset `diamonds` within your `ggplot` function, which filters the dataset `diamonds` by the price range indicated. In action this looks as so:
+
+```{r, eval = FALSE}
+
+dia.filtered <-                          # name of new variable
+  diamonds %>%                           # dataset to be used, piped (%>%)
+  filter(price >= input$priceInput[1],   # retain all values greater than or equal too the lower bound
+         price <= input$priceInput[2])   # retain all values lower than or equal too the upper bound
+
+```
+
+In action, this takes the specified input variable and filters the desired dataset accordingly, before allowing it to be produced into the plot. To best use this, ensure it is added into the `renderPlot({})` function, before you specify your scatter plot. 
+
+--- 
+
+8. __Using the code templates provided, first add the slider input for diamond price. Make the required changes both in the ui.R tab and in the server.R tab. Next, use these templates to create a working slider input for carat.__
+
+_Notes_: 
+
+- When adding the filter setting for the second slider (carat), you can simply extend the `filter()` function to include `carat >= input...`. 
+- When defining your slider min/max and steps (or increments), consider the dataset in question, is it useful to have a step of 1 for the price of diamonds, and a step of 10 for the carat of a diamond? Ensure that your steps and min/max values are representative of the variables. 
+
+---
+
+
+```{r, eval = FALSE}
+
+# ui.R sliders
+
+sliderInput(inputId = "priceInput",          # The name of your slider, which will match with the input$inputId
+            label = "Price",            # The label presented on the UI
+            min = 0,              # The sliders min value
+            max = 20000,              # The sliders max value
+            value = c(100,1000),      # The inital value of the slider
+            step = 100)             # The stepped increments in the slider
+sliderInput(inputId = "caratInput",          # The name of your slider, which will match with the input$inputId
+            label = "Carat",            # The label presented on the UI
+            min = 0,              # The sliders min value
+            max = 5,              # The sliders max value
+            value = c(0,5),      # The inital value of the slider
+            step = 0.1)             # The stepped increments in the slider
+
+# server.R tab should look:
+    output$diaPlot <- renderPlot({
+        dia.filtered <-                       
+          diamonds %>%                           
+          filter(price >= input$priceInput[1],   
+                 price <= input$priceInput[2],
+                 carat >= input$caratInput[1],
+                 carat <= input$caratInput[2])
+        
+        ggplot(data = dia.filtered, 
+               mapping = aes(x = price, y = carat, colour = cut)) + 
+            geom_point() +
+            theme_minimal()
+        
+    })
+
+```
+
+So, now if everything is working you should have a `Shiny` application which has two slider inputs, allowing you to specify the range of variables which are displayed within your `ggplot` graphic output. 
+
+At this point, it is a good time to re-run your application so far and ensure that all your core components are working. Can you change the scale range of both your X & Y variable?
+
+---
+
+## OPTIONAL: Adding other types of reactive components
+
+If you look again at the example application, you will see that other reactive components are present which allow a user to interact with the application. Although different in their function, these follow the same logic and application as the slider functions. The other main reactive components are from the functions `checkboxGroupInput()`, `selectInput()` and `checkboxInput()`. This step will look only at the first two, since the last (`checkboxInput()`) will be covered in *Step 5. Statistical Functions within `Shiny`*. 
+
+Both `checkboxGroupInput()` and `selectInput()` follow the same functional layout requiring the following components:
+
+```{r, eval = FALSE}
+
+# Function can be replaced with checkboxGroupInput() or selectInput()
+
+function(inputId = ??,
+         label = ??,
+         choices = c(??, ??),
+         selected = ??)
+
+```
+
+With the components of an input identifier, a UI label, provision of the choices as well as those which should initial be selected upon loading of the application, for `checkboxGroupInput()` this initial selection can highlight multiple variables. 
+
+As with the previous examples we have discussed this produces an input variable, identified through the `inputId`. Which can then be called wherever you may need it. Within the presented example, we can see that the cuts of diamonds to be displayed within the graph is altered through the `checkboxGroupInput()` function, with the colours for the cut of the diamonds being altered through the `selectInput()` function. 
+
+### Multiple checkbox: displaying by diamond cut
+
+Since the purpose of the `checkboxGroupInput()` function in this case is to define the parameters of the data which should be used, this indicates that changes should be made during the filtering of the diamonds dataset. 
+
+---
+
+9. __First add `checkboxGroupInput()` to the side panel of your UI (in ui.R). Next, in server.R, use the operator `==`, to specify that the values selected in this `checkboxGroupInput()` should be used to filter the diamonds dataset to allow the user to specify which cuts of diamonds they would like to see in the graph.__
+
+```{r, eval = FALSE}
+
+# ui.R 
+
+sliderInput(inputId = "priceInput",          # The name of your slider, which will match with the input$inputId
+            label = "Price",            # The label presented on the UI
+            min = 0,              # The sliders min value
+            max = 20000,              # The sliders max value
+            value = c(100,1000),      # The inital value of the slider
+            step = 100)             # The stepped increments in the slider
+sliderInput(inputId = "caratInput",          # The name of your slider, which will match with the input$inputId
+            label = "Carat",            # The label presented on the UI
+            min = 0,              # The sliders min value
+            max = 5,              # The sliders max value
+            value = c(0,5),      # The inital value of the slider
+            step = 0.1),         # The stepped increments in the slider
+checkboxGroupInput(inputId = "cutInput", 
+                   label = "Diamond Cut",
+                   choices = c("Fair", "Good", "Very Good", "Premium", "Ideal"),
+                   selected = c("Fair", "Good", "Very Good", "Premium", "Ideal")),
+
+# server.R tab should look:
+    output$diaPlot <- renderPlot({
+        dia.filtered <-                       
+          diamonds %>%                           
+          filter(price >= input$priceInput[1],   
+                 price <= input$priceInput[2],
+                 carat >= input$caratInput[1],
+                 carat <= input$caratInput[2],
+                 cut == input$cutInput)
+        
+        ggplot(data = dia.filtered, 
+               mapping = aes(x = price, y = carat, colour = cut)) + 
+            geom_point() +
+            theme_minimal()
+        
+    })
+
+```
+
+---
+
+### Drop down option: selecting colour arrays
+
+We have already seen earlier in this practical, that `selectInput()` can be used to change a single colour with ease (through the replacement of the colour with the reactive input parameter), however as you can see within the main example it is possible to specify the range of colours also. This is completed through the addition of the `scale_colour_brewer()` function to your `ggplot` function. The addition of this function and its contents, helps to direct what colour scheme should be used within the displaying of variables. 
+
+It should be noted that the `scale_colour_brewer()` function, can only be added to scale based plots, such as scatter plots. With `scale_fill_brewer()` being used for box plots, bar plots and alike. These function additionally are based around the [RcolorBrewer Package](<https://cran.r-project.org/web/packages/RColorBrewer/index.html>) which should be installed and loaded accordingly, however many users may already have this package installed! The RcolorBrewer package, as briefly mentioned within the visualization lecture & corresponding practical provides a huge amount of pre-defined colour schemes for a variety of different uses. For a full list and examples please visit their [website](<https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3>). 
+
+---
+
+10. __First add `selectInput()` to the side panel of your UI (in ui.R) so the user can select one of any number of RcolorBrewer colour palettes. Next, add `scale_colour_brewer()` to your `ggplot()` function, with its `palette` argument being set to your input ID from your UI.__
+
+---
+
+```{r, eval = FALSE}
+
+# ui.R 
+
+sliderInput(inputId = "priceInput",          # The name of your slider, which will match with the input$inputId
+            label = "Price",            # The label presented on the UI
+            min = 0,              # The sliders min value
+            max = 20000,              # The sliders max value
+            value = c(100,1000),      # The inital value of the slider
+            step = 100)             # The stepped increments in the slider
+sliderInput(inputId = "caratInput",          # The name of your slider, which will match with the input$inputId
+            label = "Carat",            # The label presented on the UI
+            min = 0,              # The sliders min value
+            max = 5,              # The sliders max value
+            value = c(0,5),      # The inital value of the slider
+            step = 0.1),         # The stepped increments in the slider
+checkboxGroupInput(inputId = "cutInput", 
+                   label = "Diamond Cut",
+                   choices = c("Fair", "Good", "Very Good", "Premium", "Ideal"),
+                   selected = c("Fair", "Good", "Very Good", "Premium", "Ideal")),
+selectInput( inputId = "colInput", 
+             label = "Colour Choice",
+             choices = c("Pastel1", "Paired", "Spectral", "RdBu", "PuOr"),
+             selected = "Spectral"),
+
+# server.R tab should look:
+    output$diaPlot <- renderPlot({
+        dia.filtered <-                       
+          diamonds %>%                           
+          filter(price >= input$priceInput[1],   
+                 price <= input$priceInput[2],
+                 carat >= input$caratInput[1],
+                 carat <= input$caratInput[2],
+                 cut == input$cutInput)
+        
+        ggplot(data = dia.filtered, 
+               mapping = aes(x = price, y = carat, colour = cut)) + 
+            geom_point() +
+            scale_color_brewer(palette = input$colInput) +
+            theme_minimal()
+        
+    })
+
+```
+
+---
+
+At this point, it is a good time to re-run your application so far and ensure that all your core components are working. 
+
+Can you: 
+
+- Still change the scale range of both your X & Y variable?
+- Specify which cut of diamonds are displayed in the plot?
+- Change the colour palette used to demonstrate the array of data?
+
+If you can do all of this, well done!! Time to get to the statistical analysis component!
+
+---
+
+## Step 4. Adding statistical functions within `Shiny`
+
+As `Shiny` is build using the `R` framework; creating and using statistical functions can be used in the same way as within traditional `R` code. However some adaptions and considerations are required to ensure that they are integrated correctly into the application. For this practical, we will focus on the plotting of relatively simple regression analyses, however as this is only an introduction to `Shiny` applications, it is recommended you look at other ways to output statistical analysis results (see [Chapter 3.3 in Mastering Shiny](<https://mastering-shiny.org/basic-ui.html#outputs>)). 
+
+Within the example application we are working towards you will see that the three regression analyses used are a standard Linear Regression (using the `lm()` function), a regression including a square term (using the equation `lm(y ~ x + I($x^2$)`), and a regression adding a cubic term to the equation (using the equation `lm(y ~ x + I($x^2$) + I($x^3$))`). However we will cover the steps you will need to take to integrate statistical functions and their output into your `Shiny` applications, before allowing you to apply these three methods (in whatever way you feel fit) to your application so far. 
+
+### Basics: adding regression models
+
+As we are looking to provide an introduction at this stage, let us say that are looking to apply standard statistical functions to you applications, which although dependent on the data the User controls, can not be directly changed by the user through reactive components (Don't worry we'll be coming onto how to change these directly later!). As such, we can apply our knowledge of statistical functions within the server.R tab. 
+
+Using your knowledge from Week 4 (*linear regressions*), you will know that the standard layout of a regression analysis is: 
+
+```{r, eval = FALSE}
+
+model <- lm(data = ??, 
+            formula = y ~ x)
+
+```
+
+This can easily be added to a `Shiny` application, within the server.R tab. Where, if you would like the data to be influenced by the reactive components, it can simply be placed after your `filter()` function.
+
+---
+
+10. __Add the three different regression models (a simple linear model, a square model and a cubic model) to your server.R tab. Make sure that the models use the filtered diamonds data.__
+
+```{r, eval = FALSE}
+        model.lin <- lm(carat ~ price, data = dia.filtered)
+        model.sq <- lm(carat ~ price + I(price^2), data = dia.filtered)
+        model.cub <- lm(carat ~ price + I(price^2) + I(price^3), data = dia.filtered)
+```
+
+---
+
+### Adding corresponding regression lines to the graphic output
+
+Now you have the models included within your server.R tab, it is now useful to add the regression lines themselves to your graphic output. 
+
+1. Firstly, create an `x prediction` variable for all your models (this predictor variable will remain consistent for all three different regression models). This can be created using the functional template given below, which will create a sequenced output of the possible values for the predictor variable x, which can then be used to predict the y outcome variable. 
+
+```{r, eval = FALSE}
+
+x_pred <- seq(min(data$x), 
+              max(data$x), 
+              length.out = ??)
+
+```
+
+2. Secondly, create your `y predictions` for each individual model. Remember that as each model employs a different formula you will need to create a `y prediction` relative to each model you want to use. This can be done using this functional template, which will create prediction variables based upon the `x prediction` values created in the previous step. 
+
+```{r, eval = FALSE}
+
+y_pred.model <- predict(model = ??, 
+                        newdata = tibble(x = x_pred))
+
+```
+
+3. Finally, you will want to add these lines directly to your `ggplot` function, for this, you can use the `geom_line()` function using the data created from the predictive functions as so, replacing `x` and `y` with the variables you have used in the main section of the plot. 
+
+```{r, eval = FALSE}
+
+geom_line(data = tibble(x = x_pred, y = y_pred), 
+          size = 1, 
+          col = ??)
+
+```
+
+These steps as you can see are incredibly useful in the plotting of regression lines. 
+
+---
+
+12. __Using the templates provided above, after the creation of your models in your server.R tab, create the `x` & `y` prediction values accordingly, and add the predicted regression lines in your output plot__
+
+---
+
+```{r, eval = FALSE}
+# server.R tab should look:
+    output$diaPlot <- renderPlot({
+        dia.filtered <-                       
+          diamonds %>%                           
+          filter(price >= input$priceInput[1],   
+                 price <= input$priceInput[2],
+                 carat >= input$caratInput[1],
+                 carat <= input$caratInput[2],
+                 cut == input$cutInput)
+        
+        model.lin <- lm(carat ~ price, data = dia.filtered)
+        model.sq <- lm(carat ~ price + I(price^2), data = dia.filtered)
+        model.cub <- lm(carat ~ price + I(price^2) + I(price^3), data = dia.filtered)
+        
+        x_pred <- seq(min(dia.filtered$price), max(dia.filtered$price), length.out = 500)
+        y_pred.lin <- predict(model.lin, newdata = tibble(price = x_pred))
+        y_pred.sq <- predict(model.sq, newdata = tibble(price = x_pred))
+        y_pred.cub <- predict(model.cub, newdata = tibble(price = x_pred))
+        
+        ggplot(data = dia.filtered, 
+               mapping = aes(x = price, y = carat, colour = cut)) + 
+            geom_point() +
+            geom_line(data = tibble(price = x_pred, carat = y_pred.lin), size = 1, col = "blue") +
+            geom_line(data = tibble(price = x_pred, carat = y_pred.sq), size = 1, col = "red") +
+            geom_line(data = tibble(price = x_pred, carat = y_pred.cub), size = 1, col = "green") +
+            scale_color_brewer(palette = input$colInput) +
+            theme_minimal()
+        
+    })
+```
+
+---
+
+
+
+
+### OPTIONAL: Adding reactivity to used statistical functions
+
+So far for these regression functions, changes to them occur via the changing of the data they use, using your interactive components (sliders, selectors etc), however it is possible to use these reactive components to directly effect either the statistical methods used, or the way in which they are completed. In this section, we will examine only the example of changing the statistical method used / displayed. In addition to demonstrating how to aid the communication of your regression lines through isolating which regression lines you wish to display, in essence helping to declutter your plot, aiding a user's understanding. 
+
+Let us firstly begin with the visibility of different regression lines.
+
+The way these lines are included or removed from this example is through the changing of their size from 0 to 1 or vice versa, since at size 0, they become invisible compared to size 1 or above. This you will see is achieved through the use of the `checkboxInput()` function. This uses simple binary (True/False) logic to communicate to the graph whether the line should have a size of 0 or 1, with False being equal to zero. This is used as `R` interprets False values as 0 and True values as 1. 
+
+This can be added in the same way in which we have added the other reactive components, using the following general template for the ui.R tab:
+
+```{r, eval = FALSE}
+
+checkboxInput(inputId = ??,
+              label = ??,
+              value = ??)
+
+```
+
+With this being applied to the server.R tab, in the same way as components like colour, through replacing the size value or `1` with your inputId for this reactive component. 
+
+---
+
+13. __Using your knowledge of how reactive components work, and the template provided above, add an individual `checkboxInput()` for each of the three regression lines and the required components within your ggplot function__
+
+---
+
+```{r, eval = FALSE}
+
+# Reactive checkboxInputs: 
+
+            checkboxInput("regInput", "Linear regression", value = FALSE, width = NULL),
+            checkboxInput("sqInput", "Square regression", value = FALSE, width = NULL),
+            checkboxInput("cubicInput", "Cubic regression", value = FALSE, width = NULL),
+
+# your ggplot function in your server.R tab should look:
+
+        
+        ggplot(data = dia.filtered, 
+               mapping = aes(x = price, y = carat, colour = cut)) + 
+            geom_point() + 
+            geom_line(data = tibble(price = x_pred, carat = y_pred.lin), size = input$regInput, col = "blue") +
+            geom_line(data = tibble(price = x_pred, carat = y_pred.sq), size = input$sqInput, col = "red") +
+            geom_line(data = tibble(price = x_pred, carat = y_pred.cub), size = input$cubicInput, col = "green") +
+            scale_color_brewer(palette = input$colInput) +
+            theme_minimal()
+        
+    })
+```
+
+
+It is also possible to add reactive components directly to your statistical functions. These work in an identical way to the reactive functions we have previously discussed; in that a user is able to directly express an input which is to be used within the methodology. This could include, but is not limited to, the polynomial rank used (e.g., including a square term, cubic term or even beyond) or the number of folds used within a K-fold classification or regression. In theory, any statistical method which can have a variable specified can *in theory* become reactive. **Disclaimer**: although in theory this is the case, in reality it is sometimes *a lot* more tricky then at others. We will not try this within this lab, but online there are plenty of examples to find, see below for links.
+
+### OPTIONAL: Presenting statistical output in tables
+
+Despite it being fantastic to visually present your results, it significantly limits the information your user can gather from it, as it displays no formal evidence of the strength of fit, or other important values presented. As such presenting your model results in a table can be incredibly useful. 
+
+In order to add a table to the Main Panel of your application, you can use the function `tableOutput()` within your `mainPanel()` function, in your ui.R tab, this when the name (surrounded by `" "`) of the output table is called will present a basic table within your application. This is matched behind the scenes within the server.R tab, by adding the following as part of the `shinySever()` function, but separately from the `output$diaPlot` variable we produced earlier:
+
+```{r, eval = FALSE}
+
+output$stattable <- renderTable({})
+
+```
+
+This when a table, dataframe or matrix is called directly (simply by typing the name of the table into it) will print the table into your UI. So at this point, you may be a little unsure of how to continue, as you have three models which you usually extract the data or results from using the `summary()` function. As these results are typically not within the lists formed by the model, through making the `summary()` into a list (via `model.lin.summary <- summary(model.lin)`) you are then able to directly call the specific components of the results summary, such as the degrees of freedom, the Fstatistic as well as the R-squared value which you can then use within your table. 
+
+---
+
+15. __After adding the function `tableOutput()` in addition to a relevant sub-heading (using `h4()`) in your ui.R tab, use the template below to create the server.R side of this table output.__
+
+Note: When creating the table, it will directly use all digits within the variable, so calling the `round()` function in front of any variable (for example `round(mean(diamonds$price), digits = 2), will call this value to 2 decimal places). This can help neaten up any tables produced. 
+
+```{r, eval = FALSE}
+
+ # Model Table output
+    output$stattable <- renderTable({
+        
+      ## Copy and paste your data preprocessing (via the filter function) here
+      
+      ## Copy and paste your model functions here
+      
+      model.lin.sum <- summary() # Add your specific models in this function
+      model.sq.sum <- summary() # Add your specific models in this function
+      model.cub.sum <- summary() # Add your specific models in this function
+      
+      tablemodelrest <- matrix(c("Linear regression", "Square regression", "Cubic regression",
+                                 ?? # Call the r-squared value from each model summary list
+                                 ?? # Call the Adj r-squared value from each model summary list
+                                 ?? # Call the df value from each model summary list
+                                 ), ncol = 4)
+        
+      # Using colnames(tablemodelres), name your table columns accordingly
+        colnames(tablemodelres) <- c()
+        
+        
+        tablemodelres
+        })
+
+```
+
+```{r, eval = FALSE}
+# ui.R tab
+  
+            # Sub-Heading
+            h4("Statistical Analysis"),
+            
+            # Statistical Analysis Outcome
+            tableOutput("stattable"),
+
+# server.R 
+  
+ # Model Table output
+    output$stattable <- renderTable({
+        filtered <- 
+            diamonds %>%
+            filter(price >= input$priceInput[1],
+                   price <= input$priceInput[2],
+                   carat >= input$caratInput[1],
+                   carat <= input$caratInput[2],
+                   cut == input$cutInput
+            )
+        model.lin <- lm(carat ~ price, data = filtered)
+        model.sq <- lm(carat ~ price + I(price^2), data = filtered)
+        model.cub <- lm(carat ~ price + I(price^2) + I(price^3), data = filtered)
+        
+        model.lin.sum <- summary(model.lin)
+        model.sq.sum <- summary(model.sq)
+        model.cub.sum <- summary(model.cub)
+        
+        tablemodelres <- matrix(c("Linear regression", "Square regression", "cubic regression",
+                                  round(model.lin.sum$r.squared, 3), round(model.sq.sum$r.squared, 3), 
+                                  round(model.cub.sum$r.squared, 3), round(model.lin.sum$adj.r.squared, 3), 
+                                  round(model.sq.sum$adj.r.squared, 3), round(model.cub.sum$adj.r.squared, 3),
+                                  model.lin.sum$df[2], model.sq.sum$df[2], model.cub.sum$df[2]), ncol = 4)
+        colnames(tablemodelres) <- c(" ", "R-squared", "Adj R-squared", "df")
+        
+        
+        tablemodelres
+        })
+
+```
+
+---
+
+At this point, you should have a reactive table who's results change depending on the values input-ed. 
+
+---
+
+### OPTIONAL: Presenting reactive text
+
+Finally, although incredibly helpful to have a table of results for your statistical models, these at times can be limited to non-statistically minded users. Meaning that it is useful to provide a reactive text output explaining the results seen which adapt depending upon the data provided. For example, as you can see within the example we are working towards, the cubic model rarely changes as our best fitting model. However this may not be the same for all datasets. As such it can be useful to know how to create text which changes depending on the results. It should be noted at this stage, that there are multiple *different* ways of completing this step, and the method am presenting is just one of many, as such consider the best method for the way you wish to present your data. 
+
+Before we talk about the nitty gritty, it is useful to highly that this UI output, is created in the same way as both the graph and table we have previous discussed, requiring the use of an output function, in this case `tetOutput()` within the ui.R tab in which the name of the output is called. Being matched with the `outputId` variable as part of the server.R tab, which uses the `render()` function: `renderText({})` to produce this text. 
+
+Similarly the internal structure (the nitty gritty) bit of the `renderText({})` function is similar also to the previous being made up of the reactive sections before a final code section dedicated to the output, which in this case is called by the function `paste0()`. 
+
+To start with, let us say you would like to simply print your results in text, say in an APA format, to do this you look to have a structure like this: R-square = ***r.squared*, F(*df[2]*, *df[3]*) = *fstat*, p.**. 
+
+For example, if I would like to print the sentence the: "The Mean Price of this Filtered Diamond Dataset is..." I would use the following code within the `renderText({})` function. 
+
+```{r, eval = FALSE}
+
+output$statout <- renderText({
+  
+  ## All my lovely filtering... (to the dataset dia.filtered)
+  
+  paste0("The Mean Price of this Filtered Diamond Dataset is: ", round(mean(dia.filtered$price)))
+    })
+
+```
+
+As you can see from this example, any generic text which is to be displayed is contained within `" "` with any functions, or reactive components being called outside of them, with each chunk begin separated by a comma (`,`). 
+
+---
+
+15. __Add the relevant components to both your ui.R and server.R tabs, to add a reactive text component. Following this template within your server.R tab to print your basic output.__
+
+```{r, eval = FALSE}
+    # Model Statistical Output (Text)
+    output$statout <- renderText({
+        
+      ## Copy and paste your data preprocessing (via the filter function) here
+      
+      ## Copy and paste your model functions here
+        
+        paste0("Explaining the association between Diamond Price, Carat and Cut associations were found via the: ",
+               "Linear Model: ",  # Use the APA structure above to report the relevant statistics
+               "Square Model: ", 
+               "Cubic Model: ",
+               )
+    })
+
+
+```
+
+```{r, eval = FALSE}
+# ui.R 
+ 
+ # Text Commentary 
+            textOutput("statout")
+  
+
+# server.R 
+  
+     # Model Statistical Output (Text)
+    output$statout <- renderText({
+        
+      filtered <- 
+            diamonds %>%
+            filter(price >= input$priceInput[1],
+                   price <= input$priceInput[2],
+                   carat >= input$caratInput[1],
+                   carat <= input$caratInput[2],
+                   cut == input$cutInput
+            )
+        model.lin <- lm(carat ~ price, data = filtered)
+        model.sq <- lm(carat ~ price + I(price^2), data = filtered)
+        model.cub <- lm(carat ~ price + I(price^2) + I(price^3), data = filtered)
+        
+        model.lin.sum <- summary(model.lin)
+        model.sq.sum <- summary(model.sq)
+        model.cub.sum <- summary(model.cub)
+        
+        paste0("Explaining the association between Diamond Price, Carat and Cut associations were found via the: ",
+               "Linear Model: ", round(model.lin.sum$adj.r.squared, 3), ", F(", model.lin.sum$fstatistic[2], ", ", model.lin.sum$fstatistic[3], ") = ",
+               round(model.lin.sum$fstatistic[1], 3), ".")
+               "Square Model: ", round(model.sq.sum$adj.r.squared, 3), ", F(", model.sq.sum$fstatistic[2], ", ", model.sq.sum$fstatistic[3], ") = ",
+               round(model.sq.sum$fstatistic[1], 3), ".")
+               "Cubic Model: ", round(model.cub.sum$adj.r.squared, 3), ", F(", model.cub.sum$fstatistic[2], ", ", model.cub.sum$fstatistic[3], ") = ",
+               round(model.cub.sum$fstatistic[1], 3), ".")
+               )
+    })
+
+```
+
+---
+
+Although as a whole useful to display the generic statistics, for those not familiar with the ways in which to interpret these statistics, having some reactive text which explains which is the best model can also be a useful addition. In order to do this, it requires the use of logic driven statements (`if_else()` statements) in order to determine which is the *best*. This in itself (outside of `Rshiny` can be quite complex, so I hope I this summary is useful!!). 
+
+Working backwards, the aim of this text block is to present to the user which model best describes the data, and in this case it is useful to compare the Adjusted R-square values, to see which is largest. Although there are many ways to do it one method I like is based upon decision tree based logic (covered more generally in next weeks lecture). In which the value is run against a conditional phrase in order to determine whether it meets that requirement. 
+
+In this case we can propose the following logic tree
+
+1. Is the Adjusted R-squared value of the Linear Model greater than the Adjusted R-Squared value of the Square and Cubic Model? Yes or No. - If yes, print a statement that the Linear Model is the best model because it has the best R-squared value.
+2. If no; Is the Adjusted R-squared value of the Square Model greater than the Adjusted R-Squared value of the Linear and Cubic Model? Yes or No. - If yes, print a statement that the Square Model is the best model because it has the best R-squared value.
+3. If no; Is the Adjusted R-squared value of the Cubic Model greater than the Adjusted R-Squared value of the Square and Linear Model? Yes or No. - If yes, print a statement that the Cubic Model is the best model because it has the best R-squared value.
+
+By following these steps we can determine which Adjusted R-Squared is best. 
+
+To achieve this in `R` we need to use a process called the **ifelse ladder**, a process used when there is more than two outcomes (here there are three). Which in general is structured as so, please note text between square brackets (`[ ]`) would be replaced by your variables, with the information here being specific to this example for context.
+
+```{r, eval = FALSE}
+
+if(([linear model adj r squared variable] > [sq model adj r square ]) & 
+   ([linear model adj r squared variable] > [cubic model adj r square])){
+  [outcome 1]
+} else if(([sq model adj r squared variable] > [lin model adj r square ] ) & 
+          ([sq model adj r squared variable] > [cubic model adj r square])){
+  [outcome 2] 
+} else if(([cubic model adj r squared variable] > [sq model adj r square ]) & 
+          ([cubic model adj r squared variable] > [linear model adj r square])){
+  [outcome 3]
+
+```
+
+In this example, I would replace the comment `outcome X`, with a process which assigns the model defined here as the largest to another model variable which can then be called later in the text, allowing it to be adaptive to the other components. 
+
+As a result, it is possible to add this `ifelse ladder` to your `renderText()` function, in order to allow you to have interpretation based text output. 
+
+---
+
+17. __Through editing your code within your `renderText()` function, add in an `ifelse` ladder to allow you to produce interpretation driven comments like those seen within the example application.__
+
+Note: Add the following code before your ladder to allow you to call on the name of the specific model within your interpretation section
+
+```{r, eval = FALSE}
+
+        model.lin.sum[["name"]] <- "Linear regression"
+        model.sq.sum[["name"]] <- "Square regression"
+        model.cub.sum[["name"]] <- "Cubic regression"
+
+```
+
+```{r, eval = FALSE}
+
+# server.R 
+    output$statout <- renderText({
+        
+        filtered <- 
+            diamonds %>%
+            filter(price >= input$priceInput[1],
+                   price <= input$priceInput[2],
+                   carat >= input$caratInput[1],
+                   carat <= input$caratInput[2],
+                   cut == input$cutInput
+            )
+        model.lin <- lm(carat ~ price, data = filtered)
+        model.sq <- lm(carat ~ price + I(price^2), data = filtered)
+        model.cub <- lm(carat ~ price + I(price^2) + I(price^3), data = filtered)
+        
+        model.lin.sum <- summary(model.lin)
+        model.sq.sum <- summary(model.sq)
+        model.cub.sum <- summary(model.cub)
+        
+        model.lin.sum[["name"]] <- "Linear regression"
+        model.sq.sum[["name"]] <- "Square regression"
+        model.cub.sum[["name"]] <- "Cubic regression"
+        
+        # Best fitting model, with R-squared
+        if((model.lin.sum$adj.r.squared > model.sq.sum$adj.r.squared) & (model.lin.sum$adj.r.squared > model.cub.sum$adj.r.squared)){
+                model.text.out <- model.lin.sum
+        } else if((model.sq.sum$adj.r.squared > model.lin.sum$adj.r.squared) & (model.sq.sum$adj.r.squared > model.cub.sum$adj.r.squared)){
+                model.text.out <- model.sq.sum
+        } else if ((model.cub.sum$adj.r.squared > model.lin.sum$adj.r.squared ) & (model.cub.sum$adj.r.squared > model.sq.sum$adj.r.squared)){
+                model.text.out <- model.cub.sum
+        }
+        
+        paste0("The regression analysis which most accounts for the relationship is: ", model.text.out$name, ". ", 
+               "With an Adjusted R-squared of: ", round(model.text.out$adj.r.squared, 3), ", F(",
+               model.text.out$fstatistic[2], ", ", model.text.out$fstatistic[3], 
+               ") = ", round(model.text.out$fstatistic[1],3), ".")
+    })
+
+```
+
+---
+
+If you have managed to successfully complete all these steps you should now have a `shiny` application which looks like the example. If not you can double check your code against the code used [here](<https://www.youtube.com/watch?v=dQw4w9WgXcQ>). 
+
+---
+
+## Even more advanced `Shiny` options
+
+As this practical is aimed at being an introduction to `Shiny` applications, there are several topics which we have only touched upon, however we actively encourage you to play around with, read more about and watch the tutorials in the links provided to further develop your understanding. These include:
+
+- Other types of reactive components (inputs): [Chapter 3.2 in Mastering Shiny](<https://mastering-shiny.org/basic-ui.html#inputs>)
+- Other types of output: Tables, Text & Other Types of Graph: [Chapter 3.3 in Mastering Shiny](<https://mastering-shiny.org/basic-ui.html#outputs>)
+- Different UI layouts, including Tabs & the use of multiple graphs: [Chapter 3.4 in Mastering Shiny](<https://mastering-shiny.org/basic-ui.html#layout>)
+- Connecting these direct reactive components to aspects of your statistical analysis, (IE: setting the K-value in KNN; the number of steps in a stepwise regression etc)
+- Delayed Reactivity: [Chapter 4.5](<https://mastering-shiny.org/basic-reactivity.html#controlling-timing-of-evaluation>) & [Chapters 18-21](<https://mastering-shiny.org/why-reactivity.html>) in Mastering Shiny
+
+As you can tell when first looking at the Mastering Shiny Textbook, this is still in development although `Shiny` has been around for a while. As such the use of `Shiny` applications is growing steadily, with their use ever increasing within data science driven workplaces, due to their convenience in helping to automate the flow of challenging statistical and processing tasks. Nevertheless, the more you use, interact with and experiment with building and editing `Shiny` applications the better you will get - like everything in `R`, and really like everything in `R` you are really only limited by your imagination. Check out some incredible examples of `Shiny` applications [here](<https://shiny.rstudio.com/gallery/>).
+
+---
+
+### Closing Note: Single vs Multiple File Formats? 
+
+So by this point, you should have successfully built a Shiny Application using the Multiple File format. However it is easily possible to transfer between these file formats, with only minor modifications being required. 
+
+When loading up a new `Shiny` application using the `Rstudio` GUI, you will see once again that it provides a template to create the *Old Faithful Geyser Data* Histogram. And as such you can see that the application is still divided clearly into two sections, ui & server, except rather than the `shinyUI()` and `shinyServer()` functions being used, these are instead created as the variables ui and server before the following code is run at the end of the document: 
+
+```{r, eval = FALSE}
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
+As such, to convert your multiple file format to a singular application file, simply copy and paste everything within the `shinyUI()` and `shinyServer()` functions into their relevant sections and there you have it, a singular file format. 
+
+In the grand scheme of things, whether you code your application as a singular file, or multiple, is generally equivalent. With benefits being seen predominantly at the organisational side of programming, rather than the functional side, with the code achieving the same outcome regardless of the format. As a result it is up to you as the programmer which you prefer and the way any clients, supervisors or associates would like it produced!

@@ -1,0 +1,213 @@
+---
+title: "Practical_Shiny_Part1"
+author: "Emmeke Aarts"
+mainfont: Arial
+fontsize: 12pt
+urlcolor: blue
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float: true
+    theme: paper
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+
+# Part 1
+
+In this lab, we will cover an introduction in creating interactive visualization, using the R Shiny framework. This will review the fundamental topics covered within the lecture, through supported exercises. Parts of this practical are adapted from Hadley Wickham's upcoming textbook [Mastering Shiny](<https://mastering-shiny.org/>), in addition to the [Learn Shiny Tutorials](<https://shiny.rstudio.com/tutorial/>) from the `Rstudio` website. 
+
+For this lab, you will need the package [`Shiny`](<https://cran.r-project.org/web/packages/shiny/index.html>). For which it is likely you will need to `install.packages("shiny")` before running the `library()` function. Additionally, as with all these practicals, it is recommended you also have the `tidyverse` loaded, since some data manipulation will be required.
+
+
+_Note_ that for this lab, we do not include a student .Rmd file to work in. When creating your R shiny applications, it's better to directly work in the R shiny application files (that is, `ui.R` and `server.R` as you will see below) instead of in a R markdown file. 
+
+```{r, message = FALSE, error = FALSE, warning = FALSE}
+library(shiny)
+library(tidyverse)
+```
+
+---
+
+## Our R Shiny app
+
+Throughout this lab, you will develop one particular R shiny app. While building this app, you will learn how to make your own `RShiny Application`. The code for this particular example will be released alongside the answers to this practical. Today's practical consists of many parts, with some of them being optional. If you complete all parts (including the optional ones), your R shiny app will look like [this](<https://emmekeaarts.shinyapps.io/RshinyPracticalADAV/>). 
+
+Note that it is worthwhile to still complete the optional parts afterwards if you did not manage to do them during the lab: the optional parts will learn you how to improve your R shiny app even further. 
+
+When you open the example, you can see that there are multiple important components which make this plot interactive: 
+
+- The two **sliders**, which change the displayed range of `price` and `carat` variables in the data, which are then reflected in both the visualization and the statistical analysis. 
+- There is a **multiple check box** section, allowing the selection of specific diamond `cut`s you wish to display.
+- There is a **drop down** option mention, allowing you to change between different colour options
+- Finally there are three **singular check boxes** allowing you to specify the presence of different regression lines based on the dataset. 
+
+Through interacting with these components, you can observe that it creates changes to the output of the `ggplot` graphic, the table and the reactive text beneath. Throughout section 4, we will discuss how to implement these different reactive components. 
+
+
+---
+
+1. __Spend some time playing with all these different interactive setting, to see how it influences the visualization presented.__ 
+
+---
+
+## A more simple example to start with
+
+Before we start building the elaborate R shiny app based on the `diamonds` dataset, we start with a more simple example. In the simple example, we extend `R`s default shiny app provided when starting a new R shiny document via Rstudio. 
+
+### Creating a new R Shiny app
+
+The easiest way to create a new Shiny Application, is through the `RStudio` GUI. This can be done in one of two ways:
+
+- Option 1: *New File* -> *R Markdown...* -> Select *Shiny*, Ticking *Shiny Document*
+- Option 2: *New File* -> *Shiny Web App...* -> Select either to produce this as a *Single File (app.R)* or *Multiple Files (ui.R/server.R)*.
+
+For this practical we recommend creating a Shiny Application using the Multiple File format (ui.R/server.R). 
+
+---
+
+2. __Create a new Shiny application using option 2, and run the app; You automatically get `R`s default `Shiny` app on the Old Faithful Geyser data when you start a new Shiny application.__ 
+
+_Hint_: To run the app, click `Run App` in the top right of your main coding panel. This should either produce a *pop-out* window for this application, if this does not happen, either check your *viewer* panel (in the bottom right panel *usually*) or the `Console` for any errors. 
+
+---
+
+Now you have opened a new shiny application, you should see `R`s default `Shiny` application, the *Old Faithful Geyser* histogram. This is a really nice basic example, to check that everything is working properly (before we start changing anything!). 
+
+---
+
+### Core Structure of the app
+
+Lets talk about the core structure of this basic example. If you are using the Multiple File format, you should clearly see that any `Shiny` application is comprised of two components: 
+
+- A ui.R (or User Interface) tab
+- A server.R tab
+
+#### The ui.R tab
+
+The names of these tabs give a quite clear indicate of what they do, the ui.R tab provides a schematic for how the application will be presented to the individual using the application. Within the *Old Faithful Geyser* example, you can observe that this provides details such as layout through the functions:
+
+- `titlePanel()`: Providing a title 
+- `sidebarLayout()` & `sidebarPanel()`: which provide a side bar & layout 
+- `mainPanel()`: provides a main panel
+
+This is only one example of the layouts which an `R Shiny` application can take, with more examples being found in [Chapter 3.4](<https://mastering-shiny.org/basic-ui.html#layout>) in Mastering Shiny. However for this tutorial we will be using this layout as it is one which is most commonly used. 
+
+Although not formally defined, it is traditional that your parameter changing aspects, so inputs (for example slider bars, drop down boxes etc), are located in the `sidebar` with any outputs (graphs, tables etc) being located in `mainPanel`. Although not formally defined, this allows the majority of your application's visual space to be used to display your output rather than any input. 
+
+To add or remove component from your `sidebar` or `mainPanel` use them as you would any other `R` function, and add or remove components as you need them. 
+
+**It should be noted:** This is a really good time, to get into the habit of clearly structuring and annotating (using `#`) your code, as although functions are *usually* clearly named for their function, listing **specifically** what you intend for each component to do is really helpful when de-bugging or reviewing your own or someone else's code. 
+
+#### The server.R tab
+
+So what about the server.R tab? This contains everything which should be done in the background of the application. Whether completing any statistical analysis, plotting any graphs or any other code which acts is required for the output. 
+
+Everything within the `shinyserver` can be classified under two components, either `input`s or `output`s. 
+
+- As `input`s suggest, these take information which is **Input** from the ui.R tab, and moves it to the server.R tab. 
+- Whereas the `output`, does the reverse and allows the calling of information from the server.R tab to the ui.R tab. 
+
+In the *Old Faithful Geyser* example, we can see that: 
+
+- The `input` here is seen to classify the number of bins (`input$bins`) 
+- The `output` defines the entire histogram plotted (`distplot`). 
+
+**Important Note:** As you can see by the use of the `$` operator, both the `input` and `output` can hold multiple arguments. For example, for the `input` we can see in the ui.R tab under the `sliderInput` function that we define the object `bins`. In the server.R tab, the object `bins` is called using `input$bins`. If we would have defined an additional function within the `SidebarPanel` to define a user specified input, for example `hiscol` to set the color of the histogram, we can call the object within the server.R tab using `input$hiscol`. For the output, we can observe in the server.R tab we define a plot called `displot` using `output$distplot`. In the ui.R we directly call the plot in the `mainpanel` using `distplot`.  
+
+---
+
+So at this point, you should now have a basic understanding that `Shiny` applications are a composite of two sections, a user interface and server section, so lets start changing things (until it breaks!!).
+
+---
+
+### Adding a reactive component
+
+Reactivity within Shiny applications, has to be one of the most complex parts to any application, however it is one of the most useful components of it, since it allows a large amount of automation to occur within your application, meaning it can be provided to clients, other workers or anyone in between to help aid their understanding of a topic. 
+
+Within this *Old Faithful Geyser* graphic, there is already one Reactive component, which is the slider component:  when a user changes the number of bins, this changes the graph you can observe. Lets add another element of Reactivity through making this graph more colourful. 
+
+#### Step 1. Adding reactive input to server.R
+
+Starting in the server.R tab, we can observe that the current colour of the histogram is `darkgrey`, personally I find this very boring. So lets allow the user to change this to one from a selection we provide. 
+
+To do this, we need to create a new `input` parameter, lets call it `input$hiscol`, and replace `darkgrey` with `input$hiscol`.
+
+---
+
+3. __Change `darkgrey` to `input$hiscol` in the server.R tab__
+
+---
+
+```{r, eval = FALSE}
+# This is how your server.R tab should look:
+
+# Define server logic required to draw a histogram
+shinyServer(function(input, output) {
+
+    output$distPlot <- renderPlot({
+
+        # generate bins based on input$bins from ui.R
+        x    <- faithful[, 2]
+        bins <- seq(min(x), max(x), length.out = input$bins + 1)
+
+        # draw the histogram with the specified number of bins
+        hist(x, breaks = bins, col = input$hiscol, border = 'white')
+
+    })
+
+})
+```
+
+#### Step 2. Defining the corresponding  reactive input in ui.R
+
+Now moving to the ui.R tab, we now need to specify where this input is going to come from. Since these bars can only be a single colour, we must select an input which allows the specification of only one input, so that it doesn't overload/break the code. For this, you can use any colours single, block colours which are used within `base R` such as "red", "blue" or "purple" for example. 
+
+Lets use `selectInput()`, this allows users to make a choice from a provided selection. 
+
+---
+
+4. __Using the template provided below, add `selectInput()` to your ui.R tab, as part of your `sidebarPanel()`.__
+
+_Note_: Make sure to place it below `sliderInput()`, and ensure that you follow the close bracket of the `sliderInput()` function with a comma (`,`)
+
+---
+
+```{r, eval = FALSE}
+
+selectInput(inputId = ??? ,            # What input$??? will be used?
+            label = ??? ,              # What would you like the title above the options to be?
+            choices = c(???, ???),     # What colours would you like
+            selected = ???)            # What colour would you like first displayed 
+                                       # (remember to use `" "` around your colours)
+
+```
+
+```{r, eval = FALSE}
+# This is how your ui.R tab sidebar Panel should look:
+
+    # Sidebar with a slider input for number of bins
+    sidebarLayout(
+        sidebarPanel(
+            sliderInput("bins",
+                        "Number of bins:",
+                        min = 1,
+                        max = 50,
+                        value = 30),
+            selectInput(inputId = "hiscol",
+                        label = "Bar Colour:",
+                        choices = c("red", "blue", "purple"),
+                        selected = "red")
+        ),
+```
+
+So now, you should be able to save both your ui.R and server.R tabs and Run/Reload the application. Does everything work - can you now change the colours of your bars? 
+
+If so, congratulations, you've added your first reactive component!! During the lab, we will move onto making an application from scratch!
+
+
