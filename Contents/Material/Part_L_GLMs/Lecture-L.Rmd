@@ -220,16 +220,17 @@ Logit for student who studied 2 hrs
 $$logit(pass)=\beta_0+2.5\beta_{study}=-25.6 + 2.5\times10.8\approx  0$$
 <br>
 
-Probility to pass:
+Probability to pass:
 
 $$P(pass)=\frac{\exp(\beta_0+2.5\beta_{study})}{1+\exp(\beta_0+2.5\beta_{study})}=\frac{\exp(0)}{1+\exp(0)}=\frac{1}{2}$$
+
 ## Regression line
 
 ```{r echo = FALSE, fig.width = 4, fig.height = 3, fig.align = "center"}
 d <- data.frame(pass, study, pred = predict(pass.glm, type = "response"))
 
 ggplot(d) +
-  geom_line(aes(study, pred), col="blue", size = 1) +
+  geom_line(aes(study, pred), col="blue", linewidth = 1) +
   geom_point(aes(study, pass)) + labs(y = "P(pass)") +
   theme_minimal()
 ```
